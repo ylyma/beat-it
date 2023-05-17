@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import AppNavContainer from './src/navigations';
 import GlobalProvider from './src/context/Provider';
 
