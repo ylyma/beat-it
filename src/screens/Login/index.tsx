@@ -3,9 +3,13 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { View, Text, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { auth } from '../../../firebase';
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+    onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    GoogleAuthProvider, signInWithRedirect, getRedirectResult
+} from 'firebase/auth';
 
 
+const provider = new GoogleAuthProvider();
 
 
 const Login: () => ReactElement = () => {
@@ -28,17 +32,36 @@ const Login: () => ReactElement = () => {
             })
     };
 
-    const navigation = useNavigation()
+    const handleGoogleLogin = () => {
+        signInWithRedirect(auth, provider);
 
-    useEffect(() => {
-        const unsubscribe =
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    navigation.navigate("Home")
-                }
-            })
-        return unsubscribe
-    }, [])
+        getRedirectResult(auth).then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            if (credential) {
+                const token = credential.accessToken;
+                const user = result.user;
+                console.log("Logged in with user: ", user.email)
+            }
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log("Error: ", errorMessage)
+        });
+
+        const navigation = useNavigation()
+
+        useEffect(() => {
+            const unsubscribe =
+                onAuthStateChanged(auth, user => {
+                    if (user) {
+                        navigation.navigate("Home")
+                    }
+                })
+            return unsubscribe
+        }, [])
+    }
 
 
     return (
@@ -72,6 +95,12 @@ const Login: () => ReactElement = () => {
                     style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Register</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={handleGoogleLogin}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Google Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView >

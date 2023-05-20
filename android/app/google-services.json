@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "837659504210",
+    "project_id": "beatit-71fc8",
+    "storage_bucket": "beatit-71fc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837659504210:android:88765750ae724d568c398b",
+        "android_client_info": {
+          "package_name": "com.beatit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837659504210-5ed9um3filjp1rmgp1s6p5k8nm9520hi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beatit",
+            "certificate_hash": "ba3fa725197a1098c5ec026f3bf08d7417f91b8c"
+          }
+        },
+        {
+          "client_id": "837659504210-q201tpkfd7aq9f4qs65v0fous2k09cmf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYoq3VTzfMd6kqKrVJVAgxLfVeYHo-_Y0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837659504210-0dvulhisi7f3sh9tpdujtt628n7egum6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
