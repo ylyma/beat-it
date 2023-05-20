@@ -1,11 +1,12 @@
 import React, {ReactElement} from 'react';
-import {View, Text} from 'react-native';
+import {Text} from 'react-native';
+import Container from '../../components/common/Container';
 
 const Audio: () => ReactElement = () => {
   return (
-    <View>
+    <Container>
       <Text>Audio</Text>
-    </View>
+    </Container>
   );
 };
 

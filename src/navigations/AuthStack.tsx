@@ -8,7 +8,7 @@ const AuthStack: () => ReactElement = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name={LOGIN} component={Login} />
       <Stack.Screen name={REGISTER} component={Register} />
     </Stack.Navigator>
