@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import TrackPlayer, { Capability } from 'react-native-track-player';
 import { useEffect } from 'react';
 
+TrackPlayer.setupPlayer()
 
 TrackPlayer.updateOptions({
     capabilities: [
@@ -25,16 +26,20 @@ const tracks = [
     },
 ];
 
+TrackPlayer.add(tracks);
+console.log("ready to play")
+
 
 
 const Audio: () => ReactElement = () => {
-    const setupTrackPlayer = async () => {
-        await TrackPlayer.setupPlayer();
-        await TrackPlayer.add(tracks);
-    };
-    useEffect(() => {
-        setupTrackPlayer();
-    });
+
+    // const setupTrackPlayer = async () => {
+    //     await TrackPlayer.setupPlayer();
+    //     await TrackPlayer.add(tracks);
+    // };
+    // useEffect(() => {
+    //     setupTrackPlayer();
+    // });
 
     return (
         <View style={styles.container}>
