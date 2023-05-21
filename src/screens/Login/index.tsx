@@ -32,7 +32,8 @@ const Login: () => ReactElement = () => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log("Registered with user: ", user.email);
-            })
+            });
+
     };
 
     const handleLogin = () => {

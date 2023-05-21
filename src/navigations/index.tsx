@@ -5,7 +5,8 @@ import AuthStack from './AuthStack';
 import { GlobalContext } from '../context/Provider';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Header, createStackNavigator } from '@react-navigation/stack';
+import { BackHandler } from 'react-native/types';
 
 
 type AppNavProps = {
@@ -17,10 +18,10 @@ const stack = createStackNavigator();
 const AppNavContainer: (props: AppNavProps) => ReactElement = () => {
     return (
         <NavigationContainer>
-            <stack.Navigator>
+            <stack.Navigator >
                 <stack.Screen name="AuthStack" component={AuthStack} />
 
-                <stack.Screen name="HomeTab" component={HomeTab} />
+                <stack.Screen name="HomeTab" component={HomeTab} options={{ headerShown: false }} />
 
             </stack.Navigator>
         </NavigationContainer>
