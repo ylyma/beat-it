@@ -2,11 +2,20 @@ import React from 'react';
 import * as reactNative from 'react-native';
 import styles from './styles';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Container = ({}) => {
+const Container = ({style, children, horizontalScroll, rowView}: any) => {
   return (
-    <reactNative.ScrollView>
-      <reactNative.View style={styles.wrapper} />
+    <reactNative.ScrollView horizontal={horizontalScroll ? true : false}>
+      <reactNative.View
+        style={[
+          styles.wrapper,
+          style,
+          {flexDirection: rowView ? 'row' : 'column'},
+        ]}>
+        {children}
+      </reactNative.View>
     </reactNative.ScrollView>
   );
 };
+
+export default Container;
+//TODO create function to enable horizontal scrolling when needed
