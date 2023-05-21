@@ -1,3 +1,9 @@
+
+import React, {ReactElement} from 'react';
+import {Text, View} from 'react-native';
+import Container from '../../components/common/Container';
+import Input from '../../components/common/Input';
+import CustomButton from '../../components/common/CustomButton';
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { View, Text, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
@@ -8,15 +14,10 @@ import {
     GoogleAuthProvider, signInWithRedirect, getRedirectResult
 } from 'firebase/auth';
 
-
-const provider = new GoogleAuthProvider();
-
-
 const Login: () => ReactElement = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    const handleSignUp = () => {
+  const [text, onChangeText] = React.useState('');
+    
+  const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -63,48 +64,38 @@ const Login: () => ReactElement = () => {
         }, [])
     }
 
+  return (
+    <Container>
+      <Container>
+        <Input
+          label="Username"
+          onChangeText={onChangeText}
+          value={text}
+          //error={'This field is required'}
+        />
 
-    return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior="padding"
-        >
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Email"
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                    style={styles.input}
-                />
-                <TextInput placeholder="Password"
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                />
-            </View>
+        <Input
+          label="Password"
+          onChangeText={onChangeText}
+          value={text}
+          icon={<Text>HIDE</Text>}
+          iconPosition="right"
+          error={'This field is required'}
+        />
+        <CustomButton primary title="Login" />
+        <CustomButton nofill title="forgot your password?" />
+      </Container>
 
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={handleLogin}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={handleSignUp}
-                    style={[styles.button, styles.buttonOutline]}
-                >
-                    <Text style={styles.buttonOutlineText}>Register</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={handleGoogleLogin}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Google Login</Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView >
-    );
+      <Container>
+        <Text style={{paddingBottom: 10}}>or, login with</Text>
+
+        <View style={{flexDirection: 'row'}}>
+          <CustomButton icon={<Text>placeholder</Text>} />
+        </View>
+      </Container>
+    </Container>
+  );
+
 };
 
 
