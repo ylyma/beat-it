@@ -4,7 +4,6 @@ import CustomButton from '../../components/common/CustomButton';
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { View, Text, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import { auth } from '../../../firebase';
 import {
     onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -19,9 +18,9 @@ const Login: () => ReactElement = () => {
     const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
-            console.log("auth: ", auth)
+
             if (user) {
-                console.log("user: ", user)
+
                 navigation.navigate("HomeTab")
             }
         })

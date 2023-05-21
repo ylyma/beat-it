@@ -3,43 +3,48 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import TrackPlayer, { Capability } from 'react-native-track-player';
 import { useEffect } from 'react';
 
-TrackPlayer.setupPlayer()
-
-TrackPlayer.updateOptions({
-    capabilities: [
-        Capability.Play,
-        Capability.Pause,
-    ],
-    compactCapabilities: [
-        Capability.Play,
-        Capability.Pause,
-    ]
-});
-
-
-const tracks = [
-    {
-        id: '1',
-        url: require('../../../test_data/audio/yeeling_item.mp3'),
-        title: 'Track 1',
-        artist: 'Artist 1',
-    },
-];
-
-TrackPlayer.add(tracks);
-console.log("ready to play")
-
-
 
 const Audio: () => ReactElement = () => {
 
-    // const setupTrackPlayer = async () => {
-    //     await TrackPlayer.setupPlayer();
-    //     await TrackPlayer.add(tracks);
-    // };
-    // useEffect(() => {
-    //     setupTrackPlayer();
-    // });
+    const tracks = [
+        {
+            id: '1',
+            url: require('../../../test_data/audio/yeeling_item.mp3'),
+            title: 'Karra Main Theme',
+            artist: 'Artist 1',
+        },
+    ];
+
+
+    useEffect(() => {
+        const setupTrackPlayer = async () => {
+            // setup player
+            console.log('before setupTrackPlayer');
+            await TrackPlayer.setupPlayer();
+            console.log('after setupTrackPlayer');
+
+            // add tracks to queue
+            await TrackPlayer.add(tracks);
+            console.log('add tracks to queue');
+
+        };
+
+        setupTrackPlayer().catch((error) => {
+            console.log('error', error);
+        });
+        console.log('useEffect');
+    }, []);
+
+    TrackPlayer.updateOptions({
+        capabilities: [
+            Capability.Play,
+            Capability.Pause,
+        ],
+        compactCapabilities: [
+            Capability.Play,
+            Capability.Pause,
+        ]
+    });
 
     return (
         <View style={styles.container}>
