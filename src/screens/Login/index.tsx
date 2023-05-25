@@ -4,11 +4,10 @@ import CustomButton from '../../components/common/CustomButton';
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { View, Text, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import { auth } from '../../../firebase';
 import {
     onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    GoogleAuthProvider, signInWithRedirect, getRedirectResult
+    GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup
 } from 'firebase/auth';
 import HomeTab from '../../navigations/HomeTab';
 
@@ -19,9 +18,10 @@ const Login: () => ReactElement = () => {
     const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
-            console.log("auth: ", auth)
+
             if (user) {
-                console.log("user: ", user)
+                console.log("Logged in with user: ", user.email)
+
                 navigation.navigate("HomeTab")
             }
         })
@@ -40,30 +40,30 @@ const Login: () => ReactElement = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log("Logged in with user: ", user.email)
             })
-        return <HomeTab />
+        return
     };
 
-    const handleGoogleLogin = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
-
-        getRedirectResult(auth).then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            if (credential) {
-                const token = credential.accessToken;
-                const user = result.user;
-                console.log("Logged in with user: ", user.email)
-            }
-        }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log("Error: ", errorMessage)
-        });
-    }
+    // const handleGoogleLogin = async () => {
+    //     const provider = new GoogleAuthProvider();
+    //     console.log("Google Login")
+    //     await signInWithRedirect(auth, provider);
+    //     console.log("Google Login 2")
+    //     await getRedirectResult(auth).then((result) => {
+    //         const credential = GoogleAuthProvider.credentialFromResult(result);
+    //         if (credential) {
+    //             const token = credential.accessToken;
+    //             const user = result.user;
+    //             console.log("Logged in with user: ", user.email)
+    //         }
+    //     }).catch((error) => {
+    //         const errorCode = error.code;
+    //         const errorMessage = error.message;
+    //         const email = error.email;
+    //         const credential = GoogleAuthProvider.credentialFromError(error);
+    //         console.log("Error: ", errorMessage)
+    //     });
+    // }
 
     return (
         <Container>
@@ -92,7 +92,7 @@ const Login: () => ReactElement = () => {
                 <Text style={{ paddingBottom: 10 }}>or, login with</Text>
 
                 <View style={{ flexDirection: 'row' }}>
-                    <CustomButton icon={<Text>Google</Text>} onPress={handleGoogleLogin} />
+                    {/* <CustomButton icon={<Text>Google</Text>} onPress={handleGoogleLogin} /> */}
                 </View>
             </Container>
         </Container>
