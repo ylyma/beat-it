@@ -1,24 +1,31 @@
-import React, {ReactElement} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { ReactElement, useContext } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import HomeTab from './HomeTab';
 import AuthStack from './AuthStack';
-import {createStackNavigator} from '@react-navigation/stack';
+import { GlobalContext } from '../context/Provider';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { Header, createStackNavigator } from '@react-navigation/stack';
+import { BackHandler } from 'react-native/types';
+
 
 type AppNavProps = {
-  children: React.ReactNode;
+    children: React.ReactNode;
 };
 
-const Stack = createStackNavigator();
+const stack = createStackNavigator();
 
 const AppNavContainer: (props: AppNavProps) => ReactElement = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="AuthStack" component={AuthStack} />
-        <Stack.Screen name="HomeTab" component={HomeTab} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <stack.Navigator >
+                <stack.Screen name="AuthStack" component={AuthStack} />
+
+                <stack.Screen name="HomeTab" component={HomeTab} options={{ headerShown: false }} />
+
+            </stack.Navigator>
+        </NavigationContainer>
+    );
 };
 
 export default AppNavContainer;
