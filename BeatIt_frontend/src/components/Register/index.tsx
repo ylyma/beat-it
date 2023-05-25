@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useState} from 'react';
 import {View, Text} from 'react-native';
 
 import Container from '../common/Container';
@@ -10,6 +10,7 @@ import {LOGIN} from '../../constants/routeNames';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../../firebase';
 
 const RegisterComponent: () => ReactElement = ({
   onSubmit,
@@ -17,6 +18,9 @@ const RegisterComponent: () => ReactElement = ({
   form,
   errors,
 }) => {
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const {navigate} = useNavigation();
 
   const handleSignUp = () => {
@@ -44,18 +48,22 @@ const RegisterComponent: () => ReactElement = ({
           <Input
             label="Username"
             placeholder="Username"
-            onChangeText={(value: any) => {
+            onChangeText={(value: string) => {
               onChange({name: 'username', value});
+              setUsername(value);
             }}
             error={errors.username}
+            value={username}
           />
           <Input
             label="Email"
             placeholder="Email"
-            error={errors.email}
-            onChangeText={(value: any) => {
+            onChangeText={(value: string) => {
               onChange({name: 'email', value});
+              setEmail(value);
             }}
+            error={errors.email}
+            value={email}
           />
           <Input
             label="Password"
@@ -65,8 +73,10 @@ const RegisterComponent: () => ReactElement = ({
             secureTextEntry={true}
             onChangeText={(value: any) => {
               onChange({name: 'password', value});
+              setPassword(value);
             }}
             error={errors.password}
+            value={password}
           />
           <Input
             label="Confirm password"
@@ -86,8 +96,8 @@ const RegisterComponent: () => ReactElement = ({
             primary
             title="Sign Up"
             onPress={() => {
-              onSubmit;
-              handleSignUp;
+              onSubmit();
+              handleSignUp();
             }}
           />
           <TouchableOpacity>

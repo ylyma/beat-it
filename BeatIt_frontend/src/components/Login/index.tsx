@@ -35,10 +35,12 @@ const LoginComponent: () => ReactElement = () => {
   }, []);
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password).then(userCredential => {
-      const user = userCredential.user;
-      console.log('Logged in with user: ', user.email);
-    });
+    signInWithEmailAndPassword(auth, email, password).then(
+      userCredential => {
+        const user = userCredential.user;
+        console.log('Logged in with user: ', user.email);
+      },
+    );
     return <HomeTab />;
   };
 
@@ -90,10 +92,10 @@ const LoginComponent: () => ReactElement = () => {
           <Text style={{alignSelf: 'center'}}>Please sign in to continue.</Text>
 
           <Input
-            label="Username"
+            label="Email"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
-            placeholder="Username"
+            placeholder="Email"
           />
 
           <Input
