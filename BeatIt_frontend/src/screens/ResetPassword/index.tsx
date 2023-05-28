@@ -1,7 +1,7 @@
 import React, {ReactElement, useState} from 'react';
-import RegisterComponent from '../../components/Register';
+import ResetPasswordComponent from '../../components/ResetPassword';
 
-const Register: () => ReactElement = () => {
+const ResetPassword: () => ReactElement = () => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -35,16 +35,6 @@ const Register: () => ReactElement = () => {
   };
 
   const onSubmit = () => {
-    if (!form.username) {
-      setErrors(prev => {
-        return {...prev, username: 'This field is required.'};
-      });
-    }
-    if (!form.email) {
-      setErrors(prev => {
-        return {...prev, email: 'This field is required.'};
-      });
-    }
     if (!form.password) {
       setErrors(prev => {
         return {...prev, password: 'This field is required.'};
@@ -62,7 +52,7 @@ const Register: () => ReactElement = () => {
     }
   };
   return (
-    <RegisterComponent
+    <ResetPasswordComponent
       form={form}
       errors={errors}
       onSubmit={onSubmit}
@@ -71,4 +61,4 @@ const Register: () => ReactElement = () => {
   );
 };
 
-export default Register;
+export default ResetPassword;

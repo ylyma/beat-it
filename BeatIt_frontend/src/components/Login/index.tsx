@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import React, {ReactElement, useEffect, useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, KeyboardAvoidingView} from 'react-native';
 
 import {
   onAuthStateChanged,
@@ -14,7 +14,7 @@ import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
-import {HOMETAB, REGISTER} from '../../constants/routeNames';
+import {REGISTER, RESETPASSWORD} from '../../constants/routeNames';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
@@ -29,53 +29,44 @@ const LoginComponent: () => ReactElement = () => {
       console.log('auth: ', auth);
       if (user) {
         console.log('user: ', user);
-        navigation.navigate(HOMETAB);
+        navigation.navigate('HomeTab');
       }
     });
   }, []);
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password).then(
-      userCredential => {
-        const user = userCredential.user;
-        console.log('Logged in with user: ', user.email);
-      },
-    );
+    signInWithEmailAndPassword(auth, email, password).then(userCredential => {
+      const user = userCredential.user;
+      console.log('Logged in with user: ', user.email);
+    });
     return <HomeTab />;
   };
 
-  const handleGoogleLogin = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+  // const handleGoogleLogin = () => {
+  //   const provider = new GoogleAuthProvider();
+  //   signInWithRedirect(auth, provider);
 
-    getRedirectResult(auth)
-      .then(result => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (credential) {
-          const token = credential.accessToken;
-          const user = result.user;
-          console.log('Logged in with user: ', user.email);
-        }
-      })
-      .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log('Error: ', errorMessage);
-      });
-  };
+  //   getRedirectResult(auth)
+  //     .then(result => {
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       if (credential) {
+  //         const token = credential.accessToken;
+  //         const user = result.user;
+  //         console.log('Logged in with user: ', user.email);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       const email = error.email;
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       console.log('Error: ', errorMessage);
+  //     });
+  // };
   const {navigate} = useNavigation();
 
-  const getWidth = (height: number, route) => {
-    const h = Image.resolveAssetSource(route).height;
-    const w = Image.resolveAssetSource(route).width;
-    const scale = parseFloat((w / h).toFixed(3));
-    return scale * height;
-  };
-
   return (
-    <>
+    <View>
       <Container>
         <Text
           style={{
@@ -111,7 +102,10 @@ const LoginComponent: () => ReactElement = () => {
 
         <View style={{paddingTop: 10}}>
           <CustomButton primary title="Login" onPress={handleLogin} />
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigate(RESETPASSWORD);
+            }}>
             <Text style={[styles.textButton, {color: colors.black}]}>
               forgot your password?
             </Text>
@@ -126,36 +120,27 @@ const LoginComponent: () => ReactElement = () => {
           <CustomButton
             icon={
               <Image
-                style={
-                  (styles.logo,
-                  {
-                    width: getWidth(
-                      29,
-                      require('../../assets/images/googlelogo.png'),
-                    ),
-                    height: 29,
-                  })
-                }
+                style={styles.logo}
                 source={require('../../assets/images/googlelogo.png')}
               />
             }
-            onPress={handleGoogleLogin}
+            //onPress={handleGoogleLogin}
           />
         </View>
 
-        <View style={styles.horizontal}>
+        <View style={[styles.horizontal]}>
           <Text style={styles.text}>need a new account?</Text>
           <TouchableOpacity
             onPress={() => {
               navigate(REGISTER);
             }}>
-            <Text style={[styles.textButton, {color: colors.primary}]}>
+            <Text style={[styles.textButton, {color: colors.secondary}]}>
               sign up
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

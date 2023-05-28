@@ -12,6 +12,7 @@ const CustomButton = ({
   failure,
   loading,
   disabled,
+  style,
   ...props
 }: any) => {
   const getBackgroundColor = () => {
@@ -32,7 +33,7 @@ const CustomButton = ({
 
   return (
     <TouchableOpacity
-      style={[styles.wrapper, {backgroundColor: getBackgroundColor()}]}
+      style={[styles.wrapper, style, {backgroundColor: getBackgroundColor()}]}
       disabled={disabled}
       {...props}>
       <View style={[styles.loading]}>

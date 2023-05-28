@@ -5,31 +5,17 @@ import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
-import {LOGIN, RESETPASSWORD} from '../../constants/routeNames';
+import {LOGIN} from '../../constants/routeNames';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../../firebase';
 
-const RegisterComponent: () => ReactElement = ({
+const ResetPasswordComponent: () => ReactElement = ({
   onSubmit,
   onChange,
   form,
   errors,
 }) => {
-  const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const {navigate} = useNavigation();
-
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password).then(
-      userCredential => {
-        const user = userCredential.user;
-        console.log('Registered with user: ', user.email);
-      },
-    );
-  };
   return (
     <>
       <Container>
@@ -43,27 +29,7 @@ const RegisterComponent: () => ReactElement = ({
           LOGOplaceholder
         </Text>
         <View>
-          <Text style={styles.title}>Create Account</Text>
-          <Input
-            label="Username"
-            placeholder="Username"
-            onChangeText={(value: string) => {
-              onChange({name: 'username', value});
-              setUsername(value);
-            }}
-            error={errors.username}
-            value={username}
-          />
-          <Input
-            label="Email"
-            placeholder="Email"
-            onChangeText={(value: string) => {
-              onChange({name: 'email', value});
-              setEmail(value);
-            }}
-            error={errors.email}
-            value={email}
-          />
+          <Text style={styles.title}>Reset Password</Text>
           <Input
             label="Password"
             placeholder="Password"
@@ -72,10 +38,8 @@ const RegisterComponent: () => ReactElement = ({
             secureTextEntry={true}
             onChangeText={(value: any) => {
               onChange({name: 'password', value});
-              setPassword(value);
             }}
             error={errors.password}
-            value={password}
           />
           <Input
             label="Confirm password"
@@ -92,29 +56,24 @@ const RegisterComponent: () => ReactElement = ({
 
         <View style={{paddingTop: 10}}>
           <CustomButton
-            secondary
-            title="Sign Up"
+            primary
+            title="Reset"
             onPress={() => {
               onSubmit();
-              handleSignUp();
+              navigate(LOGIN);
             }}
           />
-        </View>
-
-        <View style={styles.horizontal}>
-          <Text style={styles.text}>already have an account?</Text>
-          <TouchableOpacity
+          <CustomButton
+            secondary
+            title="Cancel"
             onPress={() => {
               navigate(LOGIN);
-            }}>
-            <Text style={[styles.textButton, {color: colors.primary}]}>
-              login
-            </Text>
-          </TouchableOpacity>
+            }}
+          />
         </View>
       </Container>
     </>
   );
 };
 
-export default RegisterComponent;
+export default ResetPasswordComponent;

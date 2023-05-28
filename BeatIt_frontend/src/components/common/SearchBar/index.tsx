@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, TextInput, Text} from 'react-native';
 import styles from './styles';
 import colors from '../../../assets/themes/colors';
 
-const Input = ({
+const SearchBar = ({
   text,
   icon,
   iconPosition,
@@ -13,7 +13,7 @@ const Input = ({
   error,
   ...props
 }: any) => {
-  const [focused, setFocused] = useState<boolean>(false);
+  const [focused, setFocused] = React.useState(false);
 
   const getFlexDirection = () => {
     if (icon && iconPosition === 'left') {
@@ -23,14 +23,11 @@ const Input = ({
     }
   };
 
-  const getBorderColor = () => {
-    if (error) {
-      return colors.failure;
-    }
+  const getFillColor = () => {
     if (focused) {
-      return colors.accent;
+      return colors.white;
     } else {
-      return colors.grey;
+      return colors.lightgrey;
     }
   };
 
@@ -42,8 +39,9 @@ const Input = ({
         style={[
           styles.wrapper,
           {alignItems: icon ? 'center' : 'baseline'},
+          {elevation: focused ? 5 : 0 },
           {
-            borderColor: getBorderColor(),
+            backgroundColor: getFillColor(),
             flexDirection: getFlexDirection(),
           },
         ]}>
@@ -68,4 +66,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default SearchBar;

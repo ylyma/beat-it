@@ -6,8 +6,6 @@ export default StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     margin: 5,
-    height: 30,
-    width: 29,
   },
   text: {
     padding: 10,
@@ -24,7 +22,9 @@ export default StyleSheet.create({
     paddingVertical: 10,
   },
   footer: {
-    marginBottom: 150,
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 20,
   },
   title: {
     fontWeight: 'bold',
@@ -32,8 +32,4 @@ export default StyleSheet.create({
     color: colors.black,
     fontSize: 20,
   },
-  button: {
-    width: 60,
-    alignSelf: 'center',
-  }
 });

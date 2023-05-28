@@ -1,16 +1,11 @@
 import React, {ReactElement} from 'react';
 import {Text} from 'react-native';
 import Container from '../../components/common/Container';
-import Input from '../../components/common/Input';
+import HomeComponent from '../../components/Home';
 
 const Home: () => ReactElement = () => {
-  const [text, onChangeText] = React.useState('Useless Text');
-
   return (
-    <Container>
-      <Input onChangeText={onChangeText} value={text} />
-      <Text>Home</Text>
-    </Container>
+  <HomeComponent />
   );
 };
 
