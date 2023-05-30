@@ -19,7 +19,7 @@ const AppNavContainer: (props: AppNavProps) => ReactElement = () => {
     return (
         <NavigationContainer>
             <stack.Navigator >
-                <stack.Screen name="AuthStack" component={AuthStack} />
+                <stack.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
 
                 <stack.Screen name="HomeTab" component={HomeTab} options={{ headerShown: false }} />
 
