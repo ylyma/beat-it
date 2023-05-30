@@ -18,6 +18,7 @@ import { REGISTER, RESETPASSWORD } from '../../constants/routeNames';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
+import AuthContainer from '../common/AuthContainer';
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
@@ -67,7 +68,7 @@ const LoginComponent: () => ReactElement = () => {
 
     return (
         <View>
-            <Container>
+            <AuthContainer>
                 <Text
                     style={{
                         marginTop: 50,
@@ -111,7 +112,7 @@ const LoginComponent: () => ReactElement = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </Container>
+            </AuthContainer>
 
             <View style={styles.footer}>
                 <Text style={styles.text}>or, login with</Text>

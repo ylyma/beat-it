@@ -105,8 +105,8 @@ const AudioComponent: () => ReactElement = () => {
                     <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio6' trackSource='' artist='' />
                 </View>
             </ScrollView>
-            <MiniPlayer onPress={playPause} />
         </Container>
+
     );
 };
 
