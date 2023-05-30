@@ -18,6 +18,7 @@ import {REGISTER, RESETPASSWORD} from '../../constants/routeNames';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const LoginComponent: () => ReactElement = () => {
   const [email, setEmail] = useState<string>('');
@@ -42,6 +43,23 @@ const LoginComponent: () => ReactElement = () => {
     return <HomeTab />;
   };
 
+  GoogleSignin.configure({
+    webCLientId:
+      '837659504210-5ed9um3filjp1rmgp1s6p5k8nm9520hi.apps.googleusercontent.com',
+  });
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
   // const handleGoogleLogin = () => {
   //   const provider = new GoogleAuthProvider();
   //   signInWithRedirect(auth, provider);
@@ -124,7 +142,7 @@ const LoginComponent: () => ReactElement = () => {
                 source={require('../../assets/images/googlelogo.png')}
               />
             }
-            //onPress={handleGoogleLogin}
+            onPress={() => onGoogleButtonPress()}
           />
         </View>
 
