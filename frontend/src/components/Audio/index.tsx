@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType, Button } from 'react-native';
-import TrackPlayer, { Capability, State } from 'react-native-track-player';
+import TrackPlayer, { Capability, State, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { useEffect } from 'react';
 import styles from './styles';
 import SearchBar from '../common/SearchBar';
@@ -8,8 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Container from '../common/Container';
 import HorizView from '../common/HorizView/HorizView';
 import TrackButton from './TrackButton';
-import MiniPlayer from '../common/MiniPlayer/MiniPlayer';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import TrackContainerGen from './TrackContainerGen';
 
 // TrackPlayer.updateOptions({
 //     capabilities: [Capability.Play, Capability.Pause],
@@ -22,20 +21,48 @@ const tracks = [
     {
         id: '1',
         url: require('../../test_data/audio/yeeling_item.mp3'),
-        title: 'Track 1',
-        artist: 'Artist 1',
+        title: 'evo yeeling',
+        artist: 'yeeling',
+    },
+    {
+        id: '2',
+        url: require('../../test_data/audio/hunted.mp3'),
+        title: 'Hunted',
+        artist: 'Sid',
+    },
+    {
+        id: '3',
+        url: require('../../test_data/audio/floor_luigis.mp3'),
+        title: 'Floor Luigis',
+        artist: 'NUS DE',
+    },
+    {
+        id: '4',
+        url: require('../../test_data/audio/rag.mp3'),
+        title: 'bizrag',
+        artist: 'Rag',
+    },
+    {
+        id: '5',
+        url: require('../../test_data/audio/waves.mp3'),
+        title: 'Waves',
+        artist: 'Dean Lewis',
+    },
+    {
+        id: '6',
+        url: require('../../test_data/audio/standing_luigis.mp3'),
+        title: 'Standing Luigis',
+        artist: 'NUS DE',
     },
 ];
 
 
 const AudioComponent: () => ReactElement = () => {
-    const [playing, setPlaying] = useState<boolean>(false);
-
     // wrap this in a useEffect to make sure it only runs once and async
     useEffect(() => {
         async function setup() {
             await TrackPlayer.setupPlayer().catch((error) => {
-                console.log(1);
+                // console.log(1);
                 console.log(error);
             });
             // await TrackPlayer.add(tracks).catch((error) => {
@@ -50,30 +77,9 @@ const AudioComponent: () => ReactElement = () => {
     }, []);
 
 
-    const playPause = () => {
-        if (playing) {
-            setPlaying(false);
-            TrackPlayer.pause();
-        } else {
-            setPlaying(true);
-            TrackPlayer.play();
-        }
-    };
-
-    const setPlayIcon = () => {
-        if (playing) {
-            return 'pause';
-        } else {
-            return 'play';
-        }
-    };
-
-    // make a loading screen that is returned before trackplayer is setup
-    // while (!playerLoaded) {
-    //     return <Text>Loading...</Text>;
-    // }
-
     // read the id3 tags from a list of mp3 files
+
+    // generate TrackButtons from list of mp3 files
 
 
 
@@ -95,21 +101,22 @@ const AudioComponent: () => ReactElement = () => {
 
             </ScrollView>
             <Text style={styles.subtitle}>Tracks</Text>
-            <ScrollView style={styles.scroll} horizontal>
-                <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio1' trackSource={require('../../test_data/audio/yeeling_item.mp3')} artist='yeeling' />
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio2' trackSource='' artist='' />
+            <TrackContainerGen tracks={tracks} />
+            {/* <ScrollView style={styles.scroll} horizontal> */}
+            {/* <View style={styles.tracks}>
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio1' trackSource={require('../../test_data/audio/yeeling_item.mp3')} artist='yeeling' />
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio2' trackSource='' artist='' />
                 </View>
 
                 <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio3' trackSource='' artist='' />
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio4' trackSource='' artist='' />
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio3' trackSource='' artist='' />
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio4' trackSource='' artist='' />
                 </View>
                 <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio5' trackSource='' artist='' />
-                    <TrackButton playPause={playPause} setPlayIcon={setPlayIcon} size={20} trackName='audio6' trackSource='' artist='' />
-                </View>
-            </ScrollView>
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio5' trackSource='' artist='' />
+                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio6' trackSource='' artist='' />
+                </View> */}
+            {/* </ScrollView> */}
         </Container>
 
     );
