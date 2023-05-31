@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType, Button } from 'react-native';
 import TrackPlayer, { Capability, State } from 'react-native-track-player';
 import { useEffect } from 'react';
 import styles from './styles';
@@ -9,6 +9,7 @@ import Container from '../common/Container';
 import HorizView from '../common/HorizView/HorizView';
 import TrackButton from './TrackButton';
 import MiniPlayer from '../common/MiniPlayer/MiniPlayer';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 // TrackPlayer.updateOptions({
 //     capabilities: [Capability.Play, Capability.Pause],
@@ -71,6 +72,10 @@ const AudioComponent: () => ReactElement = () => {
     // while (!playerLoaded) {
     //     return <Text>Loading...</Text>;
     // }
+
+    // read the id3 tags from a list of mp3 files
+
+
 
     return (
         <Container>
