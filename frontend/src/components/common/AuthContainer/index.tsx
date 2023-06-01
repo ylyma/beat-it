@@ -5,12 +5,11 @@ import MiniPlayer from '../MiniPlayer/MiniPlayer';
 
 const AuthContainer = ({ style, children, horizontalScroll, rowView }: any) => {
     return (
-        <ScrollView horizontal={horizontalScroll ? true : false}>
+        <ScrollView>
             <View
                 style={[
                     styles.wrapper,
                     style,
-                    { flexDirection: rowView ? 'row' : 'column' },
                 ]}>
                 {children}
             </View>
