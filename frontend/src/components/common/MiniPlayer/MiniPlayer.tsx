@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import TrackPlayer, { Track } from "react-native-track-player";
+import TrackPlayer, { Track, useTrackPlayerEvents, Event, State } from "react-native-track-player";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import styles from "./styles";
 
@@ -10,9 +10,9 @@ const getCurrentTrack = async () => {
 
     let title = await TrackPlayer.getCurrentTrack()
         .then((trackId) => {
-            return TrackPlayer.getTrack(trackId);
+            return TrackPlayer.getTrack(trackId!);
         }).then((track) => {
-            return track.title;
+            return track!.title;
         }).catch((error) => {
             console.log(error);
             return "No Track Playing"
@@ -24,26 +24,61 @@ const getCurrentTrack = async () => {
 
 interface MiniPlayerProps {
     onPress: () => void;
-
 }
+
+const events = [
+    Event.PlaybackState,
+    Event.PlaybackError,
+];
 
 const MiniPlayer = (props: MiniPlayerProps) => {
     const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
+    const [playing, setPlaying] = React.useState(true);
+    const [playIcon, setPlayIcon] = React.useState("play");
+
+    useTrackPlayerEvents(events, (event) => {
+        if (event.type === Event.PlaybackError) {
+            console.warn('An error occured while playing the current track.');
+        }
+        if (event.type === Event.PlaybackState) {
+            setPlaying(event.state === State.Playing);
+            // console.log(playing);
+        }
+        if (playing) {
+            setPlayIcon("play");
+        }
+        else {
+            setPlayIcon("pause");
+        }
+    });
+
+    const playPause = () => {
+        if (playing) {
+            TrackPlayer.pause();
+        } else {
+            TrackPlayer.play();
+        }
+    };
+
     getCurrentTrack().then((title) => {
-        setCurrentTrack(title);
+        setCurrentTrack(title!);
     }).catch((error) => {
         console.log(error);
     });
     return (
-        <TouchableWithoutFeedback onPress={() => props.onPress}>
-            <View style={styles.wrapper}>
+        <View style={styles.wrapper}>
+            <TouchableWithoutFeedback onPress={() => props.onPress}>
+
                 <Ionicons name="heart" color="white" size={24} />
-                <Text style={styles.text}>
-                    {currentTrack}
-                </Text>
-                <Ionicons name="play-circle" color="white" size={24} />
-            </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+
+            <Text style={styles.text}>
+                {currentTrack}
+            </Text>
+            <TouchableWithoutFeedback onPress={() => playPause()}>
+                <Ionicons name={playIcon} color="white" size={24} />
+            </TouchableWithoutFeedback>
+        </View>
     );
 };
 
