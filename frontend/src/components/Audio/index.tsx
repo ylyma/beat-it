@@ -17,44 +17,46 @@ import TrackContainerGen from './TrackContainerGen';
 
 //TODO: add bottom bar with play/pause button and track info
 
-const tracks = [
-    {
-        id: '1',
-        url: require('../../test_data/audio/yeeling_item.mp3'),
-        title: 'evo yeeling',
-        artist: 'yeeling',
-    },
-    {
-        id: '2',
-        url: require('../../test_data/audio/hunted.mp3'),
-        title: 'Hunted',
-        artist: 'Sid',
-    },
-    {
-        id: '3',
-        url: require('../../test_data/audio/floor_luigis.mp3'),
-        title: 'Floor Luigis',
-        artist: 'NUS DE',
-    },
-    {
-        id: '4',
-        url: require('../../test_data/audio/rag.mp3'),
-        title: 'bizrag',
-        artist: 'Rag',
-    },
-    {
-        id: '5',
-        url: require('../../test_data/audio/waves.mp3'),
-        title: 'Waves',
-        artist: 'Dean Lewis',
-    },
-    {
-        id: '6',
-        url: require('../../test_data/audio/standing_luigis.mp3'),
-        title: 'Standing Luigis',
-        artist: 'NUS DE',
-    },
-];
+// const tracks = [
+//     {
+//         id: '1',
+//         url: require('../../test_data/audio/yeeling_item.mp3'),
+//         title: 'evo yeeling',
+//         artist: 'yeeling',
+//     },
+//     {
+//         id: '2',
+//         url: require('../../test_data/audio/hunted.mp3'),
+//         title: 'Hunted',
+//         artist: 'Sid',
+//     },
+//     {
+//         id: '3',
+//         url: require('../../test_data/audio/floor_luigis.mp3'),
+//         title: 'Floor Luigis',
+//         artist: 'NUS DE',
+//     },
+//     {
+//         id: '4',
+//         url: require('../../test_data/audio/rag.mp3'),
+//         title: 'bizrag',
+//         artist: 'Rag',
+//     },
+//     {
+//         id: '5',
+//         url: require('../../test_data/audio/waves.mp3'),
+//         title: 'Waves',
+//         artist: 'Dean Lewis',
+//     },
+//     {
+//         id: '6',
+//         url: require('../../test_data/audio/standing_luigis.mp3'),
+//         title: 'Standing Luigis',
+//         artist: 'NUS DE',
+//     },
+// ];
+
+const tracks = [];
 
 
 const AudioComponent: () => ReactElement = () => {

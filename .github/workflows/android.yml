@@ -1,38 +1,40 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: set up JDK 11
+              uses: actions/setup-java@v3
+              with:
+                  java-version: "11"
+                  distribution: "temurin"
+                  cache: gradle
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+            - name: npm install
+              working-directory: ./frontend
+              run: npm install
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-      
-    - name: React Native Build
-      # You may pin to the exact commit or the version.
-      # uses: bamachoub/react-native-build-action@e22503879aef405ec33f920950990eb586177204
-      uses: bamachoub/react-native-build-action@v1.0.0
-      with:
-      # Platform to build
-        platform: android # optional, default is android
-        # Type can be any of: build | assemble
-        type: assemble # optional, default is assemble
-        # Keystore file name
-        keystore-name: release # default is release
+            - name: Init gradlew wrapper
+              working-directory: ./frontend/android
+              run: ./gradlew wrapper --gradle-version=7.5.1
+
+            - name: Grant execute permission for gradlew
+              working-directory: ./frontend/android
+              run: chmod +x ./gradlew
+            - name: Build with Gradle
+              working-directory: ./frontend/android
+              run: ./gradlew build
+
+            - name: React Native CI
+              # You may pin to the exact commit or the version.
+              # uses: aslamanver/react-native-docker@09bda07b4ca86691ab0e39e6ad197389e55a37a1
+              uses: aslamanver/react-native-docker@v1
