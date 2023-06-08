@@ -9,7 +9,6 @@ type HorizProps = {
 
 // to abstract away the repeated code in the Home and Audio components
 const HorizView = (props: HorizProps) => {
-    // console.log(props.image_src)
     return (
         <View>
             <Image

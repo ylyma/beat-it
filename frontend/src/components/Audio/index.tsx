@@ -104,21 +104,6 @@ const AudioComponent: () => ReactElement = () => {
             </ScrollView>
             <Text style={styles.subtitle}>Tracks</Text>
             <TrackContainerGen tracks={tracks} />
-            {/* <ScrollView style={styles.scroll} horizontal> */}
-            {/* <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio1' trackSource={require('../../test_data/audio/yeeling_item.mp3')} artist='yeeling' />
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio2' trackSource='' artist='' />
-                </View>
-
-                <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio3' trackSource='' artist='' />
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio4' trackSource='' artist='' />
-                </View>
-                <View style={styles.tracks}>
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio5' trackSource='' artist='' />
-                    <TrackButton playPause={playPause} setPlayIcon={playIcon} size={20} trackName='audio6' trackSource='' artist='' />
-                </View> */}
-            {/* </ScrollView> */}
         </Container>
 
     );

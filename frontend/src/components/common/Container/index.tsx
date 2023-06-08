@@ -20,7 +20,7 @@ const Container = ({ style, children, horizontalScroll, rowView }: any) => {
             <View
                 style={styles.bottomContainer}
             >
-                <MiniPlayer onPress={() => console.log('pressed')} />
+                <MiniPlayer />
             </View>
         </View >
     );
