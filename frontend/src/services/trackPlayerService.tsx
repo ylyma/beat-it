@@ -17,13 +17,17 @@ export async function setupPlayer() {
                 Capability.SkipToNext,
                 Capability.SkipToPrevious,
                 Capability.SeekTo,
+                Capability.Stop,
             ],
             compactCapabilities: [
                 Capability.Play,
                 Capability.Pause,
                 Capability.SkipToNext,
+                Capability.SkipToPrevious,
+                Capability.SeekTo,
+                Capability.Stop,
             ],
-            progressUpdateEventInterval: 2,
+            progressUpdateEventInterval: 0.5,
         });
 
         isSetup = true;

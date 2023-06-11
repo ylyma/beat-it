@@ -1,49 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import TrackPlayer, { Track } from "react-native-track-player";
+import TrackPlayer, { Track, useTrackPlayerEvents, Event, State } from "react-native-track-player";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/core";
+import { AudioContext } from "../../../context/providers/audioProvider";
 
-//function to get current track title from TrackPlayer
-const getCurrentTrack = async () => {
+const MiniPlayer = () => {
+    const audioContext = useContext(AudioContext);
 
+    const navigation = useNavigation();
+    const playPause = () => {
+        if (audioContext.playing) {
+            TrackPlayer.pause();
+        } else {
+            TrackPlayer.play();
+        }
+    };
 
-    let title = await TrackPlayer.getCurrentTrack()
-        .then((trackId) => {
-            return TrackPlayer.getTrack(trackId);
-        }).then((track) => {
-            return track.title;
-        }).catch((error) => {
-            console.log(error);
-            return "No Track Playing"
-        });
-
-    return title;
-}
-
-
-interface MiniPlayerProps {
-    onPress: () => void;
-
-}
-
-const MiniPlayer = (props: MiniPlayerProps) => {
-    const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
-    getCurrentTrack().then((title) => {
-        setCurrentTrack(title);
-    }).catch((error) => {
-        console.log(error);
-    });
+    if (audioContext.noTrack === true) {
+        return (
+            <View></View>
+        );
+    }
     return (
-        <TouchableWithoutFeedback onPress={() => props.onPress}>
-            <View style={styles.wrapper}>
+        <View style={styles.wrapper}>
+            <TouchableWithoutFeedback onPress={() => null}>
+
                 <Ionicons name="heart" color="white" size={24} />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("AudioPlayBackStack")}>
                 <Text style={styles.text}>
-                    {currentTrack}
+                    {audioContext.currentTrack}
                 </Text>
-                <Ionicons name="play-circle" color="white" size={24} />
-            </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => playPause()}>
+                <Ionicons name={audioContext.playIcon} color="white" size={24} />
+            </TouchableWithoutFeedback>
+        </View>
     );
 };
 

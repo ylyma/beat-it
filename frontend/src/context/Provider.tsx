@@ -1,20 +1,19 @@
-import React, {createContext, useReducer} from 'react';
-import auth from './reducers/auth';
-import authInit from './initialStates/authInit';
-import homeInit from './initialStates/homeInit';
-import home from './reducers/home';
+import React, { createContext, useReducer } from 'react';
+import { AudioProvider } from './providers/audioProvider';
+import { AuthProvider } from './providers/authProvider';
+import { HomeProvider } from './providers/homeProvider';
 
-export const GlobalContext = createContext({});
+const GlobalProvider = ({ children }: any) => {
 
-const GlobalProvider = ({children}: any) => {
-  const [authState, authDispatch] = useReducer(auth, authInit);
-  const [homeState, homeDispatch] = useReducer(home, homeInit);
-  return (
-    <GlobalContext.Provider
-      value={{authState, homeState, authDispatch, homeDispatch}}>
-      {children}
-    </GlobalContext.Provider>
-  );
+    return (
+        <AuthProvider>
+            <HomeProvider>
+                <AudioProvider>
+                    {children}
+                </AudioProvider>
+            </HomeProvider>
+        </AuthProvider>
+    );
 };
 
 export default GlobalProvider;
