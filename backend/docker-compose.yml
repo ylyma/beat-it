@@ -1,0 +1,21 @@
+version: '24.0.2'
+services: 
+  dev-db: 
+    image: postgres:15
+    ports:
+      - 5434:5432
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: beatit
+
+  test-db:
+    image: postgres:15
+    ports:
+      - 5435:5432
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: beatit
+
+
