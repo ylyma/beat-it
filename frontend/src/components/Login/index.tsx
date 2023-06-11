@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/core';
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import { View, Text, Image } from 'react-native';
-import { auth, googleAuth } from '../../../firebase';
+import {useNavigation} from '@react-navigation/core';
+import React, {ReactElement, useContext, useEffect, useState} from 'react';
+import {View, Text, Image} from 'react-native';
+import {auth, googleAuth} from '../../../firebase';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
@@ -9,36 +9,23 @@ import {REGISTER, RESETPASSWORD} from '../../constants/routeNames';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
-import AuthContainer from '../common/AuthContainer';
-import { AuthContext } from '../../context/providers/authProvider';
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {
-    GoogleAuthProvider,
-    getRedirectResult,
-    onAuthStateChanged,
-    signInWithCredential,
-    signInWithEmailAndPassword,
-    signInWithRedirect
-} from 'firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Container from '../common/Container';
 
 const LoginComponent: () => ReactElement = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const authContext = useContext(AuthContext);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const authContext = useContext(AuthContext);
 
-    const navigation = useNavigation();
-    useEffect(() => {
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                authContext.dispatch({ type: 'LOGIN' });
-                console.log(authContext)
-            }
-        });
-    }, []);
+  const navigation = useNavigation();
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authContext.dispatch({type: 'LOGIN'});
+        console.log(authContext);
+      }
+    });
+  }, []);
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password).then(userCredential => {
@@ -48,64 +35,28 @@ const LoginComponent: () => ReactElement = () => {
     return <HomeTab />;
   };
 
-    const handleGoogleLogin = async () => {
-        try {
-            console.log('google login')
-            // Check if your device supports Google Play
-            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-            // Get the users ID token
-            console.log('has play services')
-            const { idToken } = await GoogleSignin.signIn();
-            console.log('got id token')
-            // Create a Google credential with the token
-            const googleCredential = GoogleAuthProvider.credential(idToken);
-            console.log('got google credential')
+  GoogleSignin.configure({
+    webCLientId:
+      '837659504210-5ed9um3filjp1rmgp1s6p5k8nm9520hi.apps.googleusercontent.com',
+  });
 
-            // Sign-in the user with the credential
-            return signInWithCredential(auth, googleCredential);
-        } catch (error) {
-            console.log(error)
-            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                // user cancelled the login flow
-                console.log('cancelled')
-            } else if (error.code === statusCodes.IN_PROGRESS) {
-                // operation (e.g. sign in) is in progress already
-                console.log('in progress')
-            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                // play services not available or outdated
-                console.log('play services not available')
-            } else {
-                // some other error happened
-                console.log('other error')
-            }
-        }
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
 
-    };
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-    const oldhandleGoogleLogin = async () => {
-        console.log('google login')
-        await signInWithRedirect(auth, googleAuth)
-        console.log('redirected')
-        const result = await getRedirectResult(auth)
-        console.log(result)
-        // .then(result => {
-        //     const credential = GoogleAuthProvider.credentialFromResult(result!);
-        //     if (credential) {
-        //         const token = credential.accessToken;
-        //         const user = result!.user;
-        //         console.log('Logged in with user: ', user.email);
-        //     }
-        // })
-        // .catch(error => {
-        //     const errorCode = error.code;
-        //     const errorMessage = error.message;
-        //     const email = error.email;
-        //     const credential = GoogleAuthProvider.credentialFromError(error);
-        //     console.log('Error: ', errorMessage);
-        // });
-    };
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+  // const handleGoogleLogin = () => {
+  //   const provider = new GoogleAuthProvider();
+  //   signInWithRedirect(auth, provider);
 
-    const { navigate } = useNavigation();
+  const {navigate} = useNavigation();
 
   return (
     <View>
@@ -158,14 +109,17 @@ const LoginComponent: () => ReactElement = () => {
       <View style={styles.footer}>
         <Text style={styles.text}>or, login with</Text>
 
-                <View style={styles.horizontal}>
-                    <TouchableOpacity onPress={handleGoogleLogin}>
-                        <Image
-                            style={styles.logo}
-                            source={require('../../assets/images/googlelogo.png')}
-                        />
-                    </TouchableOpacity>
-                </View>
+        <View style={styles.horizontal}>
+          <CustomButton
+            icon={
+              <Image
+                style={styles.logo}
+                source={require('../../assets/images/googlelogo.png')}
+              />
+            }
+            onPress={() => onGoogleButtonPress()}
+          />
+        </View>
 
         <View style={[styles.horizontal]}>
           <Text style={styles.text}>need a new account?</Text>
@@ -184,4 +138,3 @@ const LoginComponent: () => ReactElement = () => {
 };
 
 export default LoginComponent;
-
