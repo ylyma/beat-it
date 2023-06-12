@@ -19,6 +19,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
 import AuthContainer from '../common/AuthContainer';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
@@ -43,27 +44,23 @@ const LoginComponent: () => ReactElement = () => {
         return <HomeTab />;
     };
 
-    const handleGoogleLogin = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
+    getRedirectResult(auth)
+        .then(result => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            if (credential) {
+                const token = credential.accessToken;
+                const user = result.user;
+                console.log('Logged in with user: ', user.email);
+            }
+        })
+        .catch(error => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log('Error: ', errorMessage);
+        });
 
-        getRedirectResult(auth)
-            .then(result => {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                if (credential) {
-                    const token = credential.accessToken;
-                    const user = result.user;
-                    console.log('Logged in with user: ', user.email);
-                }
-            })
-            .catch(error => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                console.log('Error: ', errorMessage);
-            });
-    };
     const { navigate } = useNavigation();
 
     return (
@@ -125,7 +122,6 @@ const LoginComponent: () => ReactElement = () => {
                                 source={require('../../assets/images/googlelogo.png')}
                             />
                         }
-                    // onPress={handleGoogleLogin}
                     />
                 </View>
 
