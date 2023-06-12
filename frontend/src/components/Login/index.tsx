@@ -10,9 +10,20 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
 import AuthContainer from '../common/AuthContainer';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { GoogleAuthProvider, getRedirectResult, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../../context/providers/authProvider';
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+    GoogleAuthProvider,
+    getRedirectResult,
+    onAuthStateChanged,
+    signInWithCredential,
+    signInWithEmailAndPassword,
+    signInWithRedirect
+} from 'firebase/auth';
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
@@ -22,13 +33,14 @@ const LoginComponent: () => ReactElement = () => {
     const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
-            //   console.log('auth: ', auth);
+            console.log('auth: ', auth);
             if (user) {
-                // console.log('user: ', user);
-                navigation.navigate('HomeTab');
+                console.log('user: ', user);
+                authContext.dispatch({ type: 'LOGIN', payload: user });
             }
         });
     }, []);
+
 
     const handleLogin = () => {
         signInWithEmailAndPassword(auth, email, password).then(userCredential => {
@@ -38,21 +50,38 @@ const LoginComponent: () => ReactElement = () => {
         return <HomeTab />;
     };
 
-    getRedirectResult(auth)
-        .then(result => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            if (credential) {
-                const token = credential.accessToken;
-                const user = result.user;
-                console.log('Logged in with user: ', user.email);
+    const handleGoogleLogin = async () => {
+        try {
+            console.log('google login')
+            // Check if your device supports Google Play
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+            // Get the users ID token
+            console.log('has play services')
+            const { idToken } = await GoogleSignin.signIn();
+            console.log('got id token')
+            // Create a Google credential with the token
+            const googleCredential = GoogleAuthProvider.credential(idToken);
+            console.log('got google credential')
+
+            // Sign-in the user with the credential
+            return signInWithCredential(auth, googleCredential);
+        } catch (error) {
+            console.log(error)
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+                console.log('cancelled')
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+                console.log('in progress')
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // play services not available or outdated
+                console.log('play services not available')
+            } else {
+                // some other error happened
+                console.log('other error')
             }
-        }).catch(error => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log('Error: ', errorMessage);
-        });
+        }
+    };
 
     const { navigate } = useNavigation();
 
@@ -108,14 +137,12 @@ const LoginComponent: () => ReactElement = () => {
                 <Text style={styles.text}>or, login with</Text>
 
                 <View style={styles.horizontal}>
-                    <CustomButton
-                        icon={
-                            <Image
-                                style={styles.logo}
-                                source={require('../../assets/images/googlelogo.png')}
-                            />
-                        }
-                    />
+                    <TouchableOpacity onPress={handleGoogleLogin}>
+                        <Image
+                            style={styles.logo}
+                            source={require('../../assets/images/googlelogo.png')}
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={[styles.horizontal]}>
@@ -131,8 +158,8 @@ const LoginComponent: () => ReactElement = () => {
                 </View>
             </View>
         </View>
-
     );
 };
 
 export default LoginComponent;
+

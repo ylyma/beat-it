@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType, Button } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType, Button, PermissionsAndroid } from 'react-native';
 import TrackPlayer, { Capability, State, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { useEffect } from 'react';
 import styles from './styles';
@@ -9,6 +9,10 @@ import Container from '../common/Container';
 import HorizView from '../common/HorizView/HorizView';
 import TrackButton from './TrackButton';
 import TrackContainerGen from './TrackContainerGen';
+import * as storageClasses from "react-native-scoped-storage";
+// import * as jsmediatags from 'jsmediatags';
+
+
 
 // TrackPlayer.updateOptions({
 //     capabilities: [Capability.Play, Capability.Pause],
@@ -56,33 +60,72 @@ import TrackContainerGen from './TrackContainerGen';
 //     },
 // ];
 
-const tracks = [];
 
 
 const AudioComponent: () => ReactElement = () => {
     // wrap this in a useEffect to make sure it only runs once and async
+    // const [documentFolder, setDocumentFolder] = useState<storageClasses.FileType>();
+    let documentFolder;
+    // const [tracksObjects, setTracksObjects] = useState<any>([]);
+    let tracksObjects;
+    const [tracks, setTracks] = useState<any>([]);
+
     useEffect(() => {
         async function setup() {
             await TrackPlayer.setupPlayer().catch((error) => {
-                // console.log(1);
                 console.log(error);
             });
-            // await TrackPlayer.add(tracks).catch((error) => {
-            //     console.log(2);
-            //     console.log(error);
-            // });
+
+
+            // move this to import button
+            documentFolder = await storageClasses.openDocumentTree(true);
+
+            console.log('document folder');
+            console.log(documentFolder);
+            console.log(documentFolder?.uri);
+
+            tracksObjects = await storageClasses.listFiles(documentFolder!.uri);
+            console.log('tracks objects');
+            console.log(tracksObjects);
+
+            for (let index = 0; index < tracksObjects.length; index++) {
+                try {
+                    const element = tracksObjects[index];
+                    console.log('element');
+                    console.log(element);
+                    console.log("element.uri");
+                    console.log(element.uri);
+
+                    // new jsmediatags.Reader(element.uri)
+                    //     .read({
+                    //         onSuccess: (tag) => {
+                    //             console.log('Success!');
+                    //             console.log(tag);
+                    //         },
+                    //         onError: (error) => {
+                    //             console.log('Error');
+                    //             console.log(error);
+                    //         }
+                    // }
+                    // );
+                    console.log('tracks');
+                    console.log(tracks);
+
+                } catch (error) {
+                    console.log(error);
+                }
+
+            }
         }
+
+
 
         setup().then(() => {
             console.log('setup complete');
+            // console.log("tracks:" + tracks);
+
         });
     }, []);
-
-
-    // read the id3 tags from a list of mp3 files
-
-    // generate TrackButtons from list of mp3 files
-
 
 
     return (
@@ -103,7 +146,7 @@ const AudioComponent: () => ReactElement = () => {
 
             </ScrollView>
             <Text style={styles.subtitle}>Tracks</Text>
-            <TrackContainerGen tracks={tracks} />
+            {/* <TrackContainerGen tracks={tracks} /> */}
         </Container>
 
     );

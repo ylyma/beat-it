@@ -16,12 +16,7 @@ const AppNavContainer: (props: AppNavProps) => ReactElement = () => {
 
     return (
         <NavigationContainer>
-            <stack.Navigator >
-                <stack.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
-
-                <stack.Screen name="HomeTab" component={HomeTab} />
-
-            </stack.Navigator>
+            {authContext.isLoggedIn ? <HomeTab /> : <AuthStack />}
         </NavigationContainer>
     );
 };
