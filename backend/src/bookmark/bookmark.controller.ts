@@ -30,6 +30,14 @@ export class BookmarkController {
     return this.bookmarkService.getBookmarkById(userId, bookmarkId);
   }
 
+  @Get('/:userId/:title')
+  getBookmarkByTitle(
+    @Param('userId') userId: string,
+    @Param('title') title: string,
+  ) {
+    return this.bookmarkService.getBookmarkByTitle(userId, title);
+  }
+
   @Post(':userId')
   createBookmark(
     @Param('userId') userId: string,
