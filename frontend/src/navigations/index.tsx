@@ -16,10 +16,10 @@ const AppNavContainer: (props: AppNavProps) => ReactElement = () => {
 
     return (
         <NavigationContainer>
-            <stack.Navigator screenOptions={{ headerShown: false }}>
-                <stack.Screen name="AuthStack" component={AuthStack} />
+            <stack.Navigator >
+                <stack.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
 
-                <stack.Screen name="HomeTab" component={HomeTab}  />
+                <stack.Screen name="HomeTab" component={HomeTab} />
 
             </stack.Navigator>
         </NavigationContainer>
