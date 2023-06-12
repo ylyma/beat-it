@@ -22,6 +22,15 @@ export class BookmarkService {
     });
   }
 
+  getBookmarkByTitle(userId: string, title: string) {
+    return this.prisma.bookmark.findMany({
+      where: {
+        title: title,
+        userId,
+      },
+    });
+  }
+
   async createBookmark(userId: string, dto: CreateBookmarkDto) {
     console.log(dto);
     const bookmark = await this.prisma.bookmark.create({

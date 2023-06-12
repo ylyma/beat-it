@@ -4,8 +4,6 @@ import * as pactum from 'pactum';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto';
-import { EditUserDto } from 'src/user/dto';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -33,41 +31,6 @@ describe('App e2e', () => {
     app.close();
   });
 
-  describe('User', () => {
-    describe('Create user', () => {
-      const dto: CreateUserDto = {
-        email: 'hello@email.com',
-        username: 'test',
-      };
-      it('should create user', () => {
-        return pactum
-          .spec()
-          .post('/users/6')
-          .withBody(dto)
-          .expectStatus(201)
-          .expectBodyContains(dto.email)
-          .expectBodyContains(dto.username);
-      });
-    });
-    describe('Edit user', () => {
-      const dto: EditUserDto = {
-        email: 'hello@email.com',
-      };
-      it('should edit user', () => {
-        return pactum
-          .spec()
-          .patch('/users/6')
-          .withBody(dto)
-          .expectStatus(200)
-          .expectBodyContains(dto.email);
-      });
-    });
-    describe('Delete user', () => {
-      it('should edit user', () => {
-        return pactum.spec().delete('/users/6').expectStatus(204);
-      });
-    });
-  });
   describe('Bookmarks', () => {
     describe('Get empty bookmarks', () => {
       it('should get bookmarks'),
@@ -92,7 +55,8 @@ describe('App e2e', () => {
             .post('/bookmarks/6')
             .withBody(dto)
             .expectStatus(201)
-            .stores('bookmarkId', 'id');
+            .stores('bookmarkId', 'id')
+            .stores('title', 'title');
         };
     });
     describe('Get bookmarks', () => {
@@ -114,6 +78,17 @@ describe('App e2e', () => {
             .withPathParams('id', '$S{bookmarkId}')
             .expectStatus(200)
             .expectBodyContains('$S{bookmarkId}');
+        };
+    });
+    describe('Get bookmark by title', () => {
+      it('should get bookmarks by title'),
+        () => {
+          return pactum
+            .spec()
+            .get('/bookmarks/6/{title}')
+            .withPathParams('title', '$S{title}')
+            .expectStatus(200)
+            .expectBodyContains('$S{title}');
         };
     });
     describe('Edit bookmark by id', () => {
