@@ -10,3 +10,8 @@ export const RESETPASSWORD = 'ResetPassword';
 
 export const PLAYLIST = 'Playlist';
 export const TRACK = 'Track';
+
+export const AUDIOPLAYBACK = 'AudioPlayBack';
+
+export const BOOKMARKCREATION = 'BookmarkCreation';
+export const AUDIOPLAYBACKSTACK = 'AudioPlayBackStack';
