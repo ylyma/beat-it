@@ -2,16 +2,16 @@ import {
   Controller,
   Delete,
   FileTypeValidator,
+  Get,
   ParseFilePipe,
   Post,
   UploadedFile,
-  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
 
-@Controller('upload')
+@Controller('uploads')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
@@ -43,13 +43,33 @@ export class UploadController {
     await this.uploadService.uploadVideo(file.originalname, file.buffer);
   }
 
-  @Delete('/audio/:title')
-  async deleteAudio(title: string) {
-    await this.uploadService.deleteAudio(title);
+  @Get('/getaudio')
+  getAudio() {
+    return this.uploadService.getAudio();
   }
 
-  @Delete('/audio/:title')
-  async deleteVideo(title: string) {
-    await this.uploadService.deleteAudio(title);
+  @Get('getaudio')
+  getVideo() {
+    return this.uploadService.getVideo();
+  }
+
+  @Get('/getaudio/:title')
+  getAudioByTitle(title: string) {
+    return this.uploadService.getAudioByTitle(title);
+  }
+
+  @Get('/getvideo/:title')
+  getVideoByTitle(title: string) {
+    return this.uploadService.getVideoByTitle(title);
+  }
+
+  @Delete('deleteaudio/:title')
+  deleteAudio(title: string) {
+    return this.uploadService.deleteAudio(title);
+  }
+
+  @Delete('deletevideo/:title')
+  deleteVideo(title: string) {
+    return this.uploadService.deleteVideo(title);
   }
 }

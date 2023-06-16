@@ -117,4 +117,36 @@ describe('App e2e', () => {
         };
     });
   });
+  describe('Uploads', () => {
+    describe('Get empty audio', () => {
+      it('should get audio'),
+        () => {
+          return pactum
+            .spec()
+            .get('/uploads/getaudio')
+            .expectStatus(200)
+            .expectBody([]);
+        };
+    });
+    describe('Get empty video', () => {
+      it('should get video'),
+        () => {
+          return pactum
+            .spec()
+            .get('/uploads/getvideo')
+            .expectStatus(200)
+            .expectBody([]);
+        };
+    });
+    describe('Get empty audio', () => {
+      it('should get audio'),
+        () => {
+          return pactum
+            .spec()
+            .get('/uploads/getaudio')
+            .expectStatus(200)
+            .expectBody([]);
+        };
+    });
+  });
 });

@@ -1,5 +1,7 @@
 import {
   DeleteObjectCommand,
+  GetObjectCommand,
+  ListObjectsCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
@@ -34,6 +36,42 @@ export class UploadService {
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
         Key: '#video_' + fileName,
         Body: file,
+      }),
+    );
+  }
+
+  async getAudio() {
+    await this.s3Client.send(
+      new ListObjectsCommand({
+        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Prefix: '#audio_',
+      }),
+    );
+  }
+
+  async getVideo() {
+    await this.s3Client.send(
+      new ListObjectsCommand({
+        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Prefix: '#video_',
+      }),
+    );
+  }
+
+  async getAudioByTitle(title: string) {
+    await this.s3Client.send(
+      new GetObjectCommand({
+        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Key: '#audio_' + title,
+      }),
+    );
+  }
+
+  async getVideoByTitle(title: string) {
+    await this.s3Client.send(
+      new GetObjectCommand({
+        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Key: '#video_' + title,
       }),
     );
   }
