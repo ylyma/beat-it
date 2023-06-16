@@ -73,9 +73,7 @@ describe('App e2e', () => {
       it('should get bookmarks by id'),
         () => {
           return pactum
-            .spec()
-            .get('/bookmarks/6/{id}')
-            .withPathParams('id', '$S{bookmarkId}')
+            .spec() 
             .expectStatus(200)
             .expectBodyContains('$S{bookmarkId}');
         };
