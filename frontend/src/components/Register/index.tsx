@@ -1,14 +1,13 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useState } from 'react';
 import { View, Text } from 'react-native';
-import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
-import { LOGIN, RESETPASSWORD } from '../../constants/routeNames';
+import { LOGIN } from '../../constants/routeNames';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import AuthContainer from '../common/AuthContainer';
 
@@ -24,12 +23,26 @@ const RegisterComponent: () => ReactElement = ({
     const { navigate } = useNavigation();
 
     const handleSignUp = () => {
-        createUserWithEmailAndPassword(auth, email, password).then(
-            userCredential => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
                 const user = userCredential.user;
+                const update = {
+                    displayName: username,
+                    photo: null,
+                };
+                updateProfile(user, update);
                 console.log('Registered with user: ', user.email);
-            },
-        );
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+                console.error(error);
+            });
     };
     return (
         <AuthContainer>
