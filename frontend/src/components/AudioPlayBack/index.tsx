@@ -7,27 +7,8 @@ import { AudioContext } from '../../context/providers/audioProvider';
 import Slider from '@react-native-community/slider';
 import BookmarkContainerGen from './BookmarkContainerGen';
 import { useNavigation } from '@react-navigation/core';
-
-const bookmarks = [
-    { id: '1', name: 'bookmark 1hcjalhcdbqwhjkbdhqwbiqwbiuqwbuiqwbiqwu', timestamp: 10, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '2', name: 'bookmark 2', timestamp: 20, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '3', name: 'bookmark 3', timestamp: 30, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '4', name: 'bookmark 4', timestamp: 60, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '5', name: 'bookmark 5', timestamp: 70, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '6', name: 'bookmark 6', timestamp: 90, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '7', name: 'bookmark 7', timestamp: 100, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '8', name: 'bookmark 8', timestamp: 110, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '9', name: 'bookmark 9', timestamp: 120, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '10', name: 'bookmark 10', timestamp: 130, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '11', name: 'bookmark 11', timestamp: 170, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '12', name: 'bookmark 12', timestamp: 200, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '13', name: 'bookmark 13', timestamp: 210, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '14', name: 'bookmark 14', timestamp: 250, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '15', name: 'bookmark 15', timestamp: 260, artist: 'yeeling', title: 'evo yeeling' },
-    { id: '16', name: 'bookmark 16', timestamp: 50, artist: 'NUS DE', title: 'Floor Luigis' },
-    { id: '17', name: 'bookmark 17', timestamp: 100, artist: 'NUS DE', title: 'Floor Luigis' },
-    { id: '18', name: 'bookmark 18', timestamp: 150, artist: 'NUS DE', title: 'Floor Luigis' },
-]
+import Config from 'react-native-config';
+import { AuthContext } from '../../context/providers/authProvider';
 
 const events = [
     Event.PlaybackState,
@@ -38,19 +19,36 @@ const AudioPlayBackComponent = () => {
     // build a playback page
     const audioContext = useContext(AudioContext);
     const { position, duration } = useProgress();
-    const [bookmarkList, setBookmarkList] = React.useState(bookmarks);
+    const [bookmarkList, setBookmarkList] = React.useState([]);
     const navigation = useNavigation();
+    const authContext = useContext(AuthContext);
+
+    const getBookmarks = async () => {
+        const test = await fetch(Config.API_URL + '/bookmarks/' + authContext.user.uid, {
+            method: 'GET',
+        })
+
+        const testJson = await test.json();
+        console.log("getBookmarks: " + test.status);
+        return testJson;
+    }
+
+    useEffect(() => {
+        getBookmarks().then((bookmarks) => {
+            setBookmarkList(bookmarks);
+        }
+        );
+    }, []);
 
     const addBookmark = () => {
         // to be replaced with a bookmark setting page
         // add a bookmark to the current track
-        const nextId = bookmarks.length + 1;
+        const nextId = bookmarkList.length + 1;
         navigation.navigate('BookmarkCreation',
             {
                 bookmarks: bookmarkList,
                 id: nextId.toString(),
                 timestamp: position,
-                artist: audioContext.currentArtist,
                 title: audioContext.currentTrack
             })
     }
@@ -85,7 +83,7 @@ const AudioPlayBackComponent = () => {
                 <Text style={styles.subtitle}>
                     Bookmarks
                 </Text>
-                <BookmarkContainerGen bookmarks={bookmarks} />
+                <BookmarkContainerGen bookmarks={bookmarkList} />
             </View>
             <View style={styles.bottomBar}>
                 <Slider

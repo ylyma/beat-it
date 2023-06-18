@@ -33,10 +33,8 @@ const LoginComponent: () => ReactElement = () => {
     const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
-            console.log('auth: ', auth);
             if (user) {
                 console.log('user: ', user);
-                navigation.navigate('HomeTab');
                 authContext.dispatch({ type: 'LOGIN', payload: user });
             }
         });

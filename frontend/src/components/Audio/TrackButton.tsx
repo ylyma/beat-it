@@ -26,16 +26,38 @@ const TrackButton = (props: TrackButtonProps) => {
             () => audioContext.playing ? TrackPlayer.play() : TrackPlayer.pause()
         )
     };
+
+    // make this play immediately
+    const playTrack = async () => {
+        await TrackPlayer.getCurrentTrack().then((trackId) => {
+            trackId = trackId != null ? trackId + 1 : 0
+            console.log(trackId)
+            TrackPlayer.add({ title: props.trackName, url: props.trackSource, artist: props.artist }, trackId).then(
+                () => TrackPlayer.skipToNext().then(
+                    () => TrackPlayer.play())
+            )
+        }).catch((error) => {
+            console.log(error)
+        }
+        )
+        TrackPlayer.getQueue().then((queue) => {
+            console.log(queue)
+        }
+        )
+    }
     return (
-        <View>
-            <TouchableOpacity style={styles.button} onPress={
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={
+                playTrack
+            } onLongPress={
                 addToQueue
             }>
                 <View style={styles.buttonIcon}>
-                    <Ionicons name={'add-circle'} size={20} />
+                    <Ionicons name={'play'} size={20} />
                 </View>
             </TouchableOpacity>
-            <Text style={styles.caption}>{props.trackName}</Text>
+            <Text style={styles.songTitle}>{props.trackName}</Text>
+
         </View>
     )
 }

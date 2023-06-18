@@ -3,6 +3,7 @@ apply plugin: "com.facebook.react"
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -173,6 +174,8 @@ dependencies {
 
     // react-native file system
     implementation project(':react-native-fs')
+
+    implementation project(':react-native-config')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

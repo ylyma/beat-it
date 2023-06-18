@@ -7,10 +7,11 @@ import { AudioContext } from '../../context/providers/audioProvider'
 // to be used when we have a backend to store bookmarks
 type Bookmark = {
     id: string,
-    name: string,
+    description: string,
     timestamp: number,
     title: string,
     artist: string,
+    userId: string
 }
 
 type BookmarkContainerGenProps = {
@@ -21,8 +22,8 @@ const BookmarkContainerGen = (props: BookmarkContainerGenProps) => {
     const audioContext = React.useContext(AudioContext)
     return (
         <FlatList
-            data={props.bookmarks.filter((bookmark) => bookmark.title === audioContext.currentTrack && bookmark.artist === audioContext.currentArtist)}
-            renderItem={({ item }) => BookmarkButton({ name: item.name, timestamp: item.timestamp })}
+            data={props.bookmarks.filter((bookmark) => bookmark.title === audioContext.currentTrack)}
+            renderItem={({ item }) => BookmarkButton({ description: item.description, timestamp: item.timestamp })}
             keyExtractor={(item) => item.id}
         />
     )
