@@ -3,6 +3,7 @@ import {
   Delete,
   FileTypeValidator,
   Get,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -15,7 +16,7 @@ import { UploadService } from './upload.service';
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  @Post('audio')
+  @Post('audio/:userId')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadAudio(
     @UploadedFile(
@@ -26,8 +27,13 @@ export class UploadController {
       }),
     )
     file: Express.Multer.File,
+    @Param('userId') userId: string,
   ) {
-    await this.uploadService.uploadAudio(file.originalname, file.buffer);
+    await this.uploadService.uploadAudio(
+      file.originalname,
+      userId,
+      file.buffer,
+    );
   }
 
   @Post('video')
@@ -39,37 +45,42 @@ export class UploadController {
       }),
     )
     file: Express.Multer.File,
+    @Param('userId') userId: string,
   ) {
-    await this.uploadService.uploadVideo(file.originalname, file.buffer);
+    await this.uploadService.uploadVideo(
+      file.originalname,
+      userId,
+      file.buffer,
+    );
   }
 
-  @Get('/getaudio')
-  getAudio() {
-    return this.uploadService.getAudio();
+  @Get('/:userId/getaudios')
+  getAudio(@Param('userId') userId: string,) {
+    return this.uploadService.getAudio(userId);
   }
 
-  @Get('getaudio')
-  getVideo() {
-    return this.uploadService.getVideo();
+  @Get('/:userId/getvideos')
+  getVideo(@Param('userId') userId: string,) {
+    return this.uploadService.getVideo(userId);
   }
 
-  @Get('/getaudio/:title')
-  getAudioByTitle(title: string) {
-    return this.uploadService.getAudioByTitle(title);
+  @Get('?:userId/getaudio/:title')
+  getAudioByTitle(title: string, @Param('userId') userId: string) {
+    return this.uploadService.getAudioByTitle(title, userId);
   }
 
-  @Get('/getvideo/:title')
-  getVideoByTitle(title: string) {
-    return this.uploadService.getVideoByTitle(title);
+  @Get('/:userId/getvideo/:title')
+  getVideoByTitle(title: string, @Param('userId') userId: string) {
+    return this.uploadService.getVideoByTitle(title, userId);
   }
 
-  @Delete('deleteaudio/:title')
-  deleteAudio(title: string) {
-    return this.uploadService.deleteAudio(title);
+  @Delete('/:userId/deleteaudio/:title')
+  deleteAudio(title: string, @Param('userId') userId: string) {
+    return this.uploadService.deleteAudio(title, userId);
   }
 
-  @Delete('deletevideo/:title')
-  deleteVideo(title: string) {
-    return this.uploadService.deleteVideo(title);
+  @Delete('/:userId/deletevideo/:title')
+  deleteVideo(title: string, @Param('userId') userId: string) {
+    return this.uploadService.deleteVideo(title, userId);
   }
 }

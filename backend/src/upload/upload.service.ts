@@ -6,7 +6,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
-import { ConfigService, ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UploadService {
@@ -20,76 +20,76 @@ export class UploadService {
 
   constructor(private readonly configService: ConfigService) {}
 
-  async uploadAudio(fileName: string, file: Buffer) {
+  async uploadAudio(fileName: string, userId: string, file: Buffer) {
     await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#audio_' + fileName,
+        Key: '#audio_' + userId + '_' + fileName,
         Body: file,
       }),
     );
   }
 
-  async uploadVideo(fileName: string, file: Buffer) {
+  async uploadVideo(fileName: string, userId: string, file: Buffer) {
     await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#video_' + fileName,
+        Key: '#video_' + userId + '_' + fileName,
         Body: file,
       }),
     );
   }
 
-  async getAudio() {
+  async getAudio(userId) {
     await this.s3Client.send(
       new ListObjectsCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Prefix: '#audio_',
+        Prefix: '#audio_' + userId + '_',
       }),
     );
   }
 
-  async getVideo() {
+  async getVideo(userId) {
     await this.s3Client.send(
       new ListObjectsCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Prefix: '#video_',
+        Prefix: '#video_' + userId + '_',
       }),
     );
   }
 
-  async getAudioByTitle(title: string) {
+  async getAudioByTitle(title: string, userId: string) {
     await this.s3Client.send(
       new GetObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#audio_' + title,
+        Key: '#audio_' + userId + '_' + title,
       }),
     );
   }
 
-  async getVideoByTitle(title: string) {
+  async getVideoByTitle(title: string, userId: string) {
     await this.s3Client.send(
       new GetObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#video_' + title,
+        Key: '#video_' + userId + '_' + title,
       }),
     );
   }
 
-  async deleteAudio(title: string) {
+  async deleteAudio(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#audio_' + title,
+        Key: '#audio_' + userId + '_' + title,
       }),
     );
   }
 
-  async deleteVideo(title: string) {
+  async deleteVideo(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#video_' + title,
+        Key: '#video_' + userId + '_' + title,
       }),
     );
   }
