@@ -1,4 +1,4 @@
-import { IsOptional, IsString, Min, IsInt } from 'class-validator';
+import { IsOptional, IsString, Min, IsNumber } from 'class-validator';
 
 export class EditBookmarkDto {
   @IsString()
@@ -13,7 +13,7 @@ export class EditBookmarkDto {
   @IsOptional()
   artist?: string;
 
-  @IsInt()
+  @IsNumber()
   @Min(0)
   @IsOptional()
   timestamp?: number;

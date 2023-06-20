@@ -18,7 +18,7 @@ model Bookmark {
   title String
   description String? 
   artist String?
-  timestamp Int
+  timestamp Float
 
   userId String
   

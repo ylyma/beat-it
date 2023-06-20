@@ -11,12 +11,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('uploads')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  @Post('audio/:userId')
+  @Post('/audio/:userId')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadAudio(
     @UploadedFile(
@@ -36,7 +37,7 @@ export class UploadController {
     );
   }
 
-  @Post('video')
+  @Post('/video/:userId')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadVideo(
     @UploadedFile(
@@ -54,21 +55,33 @@ export class UploadController {
     );
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('audio')
+  @CacheTTL(0)
   @Get('/:userId/getaudios')
-  getAudio(@Param('userId') userId: string,) {
+  getAudio(@Param('userId') userId: string) {
     return this.uploadService.getAudio(userId);
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('video')
+  @CacheTTL(0)
   @Get('/:userId/getvideos')
-  getVideo(@Param('userId') userId: string,) {
+  getVideo(@Param('userId') userId: string) {
     return this.uploadService.getVideo(userId);
   }
 
-  @Get('?:userId/getaudio/:title')
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('audio')
+  @CacheTTL(0)
+  @Get('/:userId/getaudio/:title')
   getAudioByTitle(title: string, @Param('userId') userId: string) {
     return this.uploadService.getAudioByTitle(title, userId);
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('video ')
+  @CacheTTL(0)
   @Get('/:userId/getvideo/:title')
   getVideoByTitle(title: string, @Param('userId') userId: string) {
     return this.uploadService.getVideoByTitle(title, userId);
