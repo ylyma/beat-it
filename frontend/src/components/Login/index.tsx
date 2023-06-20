@@ -24,6 +24,8 @@ import {
     signInWithEmailAndPassword,
     signInWithRedirect
 } from 'firebase/auth';
+import globalStyles from '../../globalStyles/globalStyles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
@@ -82,20 +84,17 @@ const LoginComponent: () => ReactElement = () => {
         }
     };
 
+    const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+    const toggleSecureEntry = () => {
+        setSecureTextEntry(!secureTextEntry);
+    };
+
     const { navigate } = useNavigation();
 
     return (
         <View>
             <AuthContainer>
-                <Text
-                    style={{
-                        marginTop: 50,
-                        alignSelf: 'center',
-                        color: colors.black,
-                        paddingBottom: 40,
-                    }}>
-                    LOGOplaceholder
-                </Text>
+                <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
                 <View>
                     <Text style={styles.title}>Welcome,</Text>
 
@@ -112,9 +111,9 @@ const LoginComponent: () => ReactElement = () => {
                         label="Password"
                         onChangeText={(text: string) => setPassword(text)}
                         value={password}
-                        icon={<Text>SHOW</Text>}
+                        icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
                         iconPosition="right"
-                        secureTextEntry={true}
+                        secureTextEntry={secureTextEntry}
                         placeholder="Password"
                     />
                 </View>

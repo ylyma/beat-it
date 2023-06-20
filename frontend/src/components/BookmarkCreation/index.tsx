@@ -17,17 +17,17 @@ const BookmarkCreationComponent = () => {
     const createBookmark = async () => {
         console.log(data.bookmarks);
         const bookmark = {
-            // id: data.id,
             description: bookmarkName,
             timestamp: Number(bookmarkTimestamp),
             artist: data.artist,
             title: data.title,
-            // userId: authContext.user.uid,
         }
         data.bookmarks.push(
             bookmark
         );
         // post the bookmarks in the database
+        console.log("post: " + JSON.stringify(bookmark));
+        console.log(Config.API_URL + '/bookmarks/' + authContext.user.uid)
         await fetch(Config.API_URL + '/bookmarks/' + authContext.user.uid, {
             method: 'POST',
             headers: {

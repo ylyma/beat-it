@@ -15,11 +15,7 @@ import { AuthContext } from '../../context/providers/authProvider';
 
 const AudioComponent: () => ReactElement = () => {
     // wrap this in a useEffect to make sure it only runs once and async
-    // const [documentFolder, setDocumentFolder] = useState<storageClasses.FileType>();
     let documentFolder;
-    // const [tracksObjects, setTracksObjects] = useState<any>([]);
-    let tracksObjects;
-    const authContext = useContext(AuthContext);
     const [tracks, setTracks] = useState<any>([]);
 
     useEffect(() => {
@@ -41,14 +37,25 @@ const AudioComponent: () => ReactElement = () => {
         const tracksObjects = await ScopedStorage.listFiles(documentFolder.uri);
         console.log(tracksObjects);
 
-        const allTracks = tracksObjects.map((track: any) => {
-            return {
-                url: track.uri,
-                title: track.name.split('.')[0],
-                artist: 'unknown',
+        const allTracks: any[] = [];
+        for (let i = 0; i < tracksObjects.length; i++) {
+            if (tracksObjects[i].type === 'file' && tracksObjects[i].mime.split('/')[0] === 'audio') {
+                allTracks.push({
+                    url: tracksObjects[i].uri,
+                    title: tracksObjects[i].name.split('.')[0],
+                    artist: 'unknown',
+                })
             };
-        });
-        // console.log(tracksObjects);
+        };
+
+        // const allTracks = tracksObjects.map((track: any) => {
+        //     return {
+        //         url: track.uri,
+        //         title: track.name.split('.')[0],
+        //         artist: 'unknown',
+        //     };
+        // });
+        console.log(tracksObjects);
         setTracks(allTracks);
 
     };
@@ -87,5 +94,7 @@ const AudioComponent: () => ReactElement = () => {
     );
 };
 
+
+export default AudioComponent;
 
 export default AudioComponent;

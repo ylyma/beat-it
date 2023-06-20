@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
@@ -10,6 +10,7 @@ import colors from '../../assets/themes/colors';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import AuthContainer from '../common/AuthContainer';
+import globalStyles from '../../globalStyles/globalStyles';
 
 const RegisterComponent: () => ReactElement = ({
     onSubmit,
@@ -45,87 +46,81 @@ const RegisterComponent: () => ReactElement = ({
             });
     };
     return (
-        <AuthContainer>
-            <Text
-                style={{
-                    marginTop: 50,
-                    alignSelf: 'center',
-                    color: colors.black,
-                    paddingBottom: 50,
-                }}>
-                LOGOplaceholder
-            </Text>
-            <View>
-                <Text style={styles.title}>Create Account</Text>
-                <Input
-                    label="Username"
-                    placeholder="Username"
-                    onChangeText={(value: string) => {
-                        onChange({ name: 'username', value });
-                        setUsername(value);
-                    }}
-                    error={errors.username}
-                    value={username}
-                />
-                <Input
-                    label="Email"
-                    placeholder="Email"
-                    onChangeText={(value: string) => {
-                        onChange({ name: 'email', value });
-                        setEmail(value);
-                    }}
-                    error={errors.email}
-                    value={email}
-                />
-                <Input
-                    label="Password"
-                    placeholder="Password"
-                    icon={<Text>SHOW</Text>}
-                    iconPosition="right"
-                    secureTextEntry={true}
-                    onChangeText={(value: any) => {
-                        onChange({ name: 'password', value });
-                        setPassword(value);
-                    }}
-                    error={errors.password}
-                    value={password}
-                />
-                <Input
-                    label="Confirm password"
-                    placeholder="Confirm password"
-                    icon={<Text>SHOW</Text>}
-                    iconPosition="right"
-                    secureTextEntry={true}
-                    onChangeText={(value: any) => {
-                        onChange({ name: 'confirmPassword', value });
-                    }}
-                    error={errors.confirmPassword}
-                />
-            </View>
+        <View>
+            <AuthContainer>
+                <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
+                <View>
+                    <Text style={styles.title}>Create Account</Text>
+                    <Input
+                        label="Username"
+                        placeholder="Username"
+                        onChangeText={(value: string) => {
+                            onChange({ name: 'username', value });
+                            setUsername(value);
+                        }}
+                        error={errors.username}
+                        value={username}
+                    />
+                    <Input
+                        label="Email"
+                        placeholder="Email"
+                        onChangeText={(value: string) => {
+                            onChange({ name: 'email', value });
+                            setEmail(value);
+                        }}
+                        error={errors.email}
+                        value={email}
+                    />
+                    <Input
+                        label="Password"
+                        placeholder="Password"
+                        icon={<Text>SHOW</Text>}
+                        iconPosition="right"
+                        secureTextEntry={true}
+                        onChangeText={(value: any) => {
+                            onChange({ name: 'password', value });
+                            setPassword(value);
+                        }}
+                        error={errors.password}
+                        value={password}
+                    />
+                    <Input
+                        label="Confirm password"
+                        placeholder="Confirm password"
+                        icon={<Text>SHOW</Text>}
+                        iconPosition="right"
+                        secureTextEntry={true}
+                        onChangeText={(value: any) => {
+                            onChange({ name: 'confirmPassword', value });
+                        }}
+                        error={errors.confirmPassword}
+                    />
+                </View>
 
-            <View style={{ paddingTop: 10 }}>
-                <CustomButton
-                    secondary
-                    title="Sign Up"
-                    onPress={() => {
-                        onSubmit();
-                        handleSignUp();
-                    }}
-                />
-            </View>
+                <View style={{ paddingTop: 10 }}>
+                    <CustomButton
+                        secondary
+                        title="Sign Up"
+                        onPress={() => {
+                            onSubmit();
+                            handleSignUp();
+                        }}
+                    />
+                </View>
 
-            <View style={styles.horizontal}>
-                <Text style={styles.text}>already have an account?</Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        navigate(LOGIN);
-                    }}>
-                    <Text style={[styles.textButton, { color: colors.primary }]}>
-                        login
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </AuthContainer>
+                <View style={styles.horizontal}>
+                    <Text style={styles.text}>already have an account?</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigate(LOGIN);
+                        }}>
+                        <Text style={[styles.textButton, { color: colors.primary }]}>
+                            login
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </AuthContainer>
+        </View>
     );
 };
 

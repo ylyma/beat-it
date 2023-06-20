@@ -29,13 +29,24 @@ const TrackButton = (props: TrackButtonProps) => {
 
     // make this play immediately
     const playTrack = async () => {
-        await TrackPlayer.getCurrentTrack().then((trackId) => {
-            trackId = trackId != null ? trackId + 1 : 0
-            console.log(trackId)
-            TrackPlayer.add({ title: props.trackName, url: props.trackSource, artist: props.artist }, trackId).then(
-                () => TrackPlayer.skipToNext().then(
+        await TrackPlayer.getCurrentTrack().then(async (trackId) => {
+            console.log(trackId);
+            let queueLength;
+            await TrackPlayer.getQueue().then((queue) => {
+                queueLength = queue.length;
+                console.log(queueLength);
+            })
+            if (queueLength == 0) {
+                console.log("adding first track");
+                TrackPlayer.add({ title: props.trackName, url: props.trackSource, artist: props.artist }).then(
                     () => TrackPlayer.play())
-            )
+            } else {
+                trackId = trackId + 1;
+                TrackPlayer.add({ title: props.trackName, url: props.trackSource, artist: props.artist }, trackId).then(
+                    () => TrackPlayer.skipToNext().then(
+                        () => TrackPlayer.play())
+                )
+            }
         }).catch((error) => {
             console.log(error)
         }
@@ -45,6 +56,7 @@ const TrackButton = (props: TrackButtonProps) => {
         }
         )
     }
+
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={

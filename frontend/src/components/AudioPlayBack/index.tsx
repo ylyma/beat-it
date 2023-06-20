@@ -9,6 +9,9 @@ import BookmarkContainerGen from './BookmarkContainerGen';
 import { useNavigation } from '@react-navigation/core';
 import Config from 'react-native-config';
 import { AuthContext } from '../../context/providers/authProvider';
+import crypto from 'expo-standard-web-crypto';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 const events = [
     Event.PlaybackState,

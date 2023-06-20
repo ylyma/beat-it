@@ -13,7 +13,7 @@ const BookmarkButton = (props: BookmarkButtonProps) => {
         <TouchableOpacity style={styles.button} onPress={
             () => TrackPlayer.seekTo(props.timestamp).then(() => console.log('seeked to ' + props.timestamp))
         }>
-            <Text style={styles.caption}>{props.description}</Text>
+            <Text style={styles.bookmarkCaption}>{props.description}</Text>
         </TouchableOpacity>
     )
 }

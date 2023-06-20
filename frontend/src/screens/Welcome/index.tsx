@@ -1,27 +1,23 @@
 import React, { ReactElement } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import colors from '../../assets/themes/colors';
 import CustomButton from '../../components/common/CustomButton';
 import { useNavigation } from '@react-navigation/core';
 import { LOGIN, REGISTER } from '../../constants/routeNames';
 import styles from './styles';
 import AuthContainer from '../../components/common/AuthContainer';
+import globalStyles from '../../globalStyles/globalStyles';
 
 const Welcome: () => ReactElement = () => {
     const { navigate } = useNavigation();
     return (
         <AuthContainer>
             <View style={styles.top}>
-                <Text
-                    style={{
-                        marginTop: 50,
-                        alignSelf: 'center',
-                        color: colors.black,
-                        paddingBottom: 250,
-                    }}>
-                    LOGOplaceholder
+                <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
+
+                <Text style={styles.title}>
+                    Welcome to{'\n'}     BeatIt!
                 </Text>
-                <Text style={styles.title}>Welcome!</Text>
             </View>
 
             <View style={styles.bottom}>
@@ -42,7 +38,7 @@ const Welcome: () => ReactElement = () => {
                     }}
                 />
             </View>
-        </AuthContainer>
+        </AuthContainer >
     );
 };
 
