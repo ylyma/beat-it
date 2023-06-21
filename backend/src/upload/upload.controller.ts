@@ -55,34 +55,52 @@ export class UploadController {
     );
   }
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('audio')
-  @CacheTTL(0)
-  @Get('/:userId/getaudios')
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('audio')
+  // @CacheTTL(0)
+  // @Get('/:userId/getaudios')
+  // getAudio(@Param('userId') userId: string) {
+  //   return this.uploadService.getAudio(userId);
+  // }
+
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('video')
+  // @CacheTTL(0)
+  // @Get('/:userId/getvideos')
+  // getVideo(@Param('userId') userId: string) {
+  //   return this.uploadService.getVideo(userId);
+  // }
+
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('audio')
+  // @CacheTTL(0)
+  // @Get('/:userId/getaudio/:title')
+  // getAudioByTitle(title: string, @Param('userId') userId: string) {
+  //   return this.uploadService.getAudioByTitle(title, userId);
+  // }
+
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('video ')
+  // @CacheTTL(0)
+  // @Get('/:userId/getvideo/:title')
+  // getVideoByTitle(title: string, @Param('userId') userId: string) {
+  //   return this.uploadService.getVideoByTitle(title, userId);
+  // }
+  @Get('getvideo')
+  getVideo(@Param('userId') userId: string) {
+    return this.uploadService.getVideo(userId);
+  }
+  @Get('getaudio')
   getAudio(@Param('userId') userId: string) {
     return this.uploadService.getAudio(userId);
   }
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('video')
-  @CacheTTL(0)
-  @Get('/:userId/getvideos')
-  getVideo(@Param('userId') userId: string) {
-    return this.uploadService.getVideo(userId);
-  }
-
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('audio')
-  @CacheTTL(0)
-  @Get('/:userId/getaudio/:title')
+  @Get('/getaudio/:title')
   getAudioByTitle(title: string, @Param('userId') userId: string) {
     return this.uploadService.getAudioByTitle(title, userId);
   }
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('video ')
-  @CacheTTL(0)
-  @Get('/:userId/getvideo/:title')
+  @Get('/getvideo/:title')
   getVideoByTitle(title: string, @Param('userId') userId: string) {
     return this.uploadService.getVideoByTitle(title, userId);
   }
