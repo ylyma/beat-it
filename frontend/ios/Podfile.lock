@@ -524,6 +524,7 @@ PODS:
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
+  - ZIPFoundation (0.9.11)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
@@ -632,6 +633,7 @@ SPEC REPOS:
     - SocketRocket
     - SwiftAudioEx
     - YogaKit
+    - ZIPFoundation
 
 EXTERNAL SOURCES:
   boost:
@@ -830,6 +832,7 @@ SPEC CHECKSUMS:
   SwiftAudioEx: 83eabba2940924fc1c0d5cb0896049921365229c
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
+  ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
 PODFILE CHECKSUM: 910631df34740120f4bd27d87e2032c4685f84ef
 

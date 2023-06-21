@@ -3,6 +3,7 @@ import {
   Delete,
   FileTypeValidator,
   Get,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -10,12 +11,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('uploads')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  @Post('audio')
+  @Post('/audio/:userId')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadAudio(
     @UploadedFile(
@@ -26,11 +28,16 @@ export class UploadController {
       }),
     )
     file: Express.Multer.File,
+    @Param('userId') userId: string,
   ) {
-    await this.uploadService.uploadAudio(file.originalname, file.buffer);
+    await this.uploadService.uploadAudio(
+      file.originalname,
+      userId,
+      file.buffer,
+    );
   }
 
-  @Post('video')
+  @Post('/video/:userId')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadVideo(
     @UploadedFile(
@@ -39,37 +46,72 @@ export class UploadController {
       }),
     )
     file: Express.Multer.File,
+    @Param('userId') userId: string,
   ) {
-    await this.uploadService.uploadVideo(file.originalname, file.buffer);
+    await this.uploadService.uploadVideo(
+      file.originalname,
+      userId,
+      file.buffer,
+    );
   }
 
-  @Get('/getaudio')
-  getAudio() {
-    return this.uploadService.getAudio();
-  }
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('audio')
+  // @CacheTTL(0)
+  // @Get('/:userId/getaudios')
+  // getAudio(@Param('userId') userId: string) {
+  //   return this.uploadService.getAudio(userId);
+  // }
 
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('video')
+  // @CacheTTL(0)
+  // @Get('/:userId/getvideos')
+  // getVideo(@Param('userId') userId: string) {
+  //   return this.uploadService.getVideo(userId);
+  // }
+
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('audio')
+  // @CacheTTL(0)
+  // @Get('/:userId/getaudio/:title')
+  // getAudioByTitle(title: string, @Param('userId') userId: string) {
+  //   return this.uploadService.getAudioByTitle(title, userId);
+  // }
+
+  // @UseInterceptors(CacheInterceptor)
+  // @CacheKey('video ')
+  // @CacheTTL(0)
+  // @Get('/:userId/getvideo/:title')
+  // getVideoByTitle(title: string, @Param('userId') userId: string) {
+  //   return this.uploadService.getVideoByTitle(title, userId);
+  // }
+  @Get('getvideo')
+  getVideo(@Param('userId') userId: string) {
+    return this.uploadService.getVideo(userId);
+  }
   @Get('getaudio')
-  getVideo() {
-    return this.uploadService.getVideo();
+  getAudio(@Param('userId') userId: string) {
+    return this.uploadService.getAudio(userId);
   }
 
   @Get('/getaudio/:title')
-  getAudioByTitle(title: string) {
-    return this.uploadService.getAudioByTitle(title);
+  getAudioByTitle(title: string, @Param('userId') userId: string) {
+    return this.uploadService.getAudioByTitle(title, userId);
   }
 
   @Get('/getvideo/:title')
-  getVideoByTitle(title: string) {
-    return this.uploadService.getVideoByTitle(title);
+  getVideoByTitle(title: string, @Param('userId') userId: string) {
+    return this.uploadService.getVideoByTitle(title, userId);
   }
 
-  @Delete('deleteaudio/:title')
-  deleteAudio(title: string) {
-    return this.uploadService.deleteAudio(title);
+  @Delete('/:userId/deleteaudio/:title')
+  deleteAudio(title: string, @Param('userId') userId: string) {
+    return this.uploadService.deleteAudio(title, userId);
   }
 
-  @Delete('deletevideo/:title')
-  deleteVideo(title: string) {
-    return this.uploadService.deleteVideo(title);
+  @Delete('/:userId/deletevideo/:title')
+  deleteVideo(title: string, @Param('userId') userId: string) {
+    return this.uploadService.deleteVideo(title, userId);
   }
 }

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, Min, IsInt } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Min,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateBookmarkDto {
   @IsString()
@@ -13,7 +19,7 @@ export class CreateBookmarkDto {
   @IsOptional()
   artist?: string;
 
-  @IsInt()
+  @IsNumber()
   @Min(0)
   @IsNotEmpty()
   timestamp: number;

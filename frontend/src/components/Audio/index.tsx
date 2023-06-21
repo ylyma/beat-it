@@ -60,6 +60,16 @@ const AudioComponent: () => ReactElement = () => {
 
     };
 
+
+
+        setup().then(() => {
+            console.log('setup complete');
+            // console.log("tracks:" + tracks);
+
+        });
+    }, []);
+
+
     return (
         <Container>
             <SearchBar
