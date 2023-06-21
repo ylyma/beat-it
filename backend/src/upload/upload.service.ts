@@ -21,7 +21,7 @@ export class UploadService {
 
   constructor(
     private readonly configService: ConfigService,
-    @Inject(CACHE_MANAGER) private cacheService: Cache,
+    // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async uploadAudio(fileName: string, userId: string, file: Buffer) {
