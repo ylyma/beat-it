@@ -4,7 +4,7 @@ import styles from './styles'
 import TrackPlayer from 'react-native-track-player'
 
 type BookmarkButtonProps = {
-    name: string,
+    description: string,
     timestamp: number,
 }
 
@@ -13,7 +13,7 @@ const BookmarkButton = (props: BookmarkButtonProps) => {
         <TouchableOpacity style={styles.button} onPress={
             () => TrackPlayer.seekTo(props.timestamp).then(() => console.log('seeked to ' + props.timestamp))
         }>
-            <Text style={styles.caption}>{props.name}</Text>
+            <Text style={styles.bookmarkCaption}>{props.description}</Text>
         </TouchableOpacity>
     )
 }

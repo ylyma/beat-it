@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, ImageSourcePropType, Button, PermissionsAndroid } from 'react-native';
 import TrackPlayer, { Capability, State, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { useEffect } from 'react';
@@ -9,65 +9,13 @@ import Container from '../common/Container';
 import HorizView from '../common/HorizView/HorizView';
 import TrackButton from './TrackButton';
 import TrackContainerGen from './TrackContainerGen';
-import * as storageClasses from "react-native-scoped-storage";
-// import * as jsmediatags from 'jsmediatags';
-
-
-
-// TrackPlayer.updateOptions({
-//     capabilities: [Capability.Play, Capability.Pause],
-//     compactCapabilities: [Capability.Play, Capability.Pause],
-// });
-
-//TODO: add bottom bar with play/pause button and track info
-
-// const tracks = [
-//     {
-//         id: '1',
-//         url: require('../../test_data/audio/yeeling_item.mp3'),
-//         title: 'evo yeeling',
-//         artist: 'yeeling',
-//     },
-//     {
-//         id: '2',
-//         url: require('../../test_data/audio/hunted.mp3'),
-//         title: 'Hunted',
-//         artist: 'Sid',
-//     },
-//     {
-//         id: '3',
-//         url: require('../../test_data/audio/floor_luigis.mp3'),
-//         title: 'Floor Luigis',
-//         artist: 'NUS DE',
-//     },
-//     {
-//         id: '4',
-//         url: require('../../test_data/audio/rag.mp3'),
-//         title: 'bizrag',
-//         artist: 'Rag',
-//     },
-//     {
-//         id: '5',
-//         url: require('../../test_data/audio/waves.mp3'),
-//         title: 'Waves',
-//         artist: 'Dean Lewis',
-//     },
-//     {
-//         id: '6',
-//         url: require('../../test_data/audio/standing_luigis.mp3'),
-//         title: 'Standing Luigis',
-//         artist: 'NUS DE',
-//     },
-// ];
-
-
+import * as ScopedStorage from "react-native-scoped-storage";
+import Config from 'react-native-config';
+import { AuthContext } from '../../context/providers/authProvider';
 
 const AudioComponent: () => ReactElement = () => {
     // wrap this in a useEffect to make sure it only runs once and async
-    // const [documentFolder, setDocumentFolder] = useState<storageClasses.FileType>();
     let documentFolder;
-    // const [tracksObjects, setTracksObjects] = useState<any>([]);
-    let tracksObjects;
     const [tracks, setTracks] = useState<any>([]);
 
     useEffect(() => {
@@ -75,58 +23,42 @@ const AudioComponent: () => ReactElement = () => {
             await TrackPlayer.setupPlayer().catch((error) => {
                 console.log(error);
             });
-
-
-            // move this to import button
-            documentFolder = await storageClasses.openDocumentTree(true);
-
-            console.log('document folder');
-            console.log(documentFolder);
-            console.log(documentFolder?.uri);
-
-            tracksObjects = await storageClasses.listFiles(documentFolder!.uri);
-            console.log('tracks objects');
-            console.log(tracksObjects);
-
-            for (let index = 0; index < tracksObjects.length; index++) {
-                try {
-                    const element = tracksObjects[index];
-                    console.log('element');
-                    console.log(element);
-                    console.log("element.uri");
-                    console.log(element.uri);
-
-                    // new jsmediatags.Reader(element.uri)
-                    //     .read({
-                    //         onSuccess: (tag) => {
-                    //             console.log('Success!');
-                    //             console.log(tag);
-                    //         },
-                    //         onError: (error) => {
-                    //             console.log('Error');
-                    //             console.log(error);
-                    //         }
-                    // }
-                    // );
-                    console.log('tracks');
-                    console.log(tracks);
-
-                } catch (error) {
-                    console.log(error);
-                }
-
-            }
         }
-
-
-
         setup().then(() => {
             console.log('setup complete');
-            // console.log("tracks:" + tracks);
 
         });
     }, []);
 
+    const importTracks = async () => {
+        console.log('You can use the storage');
+        documentFolder = await ScopedStorage.openDocumentTree(true);
+        console.log(documentFolder);
+        const tracksObjects = await ScopedStorage.listFiles(documentFolder.uri);
+        console.log(tracksObjects);
+
+        const allTracks: any[] = [];
+        for (let i = 0; i < tracksObjects.length; i++) {
+            if (tracksObjects[i].type === 'file' && tracksObjects[i].mime.split('/')[0] === 'audio') {
+                allTracks.push({
+                    url: tracksObjects[i].uri,
+                    title: tracksObjects[i].name.split('.')[0],
+                    artist: 'unknown',
+                })
+            };
+        };
+
+        // const allTracks = tracksObjects.map((track: any) => {
+        //     return {
+        //         url: track.uri,
+        //         title: track.name.split('.')[0],
+        //         artist: 'unknown',
+        //     };
+        // });
+        console.log(tracksObjects);
+        setTracks(allTracks);
+
+    };
 
     return (
         <Container>
@@ -135,7 +67,12 @@ const AudioComponent: () => ReactElement = () => {
                 iconPosition="left"
                 placeholder="Search"
             />
-            <Text style={styles.subtitle}>Playlists</Text>
+            <View style={styles.titleAndButton}>
+                <Text style={styles.subtitle}>Playlists</Text>
+                <TouchableOpacity onPress={() => { }} >
+                    <Text style={styles.addButton}>New Playlist</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView style={styles.scroll} horizontal>
 
                 <HorizView image_src={require('../../assets/images/playlistplaceholder.png')} caption='playlist1' />
@@ -145,12 +82,19 @@ const AudioComponent: () => ReactElement = () => {
                 <HorizView image_src={require('../../assets/images/playlistplaceholder.png')} caption='playlist3' />
 
             </ScrollView>
-            <Text style={styles.subtitle}>Tracks</Text>
-            {/* <TrackContainerGen tracks={tracks} /> */}
+            <View style={styles.titleAndButton}>
+                <Text style={styles.subtitle}>Tracks</Text>
+                <TouchableOpacity onPress={importTracks} >
+                    <Text style={styles.addButton}>Import Tracks</Text>
+                </TouchableOpacity>
+            </View>
+            <TrackContainerGen tracks={tracks} />
         </Container>
 
     );
 };
 
+
+export default AudioComponent;
 
 export default AudioComponent;

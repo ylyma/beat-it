@@ -26,20 +26,52 @@ export default StyleSheet.create({
     caption: {
         textAlign: 'center',
         paddingBottom: 10,
+        fontSize: 20,
+        fontFamily: 'System',
     },
     subtitle: {
         fontWeight: 'bold',
         color: colors.black,
         fontSize: 20,
-        paddingTop: 20,
         paddingLeft: 10,
     },
     buttonIcon: {
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
+        backgroundColor: colors.lightgrey,
+        borderRadius: 15,
+        margin: 5,
     },
     tracks: {
         paddingRight: 15,
+    },
+    titleAndButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 20,
+    },
+    addButton: {
+        borderRadius: 10,
+        height: 30,
+        width: 120,
+        backgroundColor: colors.secondary,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        color: colors.black,
+        fontWeight: 'bold',
+        alignSelf: 'center',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        alignItems: 'center',
+        // justifyContent: 'center',
+    },
+    songTitle: {
+        textAlign: 'center',
+        fontSize: 20,
+        paddingLeft: 10,
     }
 });

@@ -24,6 +24,11 @@ import {
     signInWithEmailAndPassword,
     signInWithRedirect
 } from 'firebase/auth';
+<<<<<<< HEAD
+=======
+import globalStyles from '../../globalStyles/globalStyles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
@@ -33,7 +38,10 @@ const LoginComponent: () => ReactElement = () => {
     const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
+<<<<<<< HEAD
             console.log('auth: ', auth);
+=======
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
             if (user) {
                 console.log('user: ', user);
                 authContext.dispatch({ type: 'LOGIN', payload: user });
@@ -83,20 +91,20 @@ const LoginComponent: () => ReactElement = () => {
         }
     };
 
+<<<<<<< HEAD
+=======
+    const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+    const toggleSecureEntry = () => {
+        setSecureTextEntry(!secureTextEntry);
+    };
+
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
     const { navigate } = useNavigation();
 
     return (
         <View>
             <AuthContainer>
-                <Text
-                    style={{
-                        marginTop: 50,
-                        alignSelf: 'center',
-                        color: colors.black,
-                        paddingBottom: 40,
-                    }}>
-                    LOGOplaceholder
-                </Text>
+                <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
                 <View>
                     <Text style={styles.title}>Welcome,</Text>
 
@@ -113,9 +121,9 @@ const LoginComponent: () => ReactElement = () => {
                         label="Password"
                         onChangeText={(text: string) => setPassword(text)}
                         value={password}
-                        icon={<Text>SHOW</Text>}
+                        icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
                         iconPosition="right"
-                        secureTextEntry={true}
+                        secureTextEntry={secureTextEntry}
                         placeholder="Password"
                     />
                 </View>

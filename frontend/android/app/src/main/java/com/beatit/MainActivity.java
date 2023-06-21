@@ -1,4 +1,7 @@
 package com.beatit;
+import expo.modules.ReactActivityDelegateWrapper;
+
+import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -26,7 +29,11 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
+<<<<<<< HEAD
         return new DefaultReactActivityDelegate(
+=======
+        return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new DefaultReactActivityDelegate(
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
                 this,
                 getMainComponentName(),
                 // If you opted-in for the New Architecture, we enable the Fabric Renderer.
@@ -34,6 +41,10 @@ public class MainActivity extends ReactActivity {
                 // If you opted-in for the New Architecture, we enable Concurrent React (i.e.
                 // React 18).
                 DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
+<<<<<<< HEAD
         );
+=======
+        ));
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
     }
 }

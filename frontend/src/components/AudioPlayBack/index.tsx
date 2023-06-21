@@ -7,6 +7,7 @@ import { AudioContext } from '../../context/providers/audioProvider';
 import Slider from '@react-native-community/slider';
 import BookmarkContainerGen from './BookmarkContainerGen';
 import { useNavigation } from '@react-navigation/core';
+<<<<<<< HEAD
 
 const bookmarks = [
     { id: '1', name: 'bookmark 1hcjalhcdbqwhjkbdhqwbiqwbiuqwbuiqwbiqwu', timestamp: 10, artist: 'yeeling', title: 'evo yeeling' },
@@ -28,6 +29,13 @@ const bookmarks = [
     { id: '17', name: 'bookmark 17', timestamp: 100, artist: 'NUS DE', title: 'Floor Luigis' },
     { id: '18', name: 'bookmark 18', timestamp: 150, artist: 'NUS DE', title: 'Floor Luigis' },
 ]
+=======
+import Config from 'react-native-config';
+import { AuthContext } from '../../context/providers/authProvider';
+import crypto from 'expo-standard-web-crypto';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
 
 const events = [
     Event.PlaybackState,
@@ -38,19 +46,41 @@ const AudioPlayBackComponent = () => {
     // build a playback page
     const audioContext = useContext(AudioContext);
     const { position, duration } = useProgress();
+<<<<<<< HEAD
     const [bookmarkList, setBookmarkList] = React.useState(bookmarks);
     const navigation = useNavigation();
+=======
+    const [bookmarkList, setBookmarkList] = React.useState([]);
+    const navigation = useNavigation();
+    const authContext = useContext(AuthContext);
+
+    const getBookmarks = async () => {
+        const test = await fetch(Config.API_URL + '/bookmarks/' + authContext.user.uid, {
+            method: 'GET',
+        })
+
+        const testJson = await test.json();
+        console.log("getBookmarks: " + test.status);
+        return testJson;
+    }
+
+    useEffect(() => {
+        getBookmarks().then((bookmarks) => {
+            setBookmarkList(bookmarks);
+        }
+        );
+    }, []);
+>>>>>>> 9ed3ed3789d0e5916f6b39e86fa28f673e578e9c
 
     const addBookmark = () => {
         // to be replaced with a bookmark setting page
         // add a bookmark to the current track
-        const nextId = bookmarks.length + 1;
+        const nextId = bookmarkList.length + 1;
         navigation.navigate('BookmarkCreation',
             {
                 bookmarks: bookmarkList,
                 id: nextId.toString(),
                 timestamp: position,
-                artist: audioContext.currentArtist,
                 title: audioContext.currentTrack
             })
     }
@@ -85,7 +115,7 @@ const AudioPlayBackComponent = () => {
                 <Text style={styles.subtitle}>
                     Bookmarks
                 </Text>
-                <BookmarkContainerGen bookmarks={bookmarks} />
+                <BookmarkContainerGen bookmarks={bookmarkList} />
             </View>
             <View style={styles.bottomBar}>
                 <Slider
