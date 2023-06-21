@@ -17,16 +17,16 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: beatit
-  redis:
-    container_name: cache
-    image: redis
-    ports:
-      - 12711:12711
-    volumes:
-      - redis:/data
+#   redis:
+#     container_name: cache
+#     image: redis
+#     ports:
+#       - 12711:12711
+#     volumes:
+#       - redis:/data
 
-volumes:
-  redis:
-    driver: local
+# volumes:
+#   redis:
+#     driver: local
 
 
