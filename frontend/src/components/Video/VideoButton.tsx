@@ -13,7 +13,7 @@ const VideoButton = (props: VideoButtonProps) => {
     const playVideo = () => {
         props.action(props.video)
     }
-    console.log(props.video)
+
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={

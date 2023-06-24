@@ -15,3 +15,5 @@ export const AUDIOPLAYBACK = 'AudioPlayBack';
 
 export const BOOKMARKCREATION = 'BookmarkCreation';
 export const AUDIOPLAYBACKSTACK = 'AudioPlayBackStack';
+
+export const VIDEOEDIT = 'VideoEdit';

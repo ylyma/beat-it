@@ -16,6 +16,7 @@ import java.util.List;
 import com.rnfs.RNFSPackage;
 import com.lugg.RNCConfig.RNCConfigPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

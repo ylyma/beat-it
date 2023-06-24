@@ -6,12 +6,16 @@ import * as ScopedStorage from "react-native-scoped-storage";
 import globalStyles from '../../globalStyles/globalStyles';
 import VideoPlayer from 'react-native-video-controls';
 import VideoButtonGenerator from './VideoButtonGenerator';
+import { useNavigation } from '@react-navigation/core';
+import { VIDEOEDIT } from '../../constants/routeNames';
+
 
 const VideoComponent = () => {
     const [video, setVideo] = React.useState<any>(null)
     let documentFolder;
     let videoPlayer = React.useRef(null);
     const [allVideos, setAllVideos] = React.useState<any>([])
+    const navigation = useNavigation();
 
     const importVideos = async () => {
         console.log('You can use the storage');
@@ -39,7 +43,7 @@ const VideoComponent = () => {
                 <View style={styles.titleAndButton}>
                     <Text style={styles.subtitle}>Video</Text>
                     <TouchableOpacity onPress={importVideos} >
-                        <Text style={styles.addButton}>Import Tracks</Text>
+                        <Text style={styles.addButton}>Import Videos</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={globalStyles.subtitle}>{video?.name}</Text>
@@ -62,12 +66,17 @@ const VideoComponent = () => {
                     onError={err => console.log(err)}
                 />
             </View>
-            <Text style={globalStyles.subtitle}>{video?.name}</Text>
+            <View style={styles.titleAndButton}>
+                <Text style={globalStyles.subtitle}>{video?.name}</Text>
+                <TouchableOpacity onPress={() => navigation.navigate(VIDEOEDIT, { video: video })}>
+                    <Text style={styles.addButton}>Edit Video</Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.titleAndButton}>
                 <Text style={styles.subtitle}>Video</Text>
                 <TouchableOpacity onPress={importVideos} >
-                    <Text style={styles.addButton}>Import Tracks</Text>
+                    <Text style={styles.addButton}>Import Videos</Text>
                 </TouchableOpacity>
             </View>
             <VideoButtonGenerator video={allVideos} action={setVideo} />
