@@ -1,8 +1,8 @@
 package com.beatit;
 
 import android.content.res.Configuration;
-import expo.modules.ApplicationLifecycleDispatcher;
-import expo.modules.ReactNativeHostWrapper;
+// import expo.modules.ApplicationLifecycleDispatcher;
+// import expo.modules.ReactNativeHostWrapper;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
@@ -20,7 +20,7 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
-    private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new DefaultReactNativeHost(this) {
         @Override
         public boolean getUseDeveloperSupport() {
             return BuildConfig.DEBUG;
@@ -51,7 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected Boolean isHermesEnabled() {
             return BuildConfig.IS_HERMES_ENABLED;
         }
-    });
+    };
 
     @Override
     public ReactNativeHost getReactNativeHost() {
@@ -68,12 +68,12 @@ public class MainApplication extends Application implements ReactApplication {
             DefaultNewArchitectureEntryPoint.load();
         }
         ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-        ApplicationLifecycleDispatcher.onApplicationCreate(this);
+        // ApplicationLifecycleDispatcher.onApplicationCreate(this);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
+        // ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
     }
 }
