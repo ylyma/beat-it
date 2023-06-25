@@ -72,11 +72,15 @@ The login page contains two text input fields for the user to enter their email 
 
 Additionally there is also an option to signup/login with Google, which is a convenient method of creating an account, minimising the friction for using BeatIt.
 
+Login Page of BeatIt which contains two text input fields for the user to enter their email and password, as well as a button to login and a button to sign up for BeatIt.
+
 <img src="./assets/images/login_page.png" alt="Login Page of BeatIt which contains two text input fields for the user to enter their email and password, as well as a button to login and a button to sign up for BeatIt." width="200"/>
 
 #### Register Page
 
 The register page contains 4 fields, for username, email, password and confirm password. The user can enter their details into the fields and click on the register button to create an account. If the user already has an account, they can click on the login button to login to their account.
+
+Register Page of BeatIt which contains 4 text input fields for the user to enter their username, email, password and confirm password, as well as a button to register and a button to login to BeatIt.
 
 <img src="./assets/images/register_page.png" alt="Register Page of BeatIt which contains 4 text input fields for the user to enter their username, email, password and confirm password, as well as a button to register and a button to login to BeatIt." width="200"/>
 
@@ -144,7 +148,13 @@ The Bookmarking feature enhances the user experience by allowing them to select 
 
 #### Implementation
 
-Bookmarks are saved in a database and each bookmark is associated with a specific audio track. The storage system ensures efficient retrieval, management, and synchronisation of bookmarks across devices. These bookmarks are then displayed in a list or grid format, with each bookmark entry including relevant information such as the timestamp and labels. Users can interact with the bookmarks section to navigate to specific moments within the audio track or perform management actions.
+Bookmarks are saved in a database and each bookmark is associated with a specific audio track. The storage system ensures efficient retrieval, management, and synchronisation of bookmarks across devices. These bookmarks are then displayed in a list or grid format, with each bookmark entry including relevant information such as the timestamp and labels. The information will then be sent to the backend to be stored in a database.
+
+Users can interact with the bookmarks section to navigate to specific moments within the audio track or perform management actions. Upon clicking on the bookmark button on the audio playback page, the timestamp stored inside the bookmark is inputted as a parameter to React Native Track Player to seek to. Immediately moving the playback marker to that point.
+
+#### Technical Details
+
+Upon creation of a bookmark, a post request is sent to the Nestjs backend, where it is stored in a Postgresql database on CloudSQL. This allows the bookmarks to be accessible on any device upon login into the same account. We decided to use a Postgresql database so that related objects, such as annotations on the bookmarked sections can be linked together. Bookmarks can be displayed with get requests, edited with patch requests and deleted with delete requests.
 
 ### Audio - Import
 
@@ -163,6 +173,14 @@ When learning choreography, dancers often learn it at a slower speed first, befo
 #### Implementation
 
 User is prompted to make a selection from a slider to choose a BPM. Based on the selection, the time interval between each beat will be calculated and a sound will be played after every interval.
+
+### Video - Playback [PARTIAL IMPLEMENTATION]
+
+The app utilises video playback libraries, such as the React Native Video Player to ensure smooth and efficient video playback. Users can control playback, pause at specific moments, and seek desired timestamps. A custom UI component displays the video and allows seamless navigation through the annotated timeline.
+
+#### Technical details
+
+We will be using AWS S3 to store uploaded videos. We decided to use a noSQL database as the files uploaded will likely take up alot of space. In addition, we decided to implement a cache system to reduce the number of requests sent to the database, to reduce costs and time needed for streaming the video. On the upload of a chosen video, a cache object will be sent to the local cache directory in the file system, and the video will also be sent to the Nestjs backend via a post request. The backend deposits the video in the bucket with the unique name in the format #video*${userid}*${name}.${fileType} as the key. When a video is chosen to be viewed in the frontend, the cache directory will be first checked for the cache object. If it does not exist, a get request will extract the video as a ReadableStream from the backend and save it into the cache directory.
 
 ### Video - Annotations [NOT IMPLEMENTED]
 
