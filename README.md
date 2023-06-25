@@ -34,6 +34,22 @@ These features will allow dancers to spend their time more productively, rather 
 
 7. As a choreographer and a dancer, I want to be able to have a visualisation of the formation changes of the dancers on stage throughout the choreography.
 
+## Proof of Concept
+
+Test account email: ivan@test.sg
+
+Test account password: password
+
+apk file: <a href="https://drive.google.com/file/d/1FjQ-AXrS5Z7biIK0fGWz8jfGVCFYabmB/view?usp=sharing">BeatIt Milestone 2</a>
+
+Video demonstration: <a href="https://drive.google.com/file/d/12h7ISMQxG5oz00L9AhWLLQ8ZN0FYXvMa/view?usp=sharing">Milestone 2 Video</a>
+
+Project Log: <a href="https://docs.google.com/spreadsheets/d/1GDwi6qQS0nuTYDFl_B5mWY0_NZeZzomwl9_lJxQjVLc/edit?usp=sharing">Project Log</a>
+
+Due to cost limitations with cloud services, the backend server to store the media files and bookmarks has been turned off. However at runtime all functionality should still work locally.
+
+Also there is an issue with dark mode, so please remain in light mode when opening the app. If you see white text on a white background, exit the app and force close it in the app switcher, then change to light mode and restart the app.
+
 ## Overview of pages
 
 ### Authentication Pages - Welcome, Login, Register
@@ -207,3 +223,261 @@ The app ensures that the replaced audio maintains its original quality and volum
 ##### Real-Time Audio Preview
 
 The app provides a real-time audio preview functionality, allowing users to preview the replaced audio before finalising the changes. This enables users to make adjustments or corrections as needed.
+
+## Diagrams
+
+### Frontend
+
+#### User Flow Diagram
+
+<img src="./assets/images/user_flow.png" alt="User flow diagram of the interactions through the different pages in BeatIt" width="500"/>
+
+<em>User flow diagram of the interactions through the different pages in BeatIt</em>
+
+#### Frontend to Backend Connections
+
+<img src="./assets/images/frontend_to_backend.png" alt="Frontend to Backend Connections for BeatIt" width="500"/>
+
+<em>Frontend to Backend Connections for BeatIt</em>
+
+### Backend
+
+#### Architecture Diagram
+
+<img src="./assets/images/architecture_diagram.png" alt="Backend for BeatIt" width="500"/>
+
+<em>Simple visualisation of how our system is designed
+(However, in our sample app, Cloud Run and Cloud SQL are temporarily disabled to save costs)</em>
+
+#### Brief overview of pages and their features
+
+<img src="./assets/images/page_overview.png" alt="Pages and features for BeatIt" width="500"/>
+
+<em>Pages and features for BeatIt</em>
+
+## Timeline & Development
+
+<table>
+  <tr>
+    <th>Milestone</th>
+    <th>Tasks</th>
+    <th>Description</th>
+    <th>In-charge</th>
+    <th>Date</th>
+  </tr>
+  <tr>
+    <td rowspan=7>1</td>
+    <td rowspan=2>Login</td>
+    <td>Login, Register UI</td>
+    <td>Amy</td>
+    <td>19 May</td>
+  </tr>
+  <tr>
+
+    <td>User Authentication</td>
+    <td>Ivan</td>
+    <td>20 May</td>
+
+  </tr>
+  <tr>
+    <td rowspan=2>Audio</td>
+    <td>Audio Page</td>
+    <td>Amy</td>
+    <td>25 May</td>
+  </tr>
+  <tr>
+    <td>Audio Player</td>
+    <td>Ivan</td>
+    <td>21 May</td>
+  </tr>
+  <tr>
+    <td rowspan=3>UI design</td>
+    <td>Sketch of UI design</td>
+    <td>Amy</td>
+    <td>15 May</td>
+  </tr>
+  <tr>
+    <td>Custom Components</td>
+    <td>Amy</td>
+    <td>20 May</td>
+  </tr>
+  <tr>
+    <td>Welcome, Home UI</td>
+    <td>Amy</td>
+    <td>25 May</td>
+  </tr>
+  <tr>
+    <td colspan=5>Milestone 1 <br>
+    - Ideation <br>
+    - Proof-of-concept: User authentication <br>
+    - UI for the various pages <br>
+    - Navigation flow</td>
+</table>
+
+<table>
+  <tr>
+    <th>Milestone</th>
+    <th>Tasks</th>
+    <th>Description</th>
+    <th>In-charge</th>
+    <th>Date</th>
+  </tr>
+  <tr>
+    <td rowspan="10">2</td>
+    <td rowspan = 5>UI design</td>
+    <td>Bookmark Creation Page</td>
+    <td>Ivan</td>
+    <td>12 June</td>
+  </tr>
+  <tr>
+    <td>Audio Playback Page</td>
+    <td>Ivan</td>
+    <td>7 June</td>
+  </tr>
+  <tr>
+    <td>MiniPlayer</td>
+    <td>Ivan</td>
+    <td>1 June</td>
+  </tr>
+  <tr>
+    <td>Video Page</td>
+    <td>Ivan</td>
+    <td>19 June</td>
+  </tr>
+  <tr>
+    <td>BeatIt Logo</td>
+    <td>Ivan</td>
+    <td>21 June</td>
+  </tr>
+  <tr>
+  <td rowspan=2>Media</td>
+    <td>Import Audio</td>
+    <td>Ivan</td>
+    <td>7 June</td>
+  </tr>
+  <tr>
+    <td>Import Video</td>
+    <td>Ivan</td>
+    <td>19 June</td>
+  </tr>
+  <tr>
+    <td rowspan=3>Backend</td>
+    <td>Set up Nestjs</td>
+    <td>Amy</td>
+    <td>11 June</td>
+  </tr>
+  <tr>
+    <td>Cloud Run Deployment</td>
+    <td>Amy</td>
+    <td>18 June</td>
+  </tr>
+  <tr>
+    <td>AWS S3 Database</td>
+    <td>Amy</td>
+    <td>18 June</td>
+  </tr>
+  <tr>
+    <td colspan="5">Milestone 2: <br>
+    - Completion of basic functions for a working prototype:<br>
+    - All essential pages<br>
+    - Basic video and audio playback functions<br>
+    - Sorting and filtering of list items<br>
+    - Bookmarks<br>
+    - Imports from device’s native file system</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Milestone</th>
+    <th>Tasks</th>
+    <th>Description</th>
+    <th>In-charge</th>
+    <th>Date</th>
+  </tr>
+  <tr>
+    <td rowspan="7">3</td>
+    <td rowspan=2>UI</td>
+    <td>Settings Page</td>
+    <td>Amy</td>
+    <td rowspan=3>27 June - 7 July</td>
+  </tr>
+  <tr>
+    <td>Settings Subpages and logic</td>
+    <td>Ivan</td>
+  </tr>
+  <tr>
+    <td rowspan=3>Audio</td>
+    <td>BPM selection implementation</td>
+    <td>Amy</td>
+  </tr>
+  <tr>
+    <td>Playlist creation logic</td>
+    <td>Amy</td>
+    <td rowspan=2>8 July - 16 July</td>
+  </tr>
+  <tr>
+    <td>Audio Noise Reduction</td>
+    <td>Ivan</td>
+  </tr>
+  <tr>
+    <td rowspan=2>Video</td>
+    <td>Implement Annotation</td>
+    <td>Amy</td>
+    <td rowspan=2>17 July - 24 July</td>
+  </tr>
+  <tr>
+    <td>Annotation Editor UI</td>
+    <td>Amy</td>
+
+  </tr>
+  <tr>
+    <td colspan="5">Milestone 3: <br>
+    - Finish up all screens<br>
+    - Implement all main video and audio processing functions (Audio Overlay)</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Milestone</th>
+    <th>Tasks</th>
+    <th>Description</th>
+    <th>In-charge</th>
+    <th>Date</th>
+  </tr>
+  <tr>
+    <td rowspan="5">4</td>
+    <td rowspan=3>Refinements</td>
+    <td>Saving locally and sharing functions</td>
+    <td>Amy, Ivan</td>
+    <td rowspan=3>25 July - 7 Aug</td>
+  </tr>
+  <tr>
+    <td>More ways to filter and sort</td>
+    <td>Amy, Ivan</td>
+  </tr>
+  <tr>
+    <td>Improve accuracy of audio processing</td>
+    <td>Amy, Ivan</td>
+  </tr>
+  <tr>
+    <td rowspan=2>Testing</td>
+    <td>User Testing</td>
+    <td>Amy, Ivan</td>
+    <td rowspan=2>8 Aug - 23 Aug</td>
+  </tr>
+  <tr>
+    <td>UI improvements</td>
+    <td>Amy, Ivan</td>
+  </tr>
+  <tr>
+    <td colspan="5">Milestone 4: Refinements<br>
+    - Saving locally and sharing functions<br>
+    - More ways to filter and sort<br>
+    - Improve accuracy of audio processing<br>
+    - Testing: User Testing<br>
+    - UI improvements<br>
+    - Splashdown: refinements and testing</td>
+  </tr>
+</table>
