@@ -291,11 +291,9 @@ The app provides a real-time audio preview functionality, allowing users to prev
     <td>19 May</td>
   </tr>
   <tr>
-
     <td>User Authentication</td>
     <td>Ivan</td>
     <td>20 May</td>
-
   </tr>
   <tr>
     <td rowspan=2>Audio</td>
