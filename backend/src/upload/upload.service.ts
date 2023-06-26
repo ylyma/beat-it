@@ -6,8 +6,10 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, StreamableFile } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createReadStream } from 'fs';
+import * as AWS from 'aws-sdk';
 
 @Injectable()
 export class UploadService {
@@ -18,10 +20,8 @@ export class UploadService {
       secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
     },
   });
-
   constructor(
-    private readonly configService: ConfigService,
-    // @Inject(CACHE_MANAGER) private cacheService: Cache,
+    private readonly configService: ConfigService, // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async uploadAudio(fileName: string, userId: string, file: Buffer) {

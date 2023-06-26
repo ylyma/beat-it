@@ -11,12 +11,12 @@ import * as redisStore from 'cache-manager-redis-store';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    CacheModule.register({
-      isGlobal: true,
-      store: redisStore,
-      host: process.env.HOST,
-      port: process.env.PORT,
-    }),
+    // CacheModule.register({
+    //   isGlobal: true,
+    //   store: redisStore,
+    //   host: process.env.HOST,
+    //   port: process.env.PORT,
+    // }),
     PrismaModule,
     BookmarkModule,
     UploadModule,
