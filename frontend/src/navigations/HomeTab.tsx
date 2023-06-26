@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AUDIO, AUDIOPLAYBACK, AUDIOPLAYBACKSTACK, HOME, SETTINGS, VIDEO } from '../constants/routeNames';
+import { AUDIO, AUDIOPLAYBACK, AUDIOPLAYBACKSTACK, HOME, SETTINGS, VIDEO, VIDEOEDIT } from '../constants/routeNames';
 import Home from '../screens/Home';
 import Audio from '../screens/Audio';
 import Video from '../screens/Video';
@@ -9,6 +9,7 @@ import Settings from '../screens/Settings';
 import AudioPlaybackStack from './AudioPlaybackStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../assets/themes/colors';
+import VideoEdit from '../screens/VideoEdit';
 
 const HomeTab: () => ReactElement = () => {
     const Tab = createMaterialBottomTabNavigator();
@@ -45,6 +46,7 @@ const HomeTab: () => ReactElement = () => {
                 </Tab.Navigator>}
             </Stack.Screen>
             <Stack.Screen name={AUDIOPLAYBACKSTACK} component={AudioPlaybackStack} options={{ headerShown: false }} />
+            <Stack.Screen name={VIDEOEDIT} component={VideoEdit} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );
