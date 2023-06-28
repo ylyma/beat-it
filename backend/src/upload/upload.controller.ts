@@ -6,6 +6,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,13 +21,7 @@ export class UploadController {
   @Post('/audio/:userId')
   @UseInterceptors(FileInterceptor('file'))
   async uploadAudio(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          // new FileTypeValidator({ fileType: /\.(mp3|mp4|m4a|flac|wav|aac)$/ }),
-        ],
-      }),
-    )
+    @UploadedFile()
     file: Express.Multer.File,
     @Param('userId') userId: string,
   ) {
@@ -40,11 +35,7 @@ export class UploadController {
   @Post('/video/:userId')
   @UseInterceptors(FileInterceptor('file'))
   async uploadVideo(
-    @UploadedFile(
-      new ParseFilePipe({
-        // validators: [new FileTypeValidator({ fileType: /\.(mp4|mov|mpeg)$/ })],
-      }),
-    )
+    @UploadedFile()
     file: Express.Multer.File,
     @Param('userId') userId: string,
   ) {
@@ -54,38 +45,7 @@ export class UploadController {
       file.buffer,
     );
   }
-
-  // @UseInterceptors(CacheInterceptor)
-  // @CacheKey('audio')
-  // @CacheTTL(0)
-  // @Get('/:userId/getaudios')
-  // getAudio(@Param('userId') userId: string) {
-  //   return this.uploadService.getAudio(userId);
-  // }
-
-  // @UseInterceptors(CacheInterceptor)
-  // @CacheKey('video')
-  // @CacheTTL(0)
-  // @Get('/:userId/getvideos')
-  // getVideo(@Param('userId') userId: string) {
-  //   return this.uploadService.getVideo(userId);
-  // }
-
-  // @UseInterceptors(CacheInterceptor)
-  // @CacheKey('audio')
-  // @CacheTTL(0)
-  // @Get('/:userId/getaudio/:title')
-  // getAudioByTitle(title: string, @Param('userId') userId: string) {
-  //   return this.uploadService.getAudioByTitle(title, userId);
-  // }
-
-  // @UseInterceptors(CacheInterceptor)
-  // @CacheKey('video ')
-  // @CacheTTL(0)
-  // @Get('/:userId/getvideo/:title')
-  // getVideoByTitle(title: string, @Param('userId') userId: string) {
-  //   return this.uploadService.getVideoByTitle(title, userId);
-  // }
+  //TODO: get all titles and filetypes in userid
   @Get('/:userId/getvideo')
   getVideo(@Param('userId') userId: string) {
     return this.uploadService.getVideo(userId);

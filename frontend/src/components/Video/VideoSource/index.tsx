@@ -1,24 +1,23 @@
 import React, {ReactElement, useEffect, useState} from 'react';
-import {View, Image} from 'react-native';
+import {View} from 'react-native';
 import shorthash from 'shorthash';
 import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import Config from 'react-native-config';
-import TrackButton from '../TrackButton';
+import Video from 'react-native-video';
 
 type Props = {userId: string; title: string; fileType: string};
 
-const AudioSource: (props: Props) => ReactElement = ({
+const VideoSource: (props: Props) => ReactElement = ({
   userId,
   title,
   fileType,
 }: Props) => {
-
   const name = shorthash.unique(title);
   const extension = 'file:/';
   //cache directory path: /data/user/0/com.beatit/cache
   const folderPath = extension + RNFS.CachesDirectoryPath;
   const filePath = folderPath + '/' + name + '.' + fileType;
-  const trackPath = RNFS.CachesDirectoryPath + '/' + name + '.' + fileType;
+  const videoPath = RNFS.CachesDirectoryPath + '/' + name + '.' + fileType;
   console.log(filePath);
 
   const makeDir = () => {
@@ -44,7 +43,7 @@ const AudioSource: (props: Props) => ReactElement = ({
   const getFile = async () => {
     try {
       const response = await fetch(
-        `${Config.API_URL}/uploads/${userId}/getaudio/${title}.${fileType}`,
+        `${Config.API_URL}/uploads/${userId}/getvideo/${title}.${fileType}`,
         {
           method: 'GET',
         },
@@ -64,7 +63,8 @@ const AudioSource: (props: Props) => ReactElement = ({
       console.log(error);
     }
   };
-  const downloadAudio = async (): Promise<any> => {
+
+  const downloadVideo = async (): Promise<any> => {
     try {
       const options: DownloadFileOptions = {
         fromUrl: url,
@@ -111,20 +111,22 @@ const AudioSource: (props: Props) => ReactElement = ({
         //loadFile();
       } else {
         getFile();
-        downloadAudio();
+        downloadVideo();
         listFiles();
       }
     });
   });
   return (
-    <View>
-      <TrackButton
-        trackName={`${title}.${fileType}`}
-        trackSource={trackPath}
-        artist={''}
+    <View style={{height: 100, width: 100}}>
+      <Video
+        source={{
+          uri: videoPath,
+        }}
+        controls={true}
+        style={{height: 100, width: 100}}
       />
     </View>
   );
 };
 
-export default AudioSource;
+export default VideoSource;
