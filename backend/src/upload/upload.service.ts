@@ -5,9 +5,12 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, StreamableFile } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createReadStream, createWriteStream } from 'fs';
+import { Readable } from 'stream';
 
 @Injectable()
 export class UploadService {
@@ -18,10 +21,8 @@ export class UploadService {
       secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
     },
   });
-
   constructor(
-    private readonly configService: ConfigService,
-    // @Inject(CACHE_MANAGER) private cacheService: Cache,
+    private readonly configService: ConfigService, // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async uploadAudio(fileName: string, userId: string, file: Buffer) {
@@ -43,71 +44,7 @@ export class UploadService {
       }),
     );
   }
-
-  // async getAudio(userId) {
-  //   const cachedData = await this.cacheService.get(userId);
-  //   if (cachedData) {
-  //     console.log('data exists in cache');
-  //     return '${cachedData.name}';
-  //   }
-
-  //   const audio = new ListObjectsCommand({
-  //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
-  //     Prefix: '#audio_' + userId + '_',
-  //   });
-  //   await this.s3Client.send(audio);
-  //   await this.cacheService.set(userId, audio);
-  //   return await '${audio.name}';
-  // }
-
-  // async getVideo(userId) {
-  //   const cachedData = await this.cacheService.get(userId);
-  //   if (cachedData) {
-  //     console.log('data exists in cache');
-  //     return '${cachedData.name}';
-  //   }
-
-  //   const audio = new ListObjectsCommand({
-  //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
-  //     Prefix: '#video_' + userId + '_',
-  //   });
-  //   await this.s3Client.send(audio);
-  //   await this.cacheService.set(userId, audio);
-  //   return await '${video.name}';
-  // }
-
-  // async getAudioByTitle(title: string, userId: string) {
-  //   const cachedData = await this.cacheService.get(userId);
-  //   if (cachedData) {
-  //     console.log('data exists in cache');
-  //     return '${cachedData.name}';
-  //   }
-
-  //   const audio = new GetObjectCommand({
-  //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
-  //     Key: '#audio_' + userId + '_' + title,
-  //   });
-  //   await this.s3Client.send(audio);
-  //   await this.cacheService.set(userId, audio);
-  //   return await '${audio.name}';
-  // }
-
-  // async getVideoByTitle(title: string, userId: string) {
-  //   const cachedData = await this.cacheService.get(userId);
-  //   if (cachedData) {
-  //     console.log('data exists in cache');
-  //     return '${cachedData.name}';
-  //   }
-
-  //   const audio = new GetObjectCommand({
-  //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
-  //     Key: '#video_' + userId + '_' + title,
-  //   });
-  //   await this.s3Client.send(audio);
-  //   await this.cacheService.set(userId, audio);
-  //   return await '${video.name}';
-  // }
-
+  //TODO: get all titles and filetypes in userid
   async getAudio(userId: string) {
     await this.s3Client.send(
       new ListObjectsCommand({
@@ -126,23 +63,91 @@ export class UploadService {
     );
   }
 
-  async getAudioByTitle(title: string, userId: string) {
-    await this.s3Client.send(
-      new GetObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#audio_' + userId + '_' + title,
-      }),
-    );
+  async getVideoByTitle(title: string, userId: string) {
+    const command = new GetObjectCommand({
+      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Key: '#video_' + userId + '_' + title,
+    });
+    const url = await getSignedUrl(this.s3Client, command);
+    console.log(url);
+    return url;
   }
 
-  async getVideoByTitle(title: string, userId: string) {
-    await this.s3Client.send(
-      new GetObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#video_' + userId + '_' + title,
-      }),
-    );
+  async getAudioByTitle(title: string, userId: string) {
+    const command = new GetObjectCommand({
+      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Key: '#audio_' + userId + '_' + title,
+    });
+    const url = await getSignedUrl(this.s3Client, command);
+    console.log(url);
+    return url;
   }
+
+  // async getAudioByTitle(title: string, userId: string) {
+  //   // const response = await await this.s3Client.send(
+  //   //   new GetObjectCommand({
+  //   //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //   //     Key: '#audio_' + userId + '_' + title,
+  //   //   }),
+  //   // );
+  //   // const stream = response.Body as Readable;
+  //   // return new Promise<Buffer>((resolve, reject) => {
+  //   //   const chunks: Buffer[] = [];
+  //   //   stream.on('data', (chunk) => chunks.push(chunk));
+  //   //   stream.once('end', () => resolve(Buffer.concat(chunks)));
+  //   //   stream.once('error', reject);
+  //   // });
+  //   await new Promise(async (resolve, reject) => {
+  //     const getObjectCommand = new GetObjectCommand({
+  //       Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //       Key: '#audio_' + userId + '_' + title,
+  //     });
+  //     try {
+  //       const response = await this.s3Client.send(getObjectCommand);
+  //       const stream = response.Body as Readable;
+  //       // Store all of data chunks returned from the response data stream
+  //       // into an array then use Array#join() to use the returned contents as a String
+  //       const responseDataChunks = [];
+
+  //       // Handle an error while streaming the response body
+  //       stream.once('error', (err) => reject(err));
+
+  //       // Attach a 'data' listener to add the chunks of data to our array
+  //       // Each chunk is a Buffer instance
+  //       stream.on('data', (chunk) => responseDataChunks.push(chunk));
+
+  //       // Once the stream has no more data, join the chunks into a string and return the string
+  //       stream.once('end', () => resolve(responseDataChunks.join('')));
+  //     } catch (err) {
+  //       // Handle the error or throw
+  //       return reject(err);
+  //     }
+  //   });
+  // }
+
+  // async getVideoByTitle(title: string, userId: string, res: Response) {
+  //   await new Promise(async (resolve, reject) => {
+  //     const getObjectCommand = new GetObjectCommand({
+  //       Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //       Key: '#video_' + userId + '_' + title,
+  //     });
+  //     try {
+  //       const response = await this.s3Client.send(getObjectCommand);
+  //       const stream = response.Body as Readable;
+  //       stream.pipe(res);
+  //       // console.log('s' + stream);
+  //       // const responseDataChunks = [];
+  //       // stream.once('error', (err) => reject(err));
+  //       // stream.on('data', (chunk) => responseDataChunks.push(chunk));
+  //       // stream.once('end', () => resolve(responseDataChunks.join('')));
+  //       // console.log(responseDataChunks);
+  //     } catch (err) {
+  //       // Handle the error or throw
+  //       return reject(err);
+  //     }
+  //   });
+  // }
+
   async deleteAudio(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({

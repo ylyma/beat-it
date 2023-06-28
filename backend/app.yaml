@@ -1,0 +1,7 @@
+runtime: nodejs18
+
+env_variables: 
+  CLOUD_SQL_USERNAME: service
+  CLOUD_SQL_PASSWORD: 123
+  CLOUD_SQL_DATABASE_NAME: beatit
+  CLOUD_SQL_CONNECTION_NAME: hardy-antonym-254123:asia-southeast1:beat-it
