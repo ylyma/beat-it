@@ -15,9 +15,10 @@ const VideoSource: (props: Props) => ReactElement = ({
   const name = shorthash.unique(title);
   const extension = 'file:/';
   //cache directory path: /data/user/0/com.beatit/cache
-  const folderPath = extension + RNFS.CachesDirectoryPath;
-  const filePath = folderPath + '/' + name + '.' + fileType;
-  const videoPath = RNFS.CachesDirectoryPath + '/' + name + '.' + fileType;
+  const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
+  const filePath = folderPath + name + '.' + fileType;
+  const videoPath =
+    RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
   console.log(filePath);
 
   const makeDir = () => {
@@ -55,9 +56,9 @@ const VideoSource: (props: Props) => ReactElement = ({
     }
   };
 
-  const deleteFile = async () => {
+  const deleteFile = async (f: string) => {
     try {
-      await RNFS.unlink(filePath);
+      await RNFS.unlink(f);
       console.log('file deleted');
     } catch (error) {
       console.log(error);
@@ -71,14 +72,16 @@ const VideoSource: (props: Props) => ReactElement = ({
         toFile: filePath,
       };
       const response = await downloadFile(options);
-      return response.promise.then(async res => {
-        if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-          console.log('ok!');
-        } else {
-          console.log('booo');
-          console.log(res.statusCode);
-        }
-      });
+      return response.promise
+        .then(async res => {
+          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+            console.log('ok!');
+          } else {
+            console.log('booo');
+            console.log(res.statusCode);
+          }
+        })
+        .catch(error => console.log(error));
     } catch (error) {
       console.log(error);
     }
@@ -95,6 +98,36 @@ const VideoSource: (props: Props) => ReactElement = ({
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const sortFiles = async () => {
+    try {
+      const reader = await RNFS.readDir(folderPath);
+      return reader
+        .map(fileName => ({
+          name: fileName,
+          time: fileName.mtime === undefined ? new Date(0) : fileName.mtime,
+        }))
+        .sort((a, b) => a.time.getTime() - b.time.getTime())
+        .map(file => file.name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const lruCacheEviction = async () => {
+    const reader = await sortFiles();
+    if (reader !== undefined) {
+      for (let i = 0; i < reader.length; i++) {
+        const item = reader[i];
+
+        console.log('files:' + i + '_' + item.name);
+      }
+      if (reader.length > 10) {
+        const oldestFilePath = folderPath + reader[0];
+        deleteFile(oldestFilePath);
+      }
     }
   };
 
@@ -115,6 +148,7 @@ const VideoSource: (props: Props) => ReactElement = ({
         listFiles();
       }
     });
+    lruCacheEviction();
   });
   return (
     <View style={{height: 100, width: 100}}>

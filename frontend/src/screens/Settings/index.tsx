@@ -1,9 +1,9 @@
 import React, {ReactElement} from 'react';
 import {Text} from 'react-native';
 import Container from '../../components/common/Container';
-import AudioSource from '../../components/Audio/AudioSource';
 import RNFS from 'react-native-fs';
 import VideoSource from '../../components/Video/VideoSource';
+import AudioSource from '../../components/Audio/AudioSource';
 
 const Settings: () => ReactElement = () => {
   return (
