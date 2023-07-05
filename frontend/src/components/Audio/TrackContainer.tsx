@@ -4,12 +4,15 @@ import TrackButton from './TrackButton';
 import Config from 'react-native-config';
 import RNFS from 'react-native-fs';
 
-type Props = {userId: string};
+type Props = {userId: string; refresh: boolean};
 
-const TrackContainer: (props: Props) => ReactElement = ({userId}: Props) => {
+const TrackContainer: (props: Props) => ReactElement = ({
+  userId,
+  refresh,
+}: Props) => {
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
-  const [tracks, setTracks] = useState<any>([]);
+  const [tracks, setTracks] = useState<string[]>(['']);
   const deleteFile = async (f: string) => {
     try {
       await RNFS.unlink(f);
@@ -69,17 +72,22 @@ const TrackContainer: (props: Props) => ReactElement = ({userId}: Props) => {
         });
     };
     getAllAudio();
-  }, [userId]);
+  }, [refresh, userId]);
 
+  console.log(tracks.length);
   console.log('title' + tracks[0]);
   lruCacheEviction().then(() => console.log('cache eviction'));
   return (
     <View>
-      {tracks.map(track => (
-        <View key={track}>
-          <TrackButton trackName={track} artist={''} userId={userId} />
-        </View>
-      ))}
+      {tracks[0] !== '' ? (
+        tracks.map(track => (
+          <View key={track}>
+            <TrackButton trackName={track} artist={''} userId={userId} />
+          </View>
+        ))
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

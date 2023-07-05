@@ -22,9 +22,9 @@ const AudioComponent: () => ReactElement = () => {
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
   console.log(userId);
-  //const [upload, setUpload] = useState<number>(0);
+  const [upload, setUpload] = useState<boolean>(true);
   const {navigate} = useNavigation();
-  const [titles, setTitles] = useState();
+  // const [titles, setTitles] = useState();
 
   useEffect(() => {
     async function setup() {
@@ -44,14 +44,14 @@ const AudioComponent: () => ReactElement = () => {
         type: 'audio/mpeg',
         allowMultiSelection: true,
       });
-      let tee = [];
+      //let tee = [];
       for (let i = 0; i < response.length; i++) {
         console.log(response[i]);
         postAudio(response[i]);
-        tee.push(response[i].name);
+        //tee.push(response[i].name);
       }
-      setTitles(tee);
-      console.log('tee' + tee);
+      //setTitles(tee);
+      window.location.reload;
     } catch (err) {
       console.warn(err);
     }
@@ -136,18 +136,32 @@ const AudioComponent: () => ReactElement = () => {
       <View style={styles.titleAndButton}>
         <Text style={styles.subtitle}>Tracks</Text>
         <TouchableOpacity
+          style={styles.refresh}
+          onPress={() => {
+            setUpload(!upload);
+            console.log('u' + upload);
+            console.log('hey');
+          }}>
+          <View>
+            <Ionicons name={'refresh'} size={20} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {
             handleDocumentSelection();
           }}>
           <Text style={styles.addButton}>Import Tracks</Text>
         </TouchableOpacity>
       </View>
-      <TrackContainer userId={userId} />
-      {titles.map(track => (
+      <View style={styles.trackContainer}>
+        <TrackContainer userId={userId} refresh={upload} />
+      </View>
+
+      {/* {titles.map(track => (
         <View key={track}>
           <TrackButton trackName={track} artist={''} userId={userId} />
         </View>
-      ))}
+      ))} */}
     </Container>
   );
 };
