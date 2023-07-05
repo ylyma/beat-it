@@ -1,5 +1,9 @@
 import React, {ReactElement, useEffect, useState} from 'react';
+<<<<<<< HEAD
+import {View} from 'react-native';
+=======
 import {View, Image} from 'react-native';
+>>>>>>> main
 import shorthash from 'shorthash';
 import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import Config from 'react-native-config';
@@ -12,6 +16,15 @@ const AudioSource: (props: Props) => ReactElement = ({
   title,
   fileType,
 }: Props) => {
+<<<<<<< HEAD
+  const name = shorthash.unique(title);
+  const extension = 'file:/';
+  //cache directory path: /data/user/0/com.beatit/cache
+  const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
+  const filePath = folderPath + name + '.' + fileType;
+  const trackPath =
+    RNFS.CachesDirectoryPath + '/audio/' + name + '.' + fileType;
+=======
 
   const name = shorthash.unique(title);
   const extension = 'file:/';
@@ -19,6 +32,7 @@ const AudioSource: (props: Props) => ReactElement = ({
   const folderPath = extension + RNFS.CachesDirectoryPath;
   const filePath = folderPath + '/' + name + '.' + fileType;
   const trackPath = RNFS.CachesDirectoryPath + '/' + name + '.' + fileType;
+>>>>>>> main
   console.log(filePath);
 
   const makeDir = () => {
@@ -56,9 +70,15 @@ const AudioSource: (props: Props) => ReactElement = ({
     }
   };
 
+<<<<<<< HEAD
+  const deleteFile = async (f: string) => {
+    try {
+      await RNFS.unlink(f);
+=======
   const deleteFile = async () => {
     try {
       await RNFS.unlink(filePath);
+>>>>>>> main
       console.log('file deleted');
     } catch (error) {
       console.log(error);
@@ -71,6 +91,18 @@ const AudioSource: (props: Props) => ReactElement = ({
         toFile: filePath,
       };
       const response = await downloadFile(options);
+<<<<<<< HEAD
+      return response.promise
+        .then(async res => {
+          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+            console.log('ok!');
+          } else {
+            console.log('booo');
+            console.log(res.statusCode);
+          }
+        })
+        .catch(error => console.log(error));
+=======
       return response.promise.then(async res => {
         if (res && res.statusCode === 200 && res.bytesWritten > 0) {
           console.log('ok!');
@@ -79,6 +111,7 @@ const AudioSource: (props: Props) => ReactElement = ({
           console.log(res.statusCode);
         }
       });
+>>>>>>> main
     } catch (error) {
       console.log(error);
     }
@@ -98,6 +131,39 @@ const AudioSource: (props: Props) => ReactElement = ({
     }
   };
 
+<<<<<<< HEAD
+  const sortFiles = async () => {
+    try {
+      const reader = await RNFS.readDir(folderPath);
+      return reader
+        .map(fileName => ({
+          name: fileName,
+          time: fileName.mtime === undefined ? new Date(0) : fileName.mtime,
+        }))
+        .sort((a, b) => a.time.getTime() - b.time.getTime())
+        .map(file => file.name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const lruCacheEviction = async () => {
+    const reader = await sortFiles();
+    if (reader !== undefined) {
+      for (let i = 0; i < reader.length; i++) {
+        const item = reader[i];
+
+        console.log('files:' + i + '_' + item.name);
+      }
+      if (reader.length > 10) {
+        const oldestFilePath = folderPath + reader[0];
+        deleteFile(oldestFilePath);
+      }
+    }
+  };
+
+=======
+>>>>>>> main
   useEffect(() => {
     RNFS.exists(folderPath).then(exists => {
       if (!exists) {
@@ -115,6 +181,10 @@ const AudioSource: (props: Props) => ReactElement = ({
         listFiles();
       }
     });
+<<<<<<< HEAD
+    lruCacheEviction();
+=======
+>>>>>>> main
   });
   return (
     <View>

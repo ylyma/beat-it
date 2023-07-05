@@ -25,6 +25,7 @@ export class UploadController {
     file: Express.Multer.File,
     @Param('userId') userId: string,
   ) {
+    console.log('audio posted');
     await this.uploadService.uploadAudio(
       file.originalname,
       userId,
@@ -47,12 +48,12 @@ export class UploadController {
   }
   //TODO: get all titles and filetypes in userid
   @Get('/:userId/getvideo')
-  getVideo(@Param('userId') userId: string) {
-    return this.uploadService.getVideo(userId);
+  getVideoTitles(@Param('userId') userId: string) {
+    return this.uploadService.getVideoTitles(userId);
   }
   @Get('/:userId/getaudio')
-  getAudio(@Param('userId') userId: string) {
-    return this.uploadService.getAudio(userId);
+  getAudioTitles(@Param('userId') userId: string) {
+    return this.uploadService.getAudioTitles(userId);
   }
 
   @Get('/:userId/getaudio/:title')
