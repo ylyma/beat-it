@@ -5,15 +5,15 @@ import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import Config from 'react-native-config';
 import Video from 'react-native-video';
 
-type Props = {userId: string; title: string; fileType: string};
+type Props = {userId: string; title: string};
 
 const VideoSource: (props: Props) => ReactElement = ({
   userId,
   title,
-  fileType,
 }: Props) => {
-  const name = shorthash.unique(title);
+  const name = shorthash.unique(title.split('.')[0]);
   const extension = 'file:/';
+  const fileType = title.split('.')[1];
   //cache directory path: /data/user/0/com.beatit/cache
   const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
   const filePath = folderPath + name + '.' + fileType;
@@ -44,7 +44,7 @@ const VideoSource: (props: Props) => ReactElement = ({
   const getFile = async () => {
     try {
       const response = await fetch(
-        `${Config.API_URL}/uploads/${userId}/getvideo/${title}.${fileType}`,
+        `${Config.API_URL}/uploads/${userId}/getvideo/${title}`,
         {
           method: 'GET',
         },

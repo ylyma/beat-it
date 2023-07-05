@@ -4,13 +4,13 @@ import Container from '../../components/common/Container';
 import RNFS from 'react-native-fs';
 import VideoSource from '../../components/Video/VideoSource';
 import AudioSource from '../../components/Audio/AudioSource';
+import TrackContainer from '../../components/Audio/TrackContainer';
 
 const Settings: () => ReactElement = () => {
   return (
     <Container>
-      <AudioSource userId={'7'} title={'test'} fileType={'mp3'} />
-      <VideoSource userId={'8'} title={'videotest'} fileType={'mov'} />
-      <Text> {RNFS.CachesDirectoryPath}</Text>
+      <VideoSource userId={'8'} title={'videotest.mov'} />
+      <TrackContainer userId={'7'} />
     </Container>
   );
 };

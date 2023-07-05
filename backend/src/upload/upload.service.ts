@@ -2,15 +2,14 @@ import {
   DeleteObjectCommand,
   GetObjectCommand,
   ListObjectsCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable, StreamableFile } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createReadStream, createWriteStream } from 'fs';
-import { Readable } from 'stream';
 
 @Injectable()
 export class UploadService {
@@ -45,22 +44,65 @@ export class UploadService {
     );
   }
   //TODO: get all titles and filetypes in userid
-  async getAudio(userId: string) {
-    await this.s3Client.send(
-      new ListObjectsCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Prefix: '#audio_' + userId + '_',
-      }),
-    );
+  async getAudioTitles(userId: string) {
+    // await this.s3Client.send(
+    //   new ListObjectsCommand({
+    //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+    //     Prefix: '#audio_' + userId + '_',
+    //   }),
+    // );
+    const command = new ListObjectsV2Command({
+      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Prefix: '#audio_' + userId + '_',
+    });
+    try {
+      let isTruncated = true;
+      console.log('Your bucket contains the following objects:\n');
+      let contents = '';
+
+      while (isTruncated) {
+        const { Contents, IsTruncated, NextContinuationToken } =
+          await this.s3Client.send(command);
+        const contentsList = Contents.map((c) => `${c.Key}`).join('/');
+        contents += contentsList;
+        isTruncated = IsTruncated;
+        command.input.ContinuationToken = NextContinuationToken;
+      }
+      console.log(contents);
+      return contents;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async getVideo(userId: string) {
-    await this.s3Client.send(
-      new ListObjectsCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Prefix: '#video_' + userId + '_',
-      }),
-    );
+  async getVideoTitles(userId: string) {
+    // await this.s3Client.send(
+    //   new ListObjectsCommand({
+    //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+    //     Prefix: '#video_' + userId + '_',
+    //   }),
+    // );
+    const command = new ListObjectsV2Command({
+      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Prefix: '#audio_' + userId + '_',
+    });
+    try {
+      let isTruncated = true;
+      console.log('Your bucket contains the following objects:\n');
+      let contents = '';
+
+      while (isTruncated) {
+        const { Contents, IsTruncated, NextContinuationToken } =
+          await this.s3Client.send(command);
+        const contentsList = Contents.map((c) => ` • ${c.Key}`).join('\n');
+        contents += contentsList + '\n';
+        isTruncated = IsTruncated;
+        command.input.ContinuationToken = NextContinuationToken;
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getVideoByTitle(title: string, userId: string) {
