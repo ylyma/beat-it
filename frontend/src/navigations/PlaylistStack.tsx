@@ -9,7 +9,9 @@ const PlaylistStack: () => ReactElement = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName={'Audio'}
+      screenOptions={{headerShown: false}}>
       <Stack.Screen name={AUDIO} component={Audio} />
       <Stack.Screen name={PLAYLIST} component={Playlist} />
     </Stack.Navigator>

@@ -1,17 +1,14 @@
 import {
   DeleteObjectCommand,
   GetObjectCommand,
-  ListObjectsCommand,
   ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable, StreamableFile } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createReadStream, createWriteStream } from 'fs';
-import { Readable } from 'stream';
 
 @Injectable()
 export class UploadService {
@@ -59,6 +56,7 @@ export class UploadService {
     });
     try {
       let isTruncated = true;
+      console.log(userId);
       console.log('Your bucket contains the following objects:\n');
       let contents = '';
 
@@ -101,7 +99,6 @@ export class UploadService {
         isTruncated = IsTruncated;
         command.input.ContinuationToken = NextContinuationToken;
       }
-      
     } catch (error) {
       console.log(error);
     }
