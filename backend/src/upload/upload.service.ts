@@ -8,8 +8,10 @@ import {
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, StreamableFile } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createReadStream, createWriteStream } from 'fs';
+import { Readable } from 'stream';
 
 @Injectable()
 export class UploadService {
