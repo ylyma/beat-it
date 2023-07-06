@@ -1,9 +1,5 @@
 import React, {ReactElement} from 'react';
 import Container from '../../components/common/Container';
-<<<<<<< HEAD
-=======
-import RNFS from 'react-native-fs';
->>>>>>> main
 import VideoSource from '../../components/Video/VideoSource';
 
 const Settings: () => ReactElement = () => {

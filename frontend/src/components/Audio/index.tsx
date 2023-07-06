@@ -9,11 +9,10 @@ import Container from '../common/Container';
 import HorizView from '../common/HorizView/HorizView';
 import Config from 'react-native-config';
 import TrackContainer from './TrackContainer';
-import DocumentPicker from 'react-native-document-picker';
+import DocumentPicker, {types} from 'react-native-document-picker';
 import {AuthContext} from '../../context/providers/authProvider';
 import {PLAYLIST} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/core';
-import TrackButton from './TrackButton';
 
 const AudioComponent: () => ReactElement = () => {
   // wrap this in a useEffect to make sure it only runs once and async
@@ -41,7 +40,7 @@ const AudioComponent: () => ReactElement = () => {
     try {
       const response = await DocumentPicker.pick({
         presentationStyle: 'fullScreen',
-        type: 'audio/mpeg',
+        type: [types.audio],
         allowMultiSelection: true,
       });
       //let tee = [];
@@ -51,7 +50,6 @@ const AudioComponent: () => ReactElement = () => {
         //tee.push(response[i].name);
       }
       //setTitles(tee);
-      window.location.reload;
     } catch (err) {
       console.warn(err);
     }
@@ -139,8 +137,6 @@ const AudioComponent: () => ReactElement = () => {
           style={styles.refresh}
           onPress={() => {
             setUpload(!upload);
-            console.log('u' + upload);
-            console.log('hey');
           }}>
           <View>
             <Ionicons name={'refresh'} size={20} />
