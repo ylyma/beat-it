@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AUDIO, AUDIOPLAYBACK, AUDIOPLAYBACKSTACK, HOME, SETTINGS, VIDEO, VIDEOEDIT } from '../constants/routeNames';
+import { AUDIO, AUDIOPLAYBACK, AUDIOPLAYBACKSTACK, HOME, SETTINGS, VIDEO, VIDEOEDIT, VIDEOPLAYBACK } from '../constants/routeNames';
 import Home from '../screens/Home';
 import Audio from '../screens/Audio';
 import Video from '../screens/Video';
@@ -10,10 +10,14 @@ import AudioPlaybackStack from './AudioPlaybackStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../assets/themes/colors';
 import VideoEdit from '../screens/VideoEdit';
+import VideoPlayback from '../screens/VideoPlayback';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 const HomeTab: () => ReactElement = () => {
     const Tab = createMaterialBottomTabNavigator();
     const Stack = createStackNavigator();
+    const Navigation = useNavigation();
 
     return (
         <Stack.Navigator>
@@ -46,7 +50,8 @@ const HomeTab: () => ReactElement = () => {
                 </Tab.Navigator>}
             </Stack.Screen>
             <Stack.Screen name={AUDIOPLAYBACKSTACK} component={AudioPlaybackStack} options={{ headerShown: false }} />
-            <Stack.Screen name={VIDEOEDIT} component={VideoEdit} options={{ headerShown: false }} />
+            <Stack.Screen name={VIDEOEDIT} component={VideoEdit} />
+            <Stack.Screen name={VIDEOPLAYBACK} component={VideoPlayback} options={{ headerRight: () => <Button onPress={() => Navigation.navigate(VIDEOEDIT)} title='edit' /> }} />
 
         </Stack.Navigator>
     );

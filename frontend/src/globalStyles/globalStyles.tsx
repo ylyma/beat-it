@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../assets/themes/colors";
 
 export default StyleSheet.create({
     logo: {
@@ -18,5 +19,11 @@ export default StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         paddingBottom: 20,
+    },
+    icon: {
+        fontSize: 50,
+        color: colors.white,
+        alignSelf: 'center',
+        padding: 20,
     },
 });

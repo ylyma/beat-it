@@ -180,7 +180,7 @@ dependencies {
     implementation project(':react-native-video')
     implementation "androidx.appcompat:appcompat:1.0.0"
 
-    implementation project(':rn-fetch-blob')
+    // implementation project(':rn-fetch-blob')
 
     implementation project(':react-native-document-picker')
 
