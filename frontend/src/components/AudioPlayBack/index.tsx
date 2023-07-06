@@ -35,15 +35,15 @@ const AudioPlayBackComponent = () => {
       },
     );
 
-        const testJson = await test.json();
-        // console.log("getBookmarks: " + test.status);
-        // console.log("bookmarks: " + JSON.stringify(testJson))
-        if (test.status === 200) {
-            return testJson;
-        } else {
-            return [];
-        }
+    const testJson = await test.json();
+    // console.log("getBookmarks: " + test.status);
+    // console.log("bookmarks: " + JSON.stringify(testJson))
+    if (test.status === 200) {
+      return testJson;
+    } else {
+      return [];
     }
+  };
 
   useEffect(() => {
     getBookmarks().then(bookmarks => {

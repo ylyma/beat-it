@@ -1,6 +1,11 @@
+<<<<<<< HEAD
+import {View, Text, TouchableOpacity} from 'react-native';
+import React from 'react';
+=======
 import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Video from 'react-native-video';
+>>>>>>> main
 import styles from './styles';
 import * as ScopedStorage from 'react-native-scoped-storage';
 import globalStyles from '../../globalStyles/globalStyles';

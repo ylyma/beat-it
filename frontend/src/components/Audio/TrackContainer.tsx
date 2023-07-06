@@ -1,11 +1,7 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View} from 'react-native';
 import React, {ReactElement, useEffect, useState} from 'react';
-import {Track} from 'react-native-track-player';
 import TrackButton from './TrackButton';
-import styles from './styles';
 import Config from 'react-native-config';
-import CustomButton from '../common/CustomButton';
-import TrackContainerGen from './TrackContainerGen';
 import RNFS from 'react-native-fs';
 
 type Props = {userId: string; refresh: boolean};
@@ -16,7 +12,7 @@ const TrackContainer: (props: Props) => ReactElement = ({
 }: Props) => {
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
-  const [tracks, setTracks] = useState<any>([]);
+  const [tracks, setTracks] = useState<string[]>(['']);
   const deleteFile = async (f: string) => {
     try {
       await RNFS.unlink(f);
@@ -63,27 +59,35 @@ const TrackContainer: (props: Props) => ReactElement = ({
         {
           method: 'GET',
         },
-      ).then(res => res.text());
-      console.log(response);
-      let titles = response.split('/');
-      for (let i = 0; i < titles.length; i++) {
-        titles[i] = titles[i].replace(`#audio_${userId}_`, '');
-      }
-      console.log(titles);
-      setTracks(titles);
+      )
+        .then(res => res.text())
+        .then(r => {
+          console.log(r);
+          let titles = r.split('/');
+          for (let i = 0; i < titles.length; i++) {
+            titles[i] = titles[i].replace(`#audio_${userId}_`, '');
+          }
+          console.log('hi ' + titles);
+          setTracks(titles);
+        });
     };
     getAllAudio();
-  }, [refresh]);
+  }, [refresh, userId]);
 
-  console.log('title' + tracks[1]);
+  console.log(tracks.length);
+  console.log('title' + tracks[0]);
   lruCacheEviction().then(() => console.log('cache eviction'));
   return (
     <View>
-      {tracks.map(track => (
-        <View key={track}>
-          <TrackButton trackName={track} artist={''} userId={userId} />
-        </View>
-      ))}
+      {tracks[0] !== '' ? (
+        tracks.map(track => (
+          <View key={track}>
+            <TrackButton trackName={track} artist={''} userId={userId} />
+          </View>
+        ))
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

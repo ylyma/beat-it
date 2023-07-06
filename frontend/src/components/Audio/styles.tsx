@@ -73,5 +73,12 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         paddingLeft: 10,
+    },
+    refresh :{
+        alignSelf: 'center',
+        paddingLeft: 120,
+    },
+    trackContainer: {
+        paddingLeft: 15,
     }
 });
