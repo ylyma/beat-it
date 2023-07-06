@@ -1,11 +1,11 @@
 import React, {ReactElement} from 'react';
-import {Text} from 'react-native';
 import Container from '../../components/common/Container';
+import PlaylistComponent from '../../components/PlaylistCreation';
 
 const Playlist: () => ReactElement = () => {
   return (
     <Container>
-      <Text>Video</Text>
+      <PlaylistComponent />
     </Container>
   );
 };

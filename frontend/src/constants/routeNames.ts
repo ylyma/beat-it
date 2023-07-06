@@ -9,7 +9,7 @@ export const REGISTER = 'Register';
 export const RESETPASSWORD = 'ResetPassword';
 
 export const PLAYLIST = 'Playlist';
-export const TRACK = 'Track';
+export const PLAYLISTSTACK = 'PlaylistStack';
 
 export const AUDIOPLAYBACK = 'AudioPlayBack';
 
