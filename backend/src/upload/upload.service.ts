@@ -84,21 +84,24 @@ export class UploadService {
     // );
     const command = new ListObjectsV2Command({
       Bucket: this.configService.get('AWS_BUCKET_NAME'),
-      Prefix: '#audio_' + userId + '_',
+      Prefix: '#video_' + userId + '_',
     });
     try {
       let isTruncated = true;
+      console.log(userId);
       console.log('Your bucket contains the following objects:\n');
       let contents = '';
 
       while (isTruncated) {
         const { Contents, IsTruncated, NextContinuationToken } =
           await this.s3Client.send(command);
-        const contentsList = Contents.map((c) => ` • ${c.Key}`).join('\n');
-        contents += contentsList + '\n';
+        const contentsList = Contents.map((c) => `${c.Key}`).join('/');
+        contents += contentsList;
         isTruncated = IsTruncated;
         command.input.ContinuationToken = NextContinuationToken;
       }
+      console.log(contents);
+      return contents;
     } catch (error) {
       console.log(error);
     }
