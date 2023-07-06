@@ -23,10 +23,6 @@ const VideoPlaybackComponent = () => {
     READY: {name: Symbol('READY')},
   });
 
-  const playVideo = () => {
-    videoContext.dispatch({type: 'SET_VIDEO', payload: vid});
-  };
-
   const playPause = () => {
     videoContext.dispatch({type: 'TOGGLE_PAUSE', payload: null});
   };
