@@ -50,6 +50,10 @@ const AudioComponent: () => ReactElement = () => {
         //tee.push(response[i].name);
       }
       //setTitles(tee);
+<<<<<<< HEAD
+=======
+      window.location.reload;
+>>>>>>> ebcea42c12c3c171f56c8ecc6ee6cb3d4b31b938
     } catch (err) {
       console.warn(err);
     }
@@ -137,6 +141,11 @@ const AudioComponent: () => ReactElement = () => {
           style={styles.refresh}
           onPress={() => {
             setUpload(!upload);
+<<<<<<< HEAD
+=======
+            console.log('u' + upload);
+            console.log('hey');
+>>>>>>> ebcea42c12c3c171f56c8ecc6ee6cb3d4b31b938
           }}>
           <View>
             <Ionicons name={'refresh'} size={20} />
