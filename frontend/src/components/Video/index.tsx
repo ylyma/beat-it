@@ -95,7 +95,9 @@ const VideoComponent = () => {
           <Text style={styles.addButton}>Import Videos</Text>
         </TouchableOpacity>
       </View>
-      <VideosContainer userId={userId} refresh={false} />
+      <View style={styles.trackContainer}>
+        <VideosContainer userId={userId} refresh={false} />
+      </View>
     </View>
   );
 };

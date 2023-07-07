@@ -81,4 +81,15 @@ export default StyleSheet.create({
   trackContainer: {
     paddingLeft: 15,
   },
+  modalButton: {
+    margin: 15,
+    borderRadius: 15,
+    width: 80,
+    height: 35,
+  },
+  modalText: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingTop: 20,
+  },
 });

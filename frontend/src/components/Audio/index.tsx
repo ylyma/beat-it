@@ -1,5 +1,5 @@
 import React, {ReactElement, useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Button} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {useEffect} from 'react';
 import styles from './styles';
@@ -13,6 +13,9 @@ import DocumentPicker, {types} from 'react-native-document-picker';
 import {AuthContext} from '../../context/providers/authProvider';
 import {PLAYLIST} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/core';
+import Modal from '../common/Modal';
+import CustomButton from '../common/CustomButton';
+import Input from '../common/Input';
 
 const AudioComponent: () => ReactElement = () => {
   // wrap this in a useEffect to make sure it only runs once and async
@@ -22,6 +25,7 @@ const AudioComponent: () => ReactElement = () => {
   const userId: string = authContext.user.uid;
   console.log(userId);
   const [upload, setUpload] = useState<boolean>(true);
+  const [playlistTitle, setPlaylistTitle] = useState<string>('');
   const {navigate} = useNavigation();
   // const [titles, setTitles] = useState();
 
@@ -98,6 +102,9 @@ const AudioComponent: () => ReactElement = () => {
   //   setUpload(!upload);
   //   console.log(upload);
   // };
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
 
   return (
     <Container>
@@ -110,7 +117,7 @@ const AudioComponent: () => ReactElement = () => {
         <Text style={styles.subtitle}>Playlists</Text>
         <TouchableOpacity
           onPress={() => {
-            navigate(PLAYLIST);
+            handleModal();
           }}>
           <Text style={styles.addButton}>New Playlist</Text>
         </TouchableOpacity>
@@ -153,11 +160,37 @@ const AudioComponent: () => ReactElement = () => {
         <TrackContainer userId={userId} refresh={upload} />
       </View>
 
-      {/* {titles.map(track => (
-        <View key={track}>
-          <TrackButton trackName={track} artist={''} userId={userId} />
+      <Modal isVisible={isModalVisible}>
+        <View style={{flex: 1}}>
+          <Text>Hello!</Text>
         </View>
-      ))} */}
+      </Modal>
+      <Modal isVisible={isModalVisible}>
+        <Modal.Container>
+          <Modal.Header title="Create New Playlist" />
+          <Modal.Body>
+            <Text style={styles.modalText}>Enter Playlist name</Text>
+            <Input
+              placeholder={'Playlist name'}
+              onChangeText={(text: string) => setPlaylistTitle(text)}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <CustomButton
+              style={styles.modalButton}
+              title="Confirm"
+              primary
+              onPress={() => navigate(PLAYLIST, {playlistTitle: playlistTitle})}
+            />
+            <CustomButton
+              style={styles.modalButton}
+              title="Cancel"
+              failure
+              onPress={() => handleModal()}
+            />
+          </Modal.Footer>
+        </Modal.Container>
+      </Modal>
     </Container>
   );
 };

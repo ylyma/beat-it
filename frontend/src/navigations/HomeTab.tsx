@@ -25,7 +25,7 @@ import VideoPlayback from '../screens/VideoPlayback';
 import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import PlaylistStack from './PlaylistStack';
-import Playlist from '../screens/Playlist';
+import Playlist from '../screens/PlaylistCreation';
 
 const HomeTab: () => ReactElement = () => {
   const Tab = createMaterialBottomTabNavigator();

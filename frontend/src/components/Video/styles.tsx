@@ -53,4 +53,7 @@ export default StyleSheet.create({
     fontSize: 20,
     paddingLeft: 10,
   },
+  trackContainer: {
+    paddingLeft: 15,
+  },
 });
