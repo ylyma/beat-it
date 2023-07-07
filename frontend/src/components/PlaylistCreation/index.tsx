@@ -16,6 +16,7 @@ const PlaylistComponent: () => ReactElement = () => {
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
   const [tracks, setTracks] = useState<string[]>([]);
+  const [allTracks, setAllTracks] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const getAllAudio = async () => {
@@ -38,8 +39,23 @@ const PlaylistComponent: () => ReactElement = () => {
     };
     getAllAudio();
   }, [userId]);
+  const updateTracks = (track, add) => {
+    if (add) {
+      allTracks.add(track);
+      setAllTracks(allTracks);
+    } else {
+      allTracks.delete(track);
+      setAllTracks(allTracks);
+    }
+    console.log(allTracks);
+    //setAllTracks(new Set());
+  };
 
-  console.log(tracks[0]);
+  useEffect(() => {
+    console.log(allTracks);
+  }, [allTracks]);
+
+  console.log(allTracks);
   return (
     <View>
       <Text style={styles.title}>{data.playlistTitle.toString()}</Text>
@@ -47,7 +63,7 @@ const PlaylistComponent: () => ReactElement = () => {
         {tracks[0] !== '' ? (
           tracks.map(track => (
             <View key={track}>
-              <PlaylistItem title={track} />
+              <PlaylistItem title={track} update={updateTracks} />
             </View>
           ))
         ) : (

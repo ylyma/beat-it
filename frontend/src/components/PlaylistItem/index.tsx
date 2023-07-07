@@ -1,18 +1,28 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {ListItem} from '@rneui/themed';
-type PlaylistItemProps = {title: string};
-const PlaylistItem = ({title}: PlaylistItemProps) => {
-  const [checked, setChecked] = React.useState([false, false]);
+
+type PlaylistItemProps = {
+  title: string;
+  update: (track: string, add: boolean) => void;
+};
+const PlaylistItem = ({title, update}: PlaylistItemProps) => {
+  const [checked, setChecked] = React.useState(false);
+
+  useEffect(() => {
+    update(title, checked);
+  }, [checked, title, update]);
+
   return (
     <>
       <ListItem bottomDivider>
         <ListItem.CheckBox
-          // Use ThemeProvider to change the defaults of the checkbox
           iconType="material-community"
           checkedIcon="checkbox-marked"
           uncheckedIcon="checkbox-blank-outline"
-          checked={checked[0]}
-          onPress={() => setChecked([!checked[0], checked[1]])}
+          checked={checked}
+          onPress={() => {
+            setChecked(!checked);
+          }}
         />
         <ListItem.Content>
           <ListItem.Title>{title}</ListItem.Title>
