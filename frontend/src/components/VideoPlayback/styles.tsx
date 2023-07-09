@@ -53,8 +53,8 @@ export default StyleSheet.create({
         width: "100%",
     },
     loadingFrame: {
-        width: 40,
-        height: 80,
+        width: 20,
+        height: 40,
         backgroundColor: 'rgba(0,0,0,0.05)',
         borderColor: 'rgba(0,0,0,0.1)',
         borderWidth: 1,

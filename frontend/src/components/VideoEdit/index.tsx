@@ -1,72 +1,158 @@
-import {View, Text, TouchableOpacity, Animated} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import Video from 'react-native-video';
-import {VideoContext} from '../../context/providers/videoProvider';
+import { View, Text, TouchableOpacity, Animated } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import Video from 'react-native-video'
+import { VideoContext } from '../../context/providers/videoProvider';
 import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import * as Progress from 'react-native-progress';
-import {ScrollView} from 'react-native-gesture-handler';
+import * as Progress from 'react-native-progress'
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import FFmpegWrapper from '../../services/ffMpeg';
 
 const VideoEditComponent = () => {
-  const videoContext = useContext(VideoContext);
-  const [editMode, setEditMode] = useState(null);
+    const videoContext = useContext(VideoContext);
+    const [editMode, setEditMode] = useState(null)
+    const [delay, setDelay] = useState("0")
 
-  const playPause = () => {
-    videoContext.dispatch({type: 'TOGGLE_PAUSE', payload: null});
-  };
 
-  const updateTime = progress => {
-    console.log('progress: ', progress);
-    videoContext.dispatch({type: 'SET_TIME', payload: progress});
-  };
+    const playPause = () => {
+        videoContext.dispatch({ type: 'TOGGLE_PAUSE', payload: null })
+    };
 
-  useEffect(() => {
-    // set it to pause
-    videoContext.dispatch({type: 'SET_PAUSE', payload: false});
-    console.log('paused: ', videoContext.paused);
-  }, []);
+    const updateTime = (progress) => {
+        console.log('progress: ', progress)
+        videoContext.dispatch({ type: 'SET_TIME', payload: progress })
+    }
 
-  return (
-    <View>
-      <Video
-        source={videoContext.video}
-        paused={videoContext.paused}
-        ref={videoContext.videoPlayer}
-        style={styles.videoPlayer}
-        onProgress={updateTime}
-      />
-      <Progress.Bar
-        progress={videoContext.currentTime / videoContext.totalDuration}
-        width={null}
-        height={10}
-        color={'#000'}
-        useNativeDriver={true}
-      />
-      <TouchableOpacity onPress={playPause}>
-        <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
-      </TouchableOpacity>
-      <ScrollView horizontal={true}>
-        <View style={styles.editMode}>
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => setEditMode('Overlay Audio')}>
-            <Text>Overlay Audio</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => setEditMode('Annotate')}>
+    useEffect(() => {
+        // set it to pause
+        videoContext.dispatch({ type: 'SET_PAUSE', payload: false })
+        console.log('paused: ', videoContext.paused)
+    }, [])
+
+    if (editMode === 'Overlay Audio') {
+        return (
+            <View>
+                <Text>Overlay Audio</Text>
+                <Video source={videoContext.video}
+                    paused={videoContext.paused}
+                    ref={videoContext.videoPlayer}
+                    style={styles.videoPlayer}
+                    onProgress={updateTime} />
+                <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+                <TouchableOpacity onPress={playPause}>
+                    <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <Text>Delay(s): </Text>
+                    <TextInput placeholder={'Enter time delay in s'} onChangeText={(val) => setDelay(val)} inputMode='decimal' value={delay} />
+                    <TouchableOpacity style={styles.functionButton} onPress={() => FFmpegWrapper.changeAudio(videoContext, delay)}>
+                        <Text style={styles.functionText}>Align Audio</Text>
+                    </TouchableOpacity>
+                </View>
+                <ScrollView horizontal={true}>
+                    <View style={styles.editMode}>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
+                            <Text>Overlay Audio</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
+                            <Text>Annotate</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
+                            <Text>Mirror</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+
+            </View>
+        )
+    } else if (editMode === 'Annotate') {
+        return (<View>
             <Text>Annotate</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => setEditMode('Mirror')}>
-            <Text>Mirror</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
-  );
-};
+            <Video source={videoContext.video}
+                paused={videoContext.paused}
+                ref={videoContext.videoPlayer}
+                style={styles.videoPlayer}
+                onProgress={updateTime} />
+            <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+            <TouchableOpacity onPress={playPause}>
+                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+            </TouchableOpacity>
+            <ScrollView horizontal={true}>
+                <View style={styles.editMode}>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
+                        <Text>Overlay Audio</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
+                        <Text>Annotate</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
+                        <Text>Mirror</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
 
-export default VideoEditComponent;
+        </View>
+        )
+    } else if (editMode === 'Mirror') {
+        return (<View>
+            <Text>Mirror</Text>
+            <Video source={videoContext.video}
+                paused={videoContext.paused}
+                ref={videoContext.videoPlayer}
+                style={styles.videoPlayer}
+                onProgress={updateTime} />
+            <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+            <TouchableOpacity onPress={playPause}>
+                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+            </TouchableOpacity>
+            <ScrollView horizontal={true}>
+                <View style={styles.editMode}>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
+                        <Text>Overlay Audio</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
+                        <Text>Annotate</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
+                        <Text>Mirror</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+
+        </View>
+        )
+    } else {
+        return (
+            <View>
+                <Video source={videoContext.video}
+                    paused={videoContext.paused}
+                    ref={videoContext.videoPlayer}
+                    style={styles.videoPlayer}
+                    onProgress={updateTime} />
+                <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+                <TouchableOpacity onPress={playPause}>
+                    <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+                </TouchableOpacity>
+                <ScrollView horizontal={true}>
+                    <View style={styles.editMode}>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
+                            <Text>Overlay Audio</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
+                            <Text>Annotate</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
+                            <Text>Mirror</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+
+            </View>
+        )
+    }
+
+
+}
+
+export default VideoEditComponent
