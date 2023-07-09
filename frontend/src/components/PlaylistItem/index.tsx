@@ -10,7 +10,7 @@ const PlaylistItem = ({title, update}: PlaylistItemProps) => {
 
   useEffect(() => {
     update(title, checked);
-  }, [checked, title, update]);
+  }, [checked, title]);
 
   return (
     <>

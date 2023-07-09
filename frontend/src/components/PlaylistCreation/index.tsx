@@ -9,6 +9,7 @@ import Container from '../common/Container';
 import {ScrollView} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
 import {AuthContext} from '../../context/providers/authProvider';
+import PlaylistContainer from '../PlaylistContainer';
 
 const PlaylistComponent: () => ReactElement = () => {
   const data = useRoute().params;
@@ -17,6 +18,7 @@ const PlaylistComponent: () => ReactElement = () => {
   const userId: string = authContext.user.uid;
   const [tracks, setTracks] = useState<string[]>([]);
   const [allTracks, setAllTracks] = useState<Set<string>>(new Set());
+  const [update, setUpdate] = useState<boolean>(true);
 
   useEffect(() => {
     const getAllAudio = async () => {
@@ -48,18 +50,23 @@ const PlaylistComponent: () => ReactElement = () => {
       setAllTracks(allTracks);
     }
     console.log(allTracks);
+    setUpdate(!update);
     //setAllTracks(new Set());
   };
 
   useEffect(() => {
-    console.log(allTracks);
+    console.log('a' + allTracks);
   }, [allTracks]);
 
   console.log(allTracks);
   return (
-    <View>
-      <Text style={styles.title}>{data.playlistTitle.toString()}</Text>
-      <ScrollView>
+    <ScrollView>
+      <Text style={styles.title}>Add Songs</Text>
+      <Text style={styles.playlistTitle}>{data.playlistTitle.toString()}</Text>
+      <View style={styles.topList}>
+        <PlaylistContainer tracks={allTracks} refresh={update} />
+      </View>
+      <View style={styles.list}>
         {tracks[0] !== '' ? (
           tracks.map(track => (
             <View key={track}>
@@ -69,7 +76,7 @@ const PlaylistComponent: () => ReactElement = () => {
         ) : (
           <View />
         )}
-      </ScrollView>
+      </View>
       <CustomButton
         style={styles.button}
         title="Confirm"
@@ -82,7 +89,7 @@ const PlaylistComponent: () => ReactElement = () => {
         failure
         onPress={() => navigate(AUDIO)}
       />
-    </View>
+    </ScrollView>
   );
 };
 
