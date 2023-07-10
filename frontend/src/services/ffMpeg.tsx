@@ -161,6 +161,38 @@ const FFmpegWrapper = {
         }
         );
     },
+    mirrorVideo: async function mirrorVideo(context) {
+        const input = await FFmpegKitConfig.getSafParameterForRead(context.video.uri);
+        const output = await FFmpegKitConfig.selectDocumentForWrite(context.video.name.split(".")[0] + "_mirrored" + '.mp4', 'video/*').then((res) => {
+            return FFmpegKitConfig.getSafParameterForWrite(res)
+        });
+        console.log('input: ', input)
+        console.log('output: ', output)
+        FFmpegKit.execute(
+            `-i ${input} -vf "hflip" ${output}`,
+        ).then(async session => {
+            const state = FFmpegKitConfig.sessionStateToString(
+                await session.getState(),
+            );
+            const returnCode = await session.getReturnCode();
+            const failStackTrace = await session.getFailStackTrace();
+            const duration = await session.getDuration();
+
+            if (ReturnCode.isSuccess(returnCode)) {
+                console.log(
+                    `Encode completed successfully in ${duration} milliseconds;`,
+                );
+                context.dispatch({ type: 'SET_VIDEO', payload: { uri: output } })
+            } else if (ReturnCode.isCancel(returnCode)) {
+                console.log('Encode canceled');
+            } else {
+                console.log(
+                    `Encode failed with state ${state} and rc ${returnCode}.${(failStackTrace, '\\n')}`,
+                );
+            }
+        }
+        );
+    },
 
 }
 

@@ -8,10 +8,11 @@ import styles from './styles';
 import * as Progress from 'react-native-progress'
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import FFmpegWrapper from '../../services/ffMpeg';
+import Slider from '@react-native-community/slider';
 
 const VideoEditComponent = () => {
     const videoContext = useContext(VideoContext);
-    const [editMode, setEditMode] = useState(null)
+    const [editMode, setEditMode] = useState<String>("")
     const [delay, setDelay] = useState("0")
 
 
@@ -39,7 +40,19 @@ const VideoEditComponent = () => {
                     ref={videoContext.videoPlayer}
                     style={styles.videoPlayer}
                     onProgress={updateTime} />
-                <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+                <Slider
+                    style={styles.progressBar}
+                    value={videoContext.currentTime}
+                    minimumValue={0}
+                    maximumValue={videoContext.totalDuration}
+                    thumbTintColor="#FFD369"
+                    minimumTrackTintColor="#FFD369"
+                    maximumTrackTintColor="#fff"
+                    onSlidingComplete={(value) => {
+                        console.log('value: ', value)
+                        console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
+                        videoContext.videoPlayer!.seek(value);
+                    }} />
                 <TouchableOpacity onPress={playPause}>
                     <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
                 </TouchableOpacity>
@@ -53,13 +66,13 @@ const VideoEditComponent = () => {
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text>Overlay Audio</Text>
+                            <Text style={styles.editText}>Overlay Audio</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
-                            <Text>Annotate</Text>
+                            <Text style={styles.editText}>Annotate</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
-                            <Text>Mirror</Text>
+                            <Text style={styles.editText}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -74,20 +87,32 @@ const VideoEditComponent = () => {
                 ref={videoContext.videoPlayer}
                 style={styles.videoPlayer}
                 onProgress={updateTime} />
-            <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+            <Slider
+                style={styles.progressBar}
+                value={videoContext.currentTime}
+                minimumValue={0}
+                maximumValue={videoContext.totalDuration}
+                thumbTintColor="#FFD369"
+                minimumTrackTintColor="#FFD369"
+                maximumTrackTintColor="#fff"
+                onSlidingComplete={(value) => {
+                    console.log('value: ', value)
+                    console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
+                    videoContext.videoPlayer!.seek(value);
+                }} />
             <TouchableOpacity onPress={playPause}>
                 <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
             </TouchableOpacity>
             <ScrollView horizontal={true}>
                 <View style={styles.editMode}>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
-                        <Text>Overlay Audio</Text>
+                        <Text style={styles.editText}>Overlay Audio</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
-                        <Text>Annotate</Text>
+                        <Text style={styles.editText}>Annotate</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
-                        <Text>Mirror</Text>
+                        <Text style={styles.editText}>Mirror</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -102,20 +127,37 @@ const VideoEditComponent = () => {
                 ref={videoContext.videoPlayer}
                 style={styles.videoPlayer}
                 onProgress={updateTime} />
-            <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+            <Slider
+                style={styles.progressBar}
+                value={videoContext.currentTime}
+                minimumValue={0}
+                maximumValue={videoContext.totalDuration}
+                thumbTintColor="#FFD369"
+                minimumTrackTintColor="#FFD369"
+                maximumTrackTintColor="#fff"
+                onSlidingComplete={(value) => {
+                    console.log('value: ', value)
+                    console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
+                    videoContext.videoPlayer!.seek(value);
+                }} />
             <TouchableOpacity onPress={playPause}>
                 <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
             </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.functionButton} onPress={() => FFmpegWrapper.mirrorVideo(videoContext)}>
+                    <Text style={styles.functionText}>Mirror Video</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView horizontal={true}>
                 <View style={styles.editMode}>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
-                        <Text>Overlay Audio</Text>
+                        <Text style={styles.editText}>Overlay Audio</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
-                        <Text>Annotate</Text>
+                        <Text style={styles.editText}>Annotate</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
-                        <Text>Mirror</Text>
+                        <Text style={styles.editText}>Mirror</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -130,20 +172,32 @@ const VideoEditComponent = () => {
                     ref={videoContext.videoPlayer}
                     style={styles.videoPlayer}
                     onProgress={updateTime} />
-                <Progress.Bar progress={videoContext.currentTime / videoContext.totalDuration} width={null} height={10} color={'#000'} useNativeDriver={true} />
+                <Slider
+                    style={styles.progressBar}
+                    value={videoContext.currentTime}
+                    minimumValue={0}
+                    maximumValue={videoContext.totalDuration}
+                    thumbTintColor="#FFD369"
+                    minimumTrackTintColor="#FFD369"
+                    maximumTrackTintColor="#fff"
+                    onSlidingComplete={(value) => {
+                        console.log('value: ', value)
+                        console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
+                        videoContext.videoPlayer!.seek(value);
+                    }} />
                 <TouchableOpacity onPress={playPause}>
                     <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
                 </TouchableOpacity>
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text>Overlay Audio</Text>
+                            <Text style={styles.editText}>Overlay Audio</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Annotate')}>
-                            <Text>Annotate</Text>
+                            <Text style={styles.editText}>Annotate</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editButton} onPress={() => setEditMode('Mirror')}>
-                            <Text>Mirror</Text>
+                            <Text style={styles.editText}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

@@ -53,14 +53,12 @@ export default StyleSheet.create({
     editButton: {
         borderRadius: 50,
         height: 50,
-        width: 50,
+        width: 'auto',
         backgroundColor: colors.primary,
         textAlign: 'center',
         textAlignVertical: 'center',
-        color: colors.black,
-        fontWeight: 'bold',
         alignSelf: 'center',
-        marginHorizontal: 40,
+        marginHorizontal: 20,
     },
     functionButton: {
         borderRadius: 50,
@@ -78,5 +76,18 @@ export default StyleSheet.create({
         color: colors.black,
         fontSize: 20,
         padding: 10,
+    },
+    progressBar: {
+        width: "90%",
+        height: 50,
+        flexDirection: 'row',
+    },
+    editText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        color: colors.black,
+        fontSize: 15,
+        padding: 13,
     },
 });
