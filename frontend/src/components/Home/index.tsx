@@ -5,8 +5,11 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import styles from './styles';
 import SearchBar from '../common/SearchBar';
 import HorizView from '../common/HorizView/HorizView';
+import { AuthContext } from '../../context/providers/authProvider';
+
 
 const HomeComponent: () => ReactElement = () => {
+    const authContext = React.useContext(AuthContext);
     return (
         <Container>
             <ScrollView style={styles.vertScroll}>
@@ -23,7 +26,7 @@ const HomeComponent: () => ReactElement = () => {
                             source={require('../../assets/images/placeholderuser.png')}
                         />
                     </View>
-                    <Text style={styles.title}>Hi, [User]!</Text>
+                    <Text style={styles.title}>Hi, {authContext.user.email}!</Text>
                 </View>
                 <Text style={styles.subtitle}>Recent Videos</Text>
 

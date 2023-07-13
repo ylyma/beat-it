@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ToastAndroid } from 'react-native';
 import { auth, googleAuth } from '../../../firebase';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
@@ -47,8 +47,11 @@ const LoginComponent: () => ReactElement = () => {
         signInWithEmailAndPassword(auth, email, password).then(userCredential => {
             const user = userCredential.user;
             console.log('Logged in with user: ', user.email);
-        });
-        return <HomeTab />;
+        }).catch(error => {
+            console.log('Error logging in: ', error);
+            ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        }
+        );
     };
 
     const handleGoogleLogin = async () => {
