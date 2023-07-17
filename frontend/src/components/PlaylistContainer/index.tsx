@@ -3,11 +3,13 @@ import {ListItem} from 'react-native-elements';
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
-import {View, Text} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {View, Text, StyleProp} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-type PlaylistContainerProps = {tracks: Set<string>; refresh: boolean};
+type PlaylistContainerProps = {
+  tracks: Set<string>;
+  refresh: boolean;
+};
 
 const PlaylistContainer = ({tracks, refresh}: PlaylistContainerProps) => {
   const [data, setData] = useState<string[]>([]);
@@ -28,14 +30,12 @@ const PlaylistContainer = ({tracks, refresh}: PlaylistContainerProps) => {
   }, [refresh]);
 
   return (
-    <GestureHandlerRootView>
-      <DraggableFlatList
-        data={data}
-        onDragEnd={({data}) => setData(data)}
-        keyExtractor={item => item}
-        renderItem={renderItem}
-      />
-    </GestureHandlerRootView>
+    <DraggableFlatList
+      data={data}
+      onDragEnd={({data}) => setData(data)}
+      keyExtractor={item => item}
+      renderItem={renderItem}
+    />
   );
 };
 

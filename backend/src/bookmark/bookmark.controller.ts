@@ -12,55 +12,36 @@ import {
 } from '@nestjs/common';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
-import { EditBookmarkDto } from './dto';
+import { EditBookmarkDto } from './dto/edit-bookmark.dto';
 
 @Controller('bookmarks')
 export class BookmarkController {
   constructor(private bookmarkService: BookmarkService) {}
-  @Get(':userId')
-  getBookmarks(@Param('id') userId: string) {
-    return this.bookmarkService.getBookmarks(userId);
-  }
 
-  @Get('/:userId/:id')
-  getBookmarkById(
+  @Get('/:userId/:trackTitle')
+  getBookmarksByTrack(
     @Param('userId') userId: string,
-    @Param('id', ParseIntPipe) bookmarkId: number,
+    @Param('trackTitle') title: string,
   ) {
-    return this.bookmarkService.getBookmarkById(userId, bookmarkId);
+    return this.bookmarkService.getBookmarksByTrack(userId, title);
   }
 
-  @Get('/:userId/:title')
-  getBookmarkByTitle(
-    @Param('userId') userId: string,
-    @Param('title') title: string,
-  ) {
-    return this.bookmarkService.getBookmarkByTitle(userId, title);
-  }
-
-  @Post(':userId')
+  @Post('/:userId/:trackTitle')
   createBookmark(
     @Param('userId') userId: string,
     @Body() dto: CreateBookmarkDto,
+    @Param('trackTitle') title: string,
   ) {
-    return this.bookmarkService.createBookmark(userId, dto);
-  }
-
-  @Patch('/:userId/:id')
-  editBookmarkById(
-    @Param('userId') userId: string,
-    @Param('id', ParseIntPipe) bookmarkId: number,
-    @Body() dto: EditBookmarkDto,
-  ) {
-    return this.bookmarkService.editBookmarkById(userId, bookmarkId, dto);
+    return this.bookmarkService.createBookmark(userId, dto, title);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete('/:userId/:id')
-  deleteBookmarkById(
+  @Delete('/:userId/:trackTitle/:name')
+  deleteBookmarkByName(
     @Param('userId') userId: string,
-    @Param('id', ParseIntPipe) bookmarkId: number,
+    @Param('name') name: string,
+    @Param('trackTitle') title: string,
   ) {
-    return this.bookmarkService.deleteBookmarkById(userId, bookmarkId);
+    return this.bookmarkService.deleteBookmarkByName(userId, name, title);
   }
 }

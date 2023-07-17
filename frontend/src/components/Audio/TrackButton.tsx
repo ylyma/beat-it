@@ -52,7 +52,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
           method: 'GET',
         },
       ).then(res => res.text());
-      console.log(response);
+      console.log('getting file');
       setUrl(response);
     } catch (error) {
       console.log(error);
@@ -65,6 +65,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         fromUrl: url,
         toFile: filePath,
       };
+      console.log('downloading');
       const response = await downloadFile(options);
       return response.promise
         .then(async res => {

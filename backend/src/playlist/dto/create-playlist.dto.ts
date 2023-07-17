@@ -6,13 +6,12 @@ import {
   IsNumber,
 } from 'class-validator';
 
-export class CreateBookmarkDto {
+export class CreatePlaylistDto {
   @IsString()
   @IsNotEmpty()
   title: string;
 
-  @IsNumber()
-  @Min(0)
+  @IsString()
   @IsNotEmpty()
-  timestamp: number;
+  body: string;
 }

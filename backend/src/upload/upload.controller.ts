@@ -46,7 +46,7 @@ export class UploadController {
       file.buffer,
     );
   }
-  //TODO: get all titles and filetypes in userid
+
   @Get('/:userId/getvideo')
   getVideoTitles(@Param('userId') userId: string) {
     return this.uploadService.getVideoTitles(userId);

@@ -10,6 +10,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
 import {AuthContext} from '../../context/providers/authProvider';
 import PlaylistContainer from '../PlaylistContainer';
+import {NestableScrollContainer} from 'react-native-draggable-flatlist';
 
 const PlaylistComponent: () => ReactElement = () => {
   const data = useRoute().params;
@@ -41,6 +42,7 @@ const PlaylistComponent: () => ReactElement = () => {
     };
     getAllAudio();
   }, [userId]);
+
   const updateTracks = (track, add) => {
     if (add) {
       allTracks.add(track);
@@ -49,22 +51,40 @@ const PlaylistComponent: () => ReactElement = () => {
       allTracks.delete(track);
       setAllTracks(allTracks);
     }
+    console.log('hiehi');
     console.log(allTracks);
     setUpdate(!update);
     //setAllTracks(new Set());
   };
+  //TODO: send as file or string? try tostring and see if it works
 
-  useEffect(() => {
-    console.log('a' + allTracks);
-  }, [allTracks]);
+  const postPlaylist = () => {
+    const playlist = {
+      title: data.playlistTitle,
+      body: Array.from(allTracks).join(','),
+    };
+    fetch(`${Config.API_URL}/playlists/${userId}`, {
+      body: JSON.stringify(playlist),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+      .then(response => response.json())
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   console.log(allTracks);
   return (
-    <ScrollView>
+    <View>
       <Text style={styles.title}>Add Songs</Text>
       <Text style={styles.playlistTitle}>{data.playlistTitle.toString()}</Text>
       <View style={styles.topList}>
-        <PlaylistContainer tracks={allTracks} refresh={update} />
+        <NestableScrollContainer>
+          <PlaylistContainer tracks={allTracks} refresh={update} />
+        </NestableScrollContainer>
       </View>
       <View style={styles.list}>
         {tracks[0] !== '' ? (
@@ -81,7 +101,10 @@ const PlaylistComponent: () => ReactElement = () => {
         style={styles.button}
         title="Confirm"
         primary
-        onPress={() => navigate(AUDIO)}
+        onPress={() => {
+          postPlaylist();
+          navigate(AUDIO);
+        }}
       />
       <CustomButton
         style={styles.button}
@@ -89,7 +112,7 @@ const PlaylistComponent: () => ReactElement = () => {
         failure
         onPress={() => navigate(AUDIO)}
       />
-    </ScrollView>
+    </View>
   );
 };
 

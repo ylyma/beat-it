@@ -76,32 +76,7 @@ const AudioComponent: () => ReactElement = () => {
       .catch(e => console.log(e));
   };
 
-  // const importTracks = async () => {
-  //   console.log('You can use the storage');
-  //   documentFolder = await ScopedStorage.openDocumentTree(true);
-  //   console.log(documentFolder);
-  //   const tracksObjects = await ScopedStorage.listFiles(documentFolder.uri);
-  //   console.log(tracksObjects);
-
-  //   const allTracks: any[] = [];
-  //   for (let i = 0; i < tracksObjects.length; i++) {
-  //     if (
-  //       tracksObjects[i].type === 'file' &&
-  //       tracksObjects[i].mime.split('/')[0] === 'audio'
-  //     ) {
-  //       allTracks.push({
-  //         url: tracksObjects[i].uri,
-  //         title: tracksObjects[i].name.split('.')[0],
-  //         artist: 'unknown',
-  //       });
-  //       const path = tracksObjects[i].uri;
-  //       console.log('uri: ' + path);
-  //       postAudio(path);
-  //     }
-  //   }
-  //   setUpload(!upload);
-  //   console.log(upload);
-  // };
+  //TODO: getallplaylists & display
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
