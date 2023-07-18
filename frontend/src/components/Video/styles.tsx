@@ -1,20 +1,16 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../assets/themes/colors';
 
 export default StyleSheet.create({
     videoPlayer: {
         width: '100%',
         height: 300,
-        backgroundColor: colors.black,
     },
     addButton: {
         borderRadius: 10,
         height: 30,
         width: 120,
-        backgroundColor: colors.secondary,
         textAlign: 'center',
         textAlignVertical: 'center',
-        color: colors.black,
         fontWeight: 'bold',
         alignSelf: 'center',
     },
@@ -26,7 +22,6 @@ export default StyleSheet.create({
     },
     subtitle: {
         fontWeight: 'bold',
-        color: colors.black,
         fontSize: 20,
         paddingLeft: 10,
     },
@@ -34,7 +29,6 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        backgroundColor: colors.lightgrey,
         borderRadius: 15,
         margin: 5,
     },

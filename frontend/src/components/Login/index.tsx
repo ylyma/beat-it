@@ -28,11 +28,14 @@ import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../navigations/AuthStack';
+import { useTheme } from '@react-navigation/native';
+
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const authContext = useContext(AuthContext);
+    const { colors } = useTheme();
 
     useEffect(() => {
         onAuthStateChanged(auth, user => {
@@ -100,9 +103,9 @@ const LoginComponent: () => ReactElement = () => {
         <AuthContainer>
             <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
             <View>
-                <Text style={styles.title}>Welcome,</Text>
+                <Text style={[styles.title, { color: colors.text }]}>Welcome,</Text>
 
-                <Text style={{ alignSelf: 'center' }}>Please sign in to continue.</Text>
+                <Text style={{ alignSelf: 'center', color: colors.secondaryText }}>Please sign in to continue.</Text>
 
                 <Input
                     label="Email"
@@ -129,13 +132,13 @@ const LoginComponent: () => ReactElement = () => {
                     onPress={() => {
                         navigate(RESETPASSWORD);
                     }}>
-                    <Text style={[styles.textButton, { color: colors.black }]}>
+                    <Text style={[styles.textButton, { color: colors.text }]}>
                         forgot your password?
                     </Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.footer}>
-                <Text style={styles.text}>or, login with</Text>
+                <Text style={[styles.text, { color: colors.secondaryText }]}>or, login with</Text>
 
                 <View style={styles.horizontal}>
                     <TouchableOpacity onPress={handleGoogleLogin}>
@@ -147,7 +150,7 @@ const LoginComponent: () => ReactElement = () => {
                 </View>
 
                 <View style={[styles.horizontal]}>
-                    <Text style={styles.text}>need a new account?</Text>
+                    <Text style={[styles.text, { color: colors.secondaryText }]}>need a new account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigate(REGISTER);

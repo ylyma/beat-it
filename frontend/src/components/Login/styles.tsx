@@ -29,7 +29,6 @@ export default StyleSheet.create({
     title: {
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: colors.black,
         fontSize: 20,
     },
     button: {

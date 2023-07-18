@@ -15,6 +15,7 @@ import { PLAYLIST } from '../../constants/routeNames';
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { HomeTabParamList } from '../../navigations/HomeTab';
+import { useTheme } from '@react-navigation/native';
 
 const AudioComponent: () => ReactElement = () => {
     // wrap this in a useEffect to make sure it only runs once and async
@@ -25,6 +26,7 @@ const AudioComponent: () => ReactElement = () => {
     console.log(userId);
     const [upload, setUpload] = useState<boolean>(true);
     const [search, setSearch] = useState<string>('');
+    const colors = useTheme().colors;
     // const [titles, setTitles] = useState();
     const { navigate } = useNavigation<StackNavigationProp<HomeTabParamList>>();
 
@@ -115,12 +117,12 @@ const AudioComponent: () => ReactElement = () => {
                 }}
             />
             <View style={styles.titleAndButton}>
-                <Text style={styles.subtitle}>Playlists</Text>
+                <Text style={[styles.subtitle, { color: colors.text }]}>Playlists</Text>
                 <TouchableOpacity
                     onPress={() => {
                         navigate(PLAYLIST);
                     }}>
-                    <Text style={styles.addButton}>New Playlist</Text>
+                    <Text style={[styles.addButton, { backgroundColor: colors.secondary }]}>New Playlist</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scroll} horizontal>
@@ -140,21 +142,21 @@ const AudioComponent: () => ReactElement = () => {
                 />
             </ScrollView>
             <View style={styles.titleAndButton}>
-                <Text style={styles.subtitle}>Tracks</Text>
+                <Text style={[styles.subtitle, { color: colors.text }]}>Tracks</Text>
                 <TouchableOpacity
-                    style={styles.refresh}
+                    style={[styles.refresh]}
                     onPress={() => {
                         setUpload(!upload);
                     }}>
                     <View>
-                        <Ionicons name={'refresh'} size={20} />
+                        <Ionicons name={'refresh'} size={20} color={colors.grey} />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
                         handleDocumentSelection();
                     }}>
-                    <Text style={styles.addButton}>Import Tracks</Text>
+                    <Text style={[styles.addButton, { backgroundColor: colors.secondary }]}>Import Tracks</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.trackContainer}>

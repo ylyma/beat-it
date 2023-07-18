@@ -8,6 +8,7 @@ import styles from './styles';
 import Slider from '@react-native-community/slider';
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from 'ffmpeg-kit-react-native';
 import FFmpegWrapper from '../../services/ffMpeg';
+import { useTheme } from '@react-navigation/native';
 
 
 
@@ -23,6 +24,7 @@ const VideoPlaybackComponent = () => {
     const [framesLineOffset, setFramesLineOffset] = useState({ x: 0, y: 0 });
     const scrolling = useRef(new Animated.Value(0)).current;
     const translation = useRef(new Animated.Value(-100)).current;
+    const colors = useTheme().colors;
 
     const playPause = () => {
         videoContext.dispatch({ type: 'TOGGLE_PAUSE', payload: null })
@@ -128,7 +130,7 @@ const VideoPlaybackComponent = () => {
                     videoContext.videoPlayer!.seek(value);
                 }} />
             <TouchableOpacity onPress={playPause}>
-                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} color={colors.black} />
             </TouchableOpacity>
             <View style={styles.popLineContainer}>
                 <View style={styles.popLine} />

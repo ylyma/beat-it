@@ -16,6 +16,7 @@
         "@react-native-community/masked-view": "^0.1.11",
         "@react-native-community/slider": "^4.4.2",
         "@react-native-google-signin/google-signin": "^10.0.1",
+        "@react-navigation/bottom-tabs": "^6.5.8",
         "@react-navigation/core": "^6.4.8",
         "@react-navigation/material-bottom-tabs": "^6.2.15",
         "@react-navigation/stack": "^6.3.16",

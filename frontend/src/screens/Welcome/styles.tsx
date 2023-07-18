@@ -4,7 +4,6 @@ export default StyleSheet.create({
     title: {
         fontSize: 30,
         alignSelf: 'center',
-        color: colors.black,
         paddingVertical: 30,
     },
     button: {

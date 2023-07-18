@@ -11,6 +11,7 @@ import { VIDEOPLAYBACK } from '../../constants/routeNames';
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { HomeTabParamList } from '../../navigations/HomeTab';
+import { useTheme } from '@react-navigation/native';
 
 type VideoButtonProps = {
     videoName: string;
@@ -21,6 +22,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     userId,
 }: VideoButtonProps) => {
     const videoContext = useContext(VideoContext);
+    const colors = useTheme().colors;
     const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
     const name = shorthash.unique(videoName.split('.')[0]);
     const extension = 'file:/';
@@ -127,13 +129,13 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     };
 
     return (
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer,]}>
             <TouchableOpacity onPress={() => playVideo()}>
-                <View style={styles.buttonIcon}>
+                <View style={[styles.buttonIcon, { backgroundColor: colors.lightgrey }]}>
                     <Ionicons name={'play'} size={20} />
                 </View>
             </TouchableOpacity>
-            <Text style={styles.videoTitle}>{videoName}</Text>
+            <Text style={[styles.videoTitle, { color: colors.secondaryText }]}>{videoName}</Text>
         </View>
     );
 };

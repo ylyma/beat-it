@@ -11,6 +11,7 @@ import { AudioContext } from '../../context/providers/audioProvider';
 import RNFS, { DownloadFileOptions, downloadFile } from 'react-native-fs';
 import shorthash from 'shorthash';
 import Config from 'react-native-config';
+import { useTheme } from '@react-navigation/native';
 
 type TrackButtonProps = {
     trackName: string;
@@ -28,6 +29,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     // const [playing, setPlaying] = React.useState(true);
     // const [playIcon, setPlayIcon] = React.useState("play");
     const audioContext = React.useContext(AudioContext);
+    const colors = useTheme().colors;
 
     const name = shorthash.unique(trackName.split('.')[0]);
     const extension = 'file:/';
@@ -173,11 +175,11 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={() => playTrack()} onLongPress={addToQueue}>
-                <View style={styles.buttonIcon}>
+                <View style={[styles.buttonIcon, { backgroundColor: colors.lightgrey }]}>
                     <Ionicons name={'play'} size={20} />
                 </View>
             </TouchableOpacity>
-            <Text style={styles.songTitle}>{trackName}</Text>
+            <Text style={[styles.songTitle, { color: colors.secondaryText }]}>{trackName}</Text>
         </View>
     );
 };

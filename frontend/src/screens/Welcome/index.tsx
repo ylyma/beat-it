@@ -7,15 +7,19 @@ import { LOGIN, REGISTER } from '../../constants/routeNames';
 import styles from './styles';
 import AuthContainer from '../../components/common/AuthContainer';
 import globalStyles from '../../globalStyles/globalStyles';
+import { useTheme } from '@react-navigation/native';
+
 
 const Welcome: () => ReactElement = () => {
     const { navigate } = useNavigation();
+    const colors = useTheme().colors;
+
     return (
         <AuthContainer>
             <View style={styles.top}>
                 <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
 
-                <Text style={styles.title}>
+                <Text style={[styles.title, { color: colors.text }]}>
                     Welcome to{'\n'}     BeatIt!
                 </Text>
             </View>

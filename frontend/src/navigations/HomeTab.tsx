@@ -8,7 +8,6 @@ import Video from '../screens/Video';
 import Settings from '../screens/Settings';
 import AudioPlaybackStack from './AudioPlaybackStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../assets/themes/colors';
 import VideoEdit from '../screens/VideoEdit';
 import VideoPlayback from '../screens/VideoPlayback';
 import { Button } from 'react-native';
@@ -16,6 +15,8 @@ import { useNavigation } from '@react-navigation/core';
 import PlaylistStack from './PlaylistStack';
 import Playlist from '../screens/Playlist';
 import { type } from 'os';
+import { useTheme } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export type HomeTabParamList = {
     Home: undefined;
@@ -29,9 +30,10 @@ export type HomeTabParamList = {
 };
 
 const HomeTab: () => ReactElement = () => {
-    const Tab = createMaterialBottomTabNavigator();
+    const Tab = createBottomTabNavigator();
     const Stack = createStackNavigator();
     const Navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
+    const colors = useTheme().colors;
 
     return (
         <Stack.Navigator>
@@ -61,6 +63,14 @@ const HomeTab: () => ReactElement = () => {
                                     <Ionicons name={iconName} size={20} color={colors.accent} />
                                 );
                             },
+                            tabBarLabelStyle: {
+                                fontSize: 12,
+                                padding: 5,
+                            },
+                            tabBarStyle: {
+                                height: 60,
+                            },
+                            headerShown: false,
                         })}>
                         {/* <Tab.Screen name={HOME} component={Home} /> */}
                         <Tab.Screen name={VIDEO} component={Video} />
@@ -93,6 +103,7 @@ const HomeTab: () => ReactElement = () => {
                     open: TransitionSpecs.RevealFromBottomAndroidSpec,
                     close: TransitionSpecs.RevealFromBottomAndroidSpec,
                 },
+                title: 'Video Edit',
             }} />
             <Stack.Screen
                 name={VIDEOPLAYBACK}
@@ -109,7 +120,9 @@ const HomeTab: () => ReactElement = () => {
                         open: TransitionSpecs.RevealFromBottomAndroidSpec,
                         close: TransitionSpecs.RevealFromBottomAndroidSpec,
                     },
-                }}
+                    title: 'Video Playback',
+                }
+                }
             />
         </Stack.Navigator>
     );

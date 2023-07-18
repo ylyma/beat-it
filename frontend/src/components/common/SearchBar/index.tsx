@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 import styles from './styles';
-import colors from '../../../assets/themes/colors';
+import { useTheme } from '@react-navigation/native';
 
 const SearchBar = ({
     text,
@@ -14,6 +14,7 @@ const SearchBar = ({
     ...props
 }: any) => {
     const [focused, setFocused] = React.useState(false);
+    const colors = useTheme().colors;
 
     const getFlexDirection = () => {
         if (icon && iconPosition === 'left') {
@@ -25,7 +26,7 @@ const SearchBar = ({
 
     const getFillColor = () => {
         if (focused) {
-            return colors.white;
+            return colors.grey;
         } else {
             return colors.lightgrey;
         }

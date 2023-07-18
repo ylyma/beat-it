@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import styles from './styles';
-import colors from '../../../assets/themes/colors';
+import { useTheme } from '@react-navigation/native';
 
 const Input = ({
     text,
@@ -14,6 +14,7 @@ const Input = ({
     ...props
 }: any) => {
     const [focused, setFocused] = useState<boolean>(false);
+    const colors = useTheme().colors;
 
     const getFlexDirection = () => {
         if (icon && iconPosition === 'left') {
@@ -36,7 +37,7 @@ const Input = ({
 
     return (
         <View style={styles.inputContainer}>
-            {label && <Text style={styles.label}>{label}</Text>}
+            {label && <Text style={[styles.label, { color: colors.text }]}>{label}</Text>}
 
             <View
                 style={[
@@ -50,7 +51,7 @@ const Input = ({
                 <View style={styles.icon}>{icon && icon}</View>
 
                 <TextInput
-                    style={[styles.textInput, style]}
+                    style={[styles.textInput, { color: colors.text }, style,]}
                     onChangeText={onChangeText}
                     value={text}
                     onFocus={() => {
