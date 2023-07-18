@@ -3,10 +3,10 @@ import colors from '../../../assets/themes/colors';
 
 export default StyleSheet.create({
     wrapper: {
-        // ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFillObject,
         // paddingTop: "5%",
         // color: colors.white,
-        flexGrow: 1,
+        // flexGrow: 1,
 
     },
     container: {
