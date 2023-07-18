@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Animated, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import TrackPlayer, { Track, useTrackPlayerEvents, Event, State } from "react-native-track-player";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/core";
 import { AudioContext } from "../../../context/providers/audioProvider";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeTabParamList } from "../../../navigations/HomeTab";
 
 const MiniPlayer = () => {
     const audioContext = useContext(AudioContext);
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
     const playPause = () => {
         if (audioContext.playing) {
             TrackPlayer.pause();
@@ -24,7 +26,7 @@ const MiniPlayer = () => {
         );
     }
     return (
-        <View style={styles.wrapper}>
+        <Animated.View style={styles.wrapper}>
             <TouchableWithoutFeedback onPress={() => null}>
 
                 <Ionicons name="heart" color="white" size={24} />
@@ -37,7 +39,7 @@ const MiniPlayer = () => {
             <TouchableWithoutFeedback onPress={() => playPause()}>
                 <Ionicons name={audioContext.playIcon} color="white" size={24} />
             </TouchableWithoutFeedback>
-        </View>
+        </Animated.View>
     );
 };
 

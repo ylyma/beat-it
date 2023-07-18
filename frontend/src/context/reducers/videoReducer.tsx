@@ -1,4 +1,4 @@
-const videoReducer = (state, action) => {
+const videoReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'SET_VIDEO':
             return {

@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AuthContainer from '../common/AuthContainer';
 
 const ResetPasswordComponent: () => ReactElement = ({
     onSubmit,
@@ -24,9 +25,9 @@ const ResetPasswordComponent: () => ReactElement = ({
     };
     return (
 
-        <Container>
+        <AuthContainer>
             <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
-            <View style={styles.container}>
+            <View>
                 <Text style={styles.title}>Reset Password</Text>
                 <Input
                     label="Password"
@@ -70,7 +71,7 @@ const ResetPasswordComponent: () => ReactElement = ({
                     }}
                 />
             </View>
-        </Container>
+        </AuthContainer>
 
     );
 };

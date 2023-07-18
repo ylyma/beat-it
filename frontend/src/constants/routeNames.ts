@@ -18,3 +18,6 @@ export const AUDIOPLAYBACKSTACK = 'AudioPlayBackStack';
 
 export const VIDEOEDIT = 'VideoEdit';
 export const VIDEOPLAYBACK = 'VideoPlayback';
+
+export const AUTHSTACK = 'AuthStack';
+export const HOMETAB = 'HomeTab';

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, StackNavigationProp, TransitionSpecs, createStackNavigator } from '@react-navigation/stack';
 import { AUDIO, AUDIOPLAYBACK, AUDIOPLAYBACKSTACK, HOME, SETTINGS, VIDEO, VIDEOEDIT, VIDEOPLAYBACK, PLAYLIST, PLAYLISTSTACK } from '../constants/routeNames';
 import Home from '../screens/Home';
 import Audio from '../screens/Audio';
@@ -15,11 +15,23 @@ import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import PlaylistStack from './PlaylistStack';
 import Playlist from '../screens/Playlist';
+import { type } from 'os';
+
+export type HomeTabParamList = {
+    Home: undefined;
+    Video: undefined;
+    Audio: undefined;
+    Settings: undefined;
+    Playlist: undefined;
+    VideoEdit: undefined;
+    VideoPlayback: undefined;
+    AudioPlayBackStack: undefined;
+};
 
 const HomeTab: () => ReactElement = () => {
     const Tab = createMaterialBottomTabNavigator();
     const Stack = createStackNavigator();
-    const Navigation = useNavigation();
+    const Navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
 
     return (
         <Stack.Navigator>
@@ -28,7 +40,7 @@ const HomeTab: () => ReactElement = () => {
                     <Tab.Navigator
                         activeColor={colors.accent}
                         inactiveColor={colors.grey}
-                        initialRouteName={HOME}
+                        initialRouteName={VIDEO}
                         screenOptions={({ route }) => ({
                             tabBarIcon: ({ focused }) => {
                                 let iconName;
@@ -50,7 +62,7 @@ const HomeTab: () => ReactElement = () => {
                                 );
                             },
                         })}>
-                        <Tab.Screen name={HOME} component={Home} />
+                        {/* <Tab.Screen name={HOME} component={Home} /> */}
                         <Tab.Screen name={VIDEO} component={Video} />
                         <Tab.Screen name={AUDIO} component={Audio} />
                         <Tab.Screen name={SETTINGS} component={Settings} />
@@ -65,9 +77,23 @@ const HomeTab: () => ReactElement = () => {
             <Stack.Screen
                 name={AUDIOPLAYBACKSTACK}
                 component={AudioPlaybackStack}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                    transitionSpec: {
+                        open: TransitionSpecs.RevealFromBottomAndroidSpec,
+                        close: TransitionSpecs.RevealFromBottomAndroidSpec,
+                    },
+                }}
             />
-            <Stack.Screen name={VIDEOEDIT} component={VideoEdit} />
+            <Stack.Screen name={VIDEOEDIT} component={VideoEdit} options={{
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                transitionSpec: {
+                    open: TransitionSpecs.RevealFromBottomAndroidSpec,
+                    close: TransitionSpecs.RevealFromBottomAndroidSpec,
+                },
+            }} />
             <Stack.Screen
                 name={VIDEOPLAYBACK}
                 component={VideoPlayback}
@@ -78,6 +104,11 @@ const HomeTab: () => ReactElement = () => {
                             title="edit"
                         />
                     ),
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    transitionSpec: {
+                        open: TransitionSpecs.RevealFromBottomAndroidSpec,
+                        close: TransitionSpecs.RevealFromBottomAndroidSpec,
+                    },
                 }}
             />
         </Stack.Navigator>

@@ -42,6 +42,8 @@ const VideoPlaybackComponent = () => {
                 status: FRAME_STATUS.LOADING.name.description,
             }),
         );
+        console.log(videoContext);
+
 
         FFmpegWrapper.getFrames(
             videoContext.video.name,

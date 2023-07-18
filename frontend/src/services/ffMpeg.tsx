@@ -1,12 +1,51 @@
 // lib/FFmpeg.js
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from 'ffmpeg-kit-react-native';
 import RNFS from 'react-native-fs';
-import { VideoContext } from '../context/providers/videoProvider';
 import { useContext } from 'react';
+import Config from 'react-native-config';
+import { AuthContext } from '../context/providers/authProvider';
+import DocumentPicker, { types } from 'react-native-document-picker';
+
 
 
 const FRAME_PER_SEC = 1;
 const FRAME_WIDTH = 80;
+const extension = 'file://';
+const handleDocumentSelection = async (userId) => {
+    try {
+        const response = await DocumentPicker.pick({
+            presentationStyle: 'fullScreen',
+            type: [types.video],
+            allowMultiSelection: true,
+        });
+        //let tee = [];
+        for (let i = 0; i < response.length; i++) {
+            console.log(response[i]);
+            postVideo(response[i], userId);
+            //tee.push(response[i].name);
+        }
+        //setTitles(tee);
+    } catch (err) {
+        console.warn(err);
+    }
+};
+
+const postVideo = async (file, userId) => {
+    let body = new FormData();
+    body.append('file', file);
+
+    fetch(`${Config.API_URL}/uploads/video/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        body: body,
+    })
+        .then(res => {
+            console.log('response' + JSON.stringify(res));
+        })
+        .catch(e => console.log(e));
+};
 
 //change this to functional component
 const FFmpegWrapper = {
@@ -16,7 +55,7 @@ const FFmpegWrapper = {
             console.log("No need to convert")
         } else {
             console.log("Converting")
-            const input = await FFmpegKitConfig.getSafParameterForRead(context.video.uri);
+            const input = await FFmpegKitConfig.getSafParameterForRead(extension + context.video.uri);
             const output = await FFmpegKitConfig.selectDocumentForWrite(context.video.name + '.mp4', 'video/*').then((res) => {
                 return FFmpegKitConfig.getSafParameterForWrite(res)
             });
@@ -58,10 +97,12 @@ const FFmpegWrapper = {
         errorCallback,
     ) {
         console.log('getFrames')
+        console.log('localFileName: ', localFileName)
+        console.log('videoURI: ', videoURI)
         let outputImageDir = `${RNFS.CachesDirectoryPath}/${localFileName}`;
         RNFS.mkdir(outputImageDir);
         let outputImagePath = `${RNFS.CachesDirectoryPath}/${localFileName}_%4d.png`;
-        const input = await FFmpegKitConfig.getSafParameterForRead(videoURI);
+        const input = await FFmpegKitConfig.getSafParameterForRead(extension + videoURI);
         // const output = await FFmpegKitConfig.selectDocumentForWrite(outputImagePath).then((res) => {
         //     console.log(res)
         // FFmpegKitConfig.getSafParameterForWrite(outputImagePath);
@@ -109,8 +150,8 @@ const FFmpegWrapper = {
     },
 
     // new function to change the audio of the video with selected audio
-    changeAudio: async function changeAudio(context, delay: string) {
-        const input = await FFmpegKitConfig.getSafParameterForRead(context.video.uri);
+    changeAudio: async function changeAudio(context, delay: string, userId) {
+        const input = await FFmpegKitConfig.getSafParameterForRead(extension + context.video.uri);
         const output = await FFmpegKitConfig.selectDocumentForWrite(context.video.name.split(".")[0] + "_audio_overlaid" + '.mp4', 'video/*').then((res) => {
             return FFmpegKitConfig.getSafParameterForWrite(res)
         }
@@ -150,7 +191,9 @@ const FFmpegWrapper = {
                 console.log(
                     `Encode completed successfully in ${duration} milliseconds;`,
                 );
-                context.dispatch({ type: 'SET_VIDEO', payload: { uri: output } })
+                await handleDocumentSelection(userId);
+                console.log("uploaded")
+                context.dispatch({ type: 'SET_VIDEO', payload: { name: context.video.name.split(".")[0] + "_audio_overlaid", uri: output } })
             } else if (ReturnCode.isCancel(returnCode)) {
                 console.log('Encode canceled');
             } else {
@@ -161,8 +204,8 @@ const FFmpegWrapper = {
         }
         );
     },
-    mirrorVideo: async function mirrorVideo(context) {
-        const input = await FFmpegKitConfig.getSafParameterForRead(context.video.uri);
+    mirrorVideo: async function mirrorVideo(context, userId) {
+        const input = await FFmpegKitConfig.getSafParameterForRead(extension + context.video.uri);
         const output = await FFmpegKitConfig.selectDocumentForWrite(context.video.name.split(".")[0] + "_mirrored" + '.mp4', 'video/*').then((res) => {
             return FFmpegKitConfig.getSafParameterForWrite(res)
         });
@@ -182,7 +225,10 @@ const FFmpegWrapper = {
                 console.log(
                     `Encode completed successfully in ${duration} milliseconds;`,
                 );
-                context.dispatch({ type: 'SET_VIDEO', payload: { uri: output } })
+
+                await handleDocumentSelection(userId);
+                console.log("uploaded")
+                context.dispatch({ type: 'SET_VIDEO', payload: { name: context.video.name.split(".")[0] + "_mirrored", uri: context.video.name.split(".")[0] + "_mirrored" + '.mp4' } })
             } else if (ReturnCode.isCancel(returnCode)) {
                 console.log('Encode canceled');
             } else {

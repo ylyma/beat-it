@@ -3,4 +3,12 @@
 
   // add node_modules/@types
     ,"include": ["node_modules/@types"],
+    "transform": {
+        "^.+\\.jsx?$": "babel-jest", // Adding this line solved the issue
+        "^.+\\.tsx?$": "ts-jest"
+      },
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        },
+    
 }

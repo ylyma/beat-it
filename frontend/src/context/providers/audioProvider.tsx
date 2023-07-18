@@ -34,7 +34,7 @@ const events = [
     Event.PlaybackTrackChanged,
 ];
 
-function format(seconds) {
+function format(seconds: any) {
     let mins = (Math.floor(parseInt(seconds) / 60)).toString().padStart(2, '0');
     let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
@@ -54,7 +54,7 @@ export const AudioProvider = ({ children }: any) => {
             console.warn('An error occured while playing the current track.');
         }
 
-        if (event.type === Event.PlaybackState || event.type === Event.PlaybackTrackChanged) {
+        if (event.type === Event.PlaybackState) {
             let artist;
             const title = await TrackPlayer.getCurrentTrack()
                 .then((trackId) => {
@@ -113,6 +113,34 @@ export const AudioProvider = ({ children }: any) => {
             }
         }
         if (event.type === Event.PlaybackTrackChanged) {
+            let artist;
+            const title = await TrackPlayer.getCurrentTrack()
+                .then((trackId) => {
+                    return TrackPlayer.getTrack(trackId!);
+                }).then((track) => {
+                    artist = track!.artist;
+                    return track!.title;
+                }).catch((error) => {
+                    console.log(error);
+                    return "No Track Playing"
+                });
+            audioDispatch(
+                {
+                    type: 'SET_CURRENT_TRACK',
+                    payload: title,
+                }
+            );
+            audioDispatch(
+                {
+                    type: 'SET_CURRENT_ARTIST',
+                    payload: artist,
+                }
+            );
+            audioDispatch(
+                {
+                    type: 'SET_NO_TRACK',
+                    payload: false,
+                });
             audioDispatch(
                 {
                     type: 'SET_DURATION',

@@ -5,7 +5,7 @@ import { auth, googleAuth } from '../../../firebase';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
-import { REGISTER, RESETPASSWORD } from '../../constants/routeNames';
+import { HOMETAB, REGISTER, RESETPASSWORD } from '../../constants/routeNames';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/themes/colors';
 import HomeTab from '../../navigations/HomeTab';
@@ -26,13 +26,14 @@ import {
 } from 'firebase/auth';
 import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '../../navigations/AuthStack';
 
 const LoginComponent: () => ReactElement = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const authContext = useContext(AuthContext);
 
-    const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, user => {
             if (user) {
@@ -69,7 +70,7 @@ const LoginComponent: () => ReactElement = () => {
 
             // Sign-in the user with the credential
             return signInWithCredential(auth, googleCredential);
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
@@ -92,48 +93,47 @@ const LoginComponent: () => ReactElement = () => {
         setSecureTextEntry(!secureTextEntry);
     };
 
-    const { navigate } = useNavigation();
+    const { navigate } = useNavigation<StackNavigationProp<AuthStackParamList>>();
 
     return (
-        <View>
-            <AuthContainer>
-                <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
-                <View>
-                    <Text style={styles.title}>Welcome,</Text>
 
-                    <Text style={{ alignSelf: 'center' }}>Please sign in to continue.</Text>
+        <AuthContainer>
+            <Image style={globalStyles.logo} source={require('../../assets/images/BeatIt_Logo.png')} />
+            <View>
+                <Text style={styles.title}>Welcome,</Text>
 
-                    <Input
-                        label="Email"
-                        onChangeText={(text: string) => setEmail(text)}
-                        value={email}
-                        placeholder="Email"
-                    />
+                <Text style={{ alignSelf: 'center' }}>Please sign in to continue.</Text>
 
-                    <Input
-                        label="Password"
-                        onChangeText={(text: string) => setPassword(text)}
-                        value={password}
-                        icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
-                        iconPosition="right"
-                        secureTextEntry={secureTextEntry}
-                        placeholder="Password"
-                    />
-                </View>
+                <Input
+                    label="Email"
+                    onChangeText={(text: string) => setEmail(text)}
+                    value={email}
+                    placeholder="Email"
+                />
 
-                <View style={{ paddingTop: 10 }}>
-                    <CustomButton primary title="Login" onPress={handleLogin} />
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigate(RESETPASSWORD);
-                        }}>
-                        <Text style={[styles.textButton, { color: colors.black }]}>
-                            forgot your password?
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </AuthContainer>
+                <Input
+                    label="Password"
+                    onChangeText={(text: string) => setPassword(text)}
+                    value={password}
+                    icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
+                    iconPosition="right"
+                    secureTextEntry={secureTextEntry}
+                    placeholder="Password"
+                    onSubmitEditing={handleLogin}
+                />
+            </View>
 
+            <View style={{ paddingTop: 10 }}>
+                <CustomButton primary title="Login" onPress={handleLogin} />
+                <TouchableOpacity
+                    onPress={() => {
+                        navigate(RESETPASSWORD);
+                    }}>
+                    <Text style={[styles.textButton, { color: colors.black }]}>
+                        forgot your password?
+                    </Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.footer}>
                 <Text style={styles.text}>or, login with</Text>
 
@@ -158,7 +158,7 @@ const LoginComponent: () => ReactElement = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </AuthContainer>
     );
 };
 

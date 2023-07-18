@@ -1,4 +1,4 @@
-const audioReducer = (state, action) => {
+const audioReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'SET_CURRENT_TRACK':
             return {
