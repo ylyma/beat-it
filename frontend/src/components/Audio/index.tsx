@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/core';
 import Modal from '../common/Modal';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
+import PlaylistContainer from '../Playlist/PlaylistContainer';
 
 const AudioComponent: () => ReactElement = () => {
   // wrap this in a useEffect to make sure it only runs once and async
@@ -25,6 +26,7 @@ const AudioComponent: () => ReactElement = () => {
   const userId: string = authContext.user.uid;
   console.log(userId);
   const [upload, setUpload] = useState<boolean>(true);
+  const [uploadTop, setUploadTop] = useState<boolean>(true);
   const [playlistTitle, setPlaylistTitle] = useState<string>('');
   const {navigate} = useNavigation();
   // const [titles, setTitles] = useState();
@@ -91,28 +93,22 @@ const AudioComponent: () => ReactElement = () => {
       <View style={styles.titleAndButton}>
         <Text style={styles.subtitle}>Playlists</Text>
         <TouchableOpacity
+          style={styles.playlistRefresh}
+          onPress={() => {
+            setUploadTop(!uploadTop);
+          }}>
+          <View>
+            <Ionicons name={'refresh'} size={20} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {
             handleModal();
           }}>
           <Text style={styles.addButton}>New Playlist</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView style={styles.scroll} horizontal>
-        <HorizView
-          image_src={require('../../assets/images/playlistplaceholder.png')}
-          caption="playlist1"
-        />
-
-        <HorizView
-          image_src={require('../../assets/images/playlistplaceholder.png')}
-          caption="playlist2"
-        />
-
-        <HorizView
-          image_src={require('../../assets/images/playlistplaceholder.png')}
-          caption="playlist3"
-        />
-      </ScrollView>
+      <PlaylistContainer refresh={uploadTop}></PlaylistContainer>
       <View style={styles.titleAndButton}>
         <Text style={styles.subtitle}>Tracks</Text>
         <TouchableOpacity

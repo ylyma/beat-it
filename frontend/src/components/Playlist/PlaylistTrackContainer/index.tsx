@@ -3,7 +3,7 @@ import {ListItem} from 'react-native-elements';
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
-import {View, Text, StyleProp} from 'react-native';
+import {Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type PlaylistContainerProps = {
@@ -11,7 +11,7 @@ type PlaylistContainerProps = {
   refresh: boolean;
 };
 
-const PlaylistContainer = ({tracks, refresh}: PlaylistContainerProps) => {
+const PlaylistTrackContainer = ({tracks, refresh}: PlaylistContainerProps) => {
   const [data, setData] = useState<string[]>([]);
   const renderItem = ({item, drag, isActive}) => {
     return (
@@ -39,4 +39,4 @@ const PlaylistContainer = ({tracks, refresh}: PlaylistContainerProps) => {
   );
 };
 
-export default PlaylistContainer;
+export default PlaylistTrackContainer;

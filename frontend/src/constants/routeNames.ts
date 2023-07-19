@@ -10,6 +10,7 @@ export const RESETPASSWORD = 'ResetPassword';
 
 export const PLAYLIST = 'Playlist';
 export const PLAYLISTSTACK = 'PlaylistStack';
+export const PLAYLISTTRACKS = 'PlaylistTracks';
 
 export const AUDIOPLAYBACK = 'AudioPlayBack';
 

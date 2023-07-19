@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {ListItem} from '@rneui/themed';
 
 type PlaylistItemProps = {
   title: string;
   update: (track: string, add: boolean) => void;
 };
-const PlaylistItem = ({title, update}: PlaylistItemProps) => {
+const PlaylistTrackItem = ({title, update}: PlaylistItemProps) => {
   const [checked, setChecked] = React.useState(false);
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const PlaylistItem = ({title, update}: PlaylistItemProps) => {
   );
 };
 
-export default PlaylistItem;
+export default PlaylistTrackItem;

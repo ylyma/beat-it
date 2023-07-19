@@ -1,16 +1,14 @@
 import {useNavigation, useRoute} from '@react-navigation/core';
 import React, {ReactElement, useContext, useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import CustomButton from '../common/CustomButton';
-import {AUDIO} from '../../constants/routeNames';
+import CustomButton from '../../common/CustomButton';
+import {AUDIO} from '../../../constants/routeNames';
 import styles from './styles';
-import PlaylistItem from '../PlaylistItem';
-import Container from '../common/Container';
-import {ScrollView} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
-import {AuthContext} from '../../context/providers/authProvider';
-import PlaylistContainer from '../PlaylistContainer';
+import {AuthContext} from '../../../context/providers/authProvider';
 import {NestableScrollContainer} from 'react-native-draggable-flatlist';
+import PlaylistTrackContainer from '../PlaylistTrackContainer';
+import PlaylistTrackItem from '../PlaylistTrackItem';
 
 const PlaylistComponent: () => ReactElement = () => {
   const data = useRoute().params;
@@ -83,14 +81,14 @@ const PlaylistComponent: () => ReactElement = () => {
       <Text style={styles.playlistTitle}>{data.playlistTitle.toString()}</Text>
       <View style={styles.topList}>
         <NestableScrollContainer>
-          <PlaylistContainer tracks={allTracks} refresh={update} />
+          <PlaylistTrackContainer tracks={allTracks} refresh={update} />
         </NestableScrollContainer>
       </View>
       <View style={styles.list}>
         {tracks[0] !== '' ? (
           tracks.map(track => (
             <View key={track}>
-              <PlaylistItem title={track} update={updateTracks} />
+              <PlaylistTrackItem title={track} update={updateTracks} />
             </View>
           ))
         ) : (

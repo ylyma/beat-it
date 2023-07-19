@@ -50,7 +50,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   addButton: {
     borderRadius: 10,
@@ -68,6 +70,7 @@ export default StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     // justifyContent: 'center',
+    paddingLeft: 5,
   },
   songTitle: {
     textAlign: 'center',
@@ -77,6 +80,12 @@ export default StyleSheet.create({
   refresh: {
     alignSelf: 'center',
     paddingLeft: 120,
+    paddingRight: 10,
+  },
+  playlistRefresh: {
+    alignSelf: 'center',
+    paddingLeft: 107,
+    paddingRight: 10,
   },
   trackContainer: {
     paddingLeft: 15,

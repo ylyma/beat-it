@@ -8,6 +8,7 @@ import {
   HOME,
   PLAYLIST,
   PLAYLISTSTACK,
+  PLAYLISTTRACKS,
   SETTINGS,
   VIDEO,
   VIDEOEDIT,
@@ -26,6 +27,7 @@ import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import PlaylistStack from './PlaylistStack';
 import Playlist from '../screens/PlaylistCreation';
+import PlaylistTracks from '../screens/PlaylistTracksDisplay';
 
 const HomeTab: () => ReactElement = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -76,6 +78,11 @@ const HomeTab: () => ReactElement = () => {
       <Stack.Screen
         name={AUDIOPLAYBACKSTACK}
         component={AudioPlaybackStack}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={PLAYLISTTRACKS}
+        component={PlaylistTracks}
         options={{headerShown: false}}
       />
       <Stack.Screen name={VIDEOEDIT} component={VideoEdit} />

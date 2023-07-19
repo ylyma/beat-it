@@ -110,7 +110,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   };
 
   const playVideo = async () => {
-    loadFile();
+    await loadFile();
     // const videoObject = await ScopedStorage.listFiles(videoPath);
     const video = {
       uri: videoPath,
