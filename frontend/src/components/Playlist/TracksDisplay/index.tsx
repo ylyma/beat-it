@@ -84,6 +84,19 @@ const TracksDisplayComponent = () => {
     getQueue();
   }, [audioContext.currentTrack, audioContext.playing]);
 
+  const editPlaylist = () => {};
+
+  const deletePlaylist = async title => {
+    await fetch(
+      `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
+
+  const addSilence = () => {};
+
   return (
     <ScrollView>
       <View style={styles.topRow}>
@@ -110,7 +123,10 @@ const TracksDisplayComponent = () => {
               <Menu.Item onPress={() => {}} title="Edit" />
               <Menu.Item
                 titleStyle={styles.delete}
-                onPress={() => {}}
+                onPress={() => {
+                  deletePlaylist(data.title);
+                  navigate(AUDIO);
+                }}
                 title="Delete"
               />
             </Menu>

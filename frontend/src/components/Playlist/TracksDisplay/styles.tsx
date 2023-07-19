@@ -46,8 +46,8 @@ export default StyleSheet.create({
   bottom: {
     backgroundColor: '#f2ece4',
     marginTop: 20,
-    marginHorizontal: 14,
-    borderRadius: 12,
+    marginHorizontal: 15,
+    borderRadius: 15,
     paddingBottom: 15,
   },
   bottomContainer: {
