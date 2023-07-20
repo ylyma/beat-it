@@ -4,7 +4,7 @@ import colors from '../../../assets/themes/colors';
 export default StyleSheet.create({
   item: {
     width: 135,
-    height: 150,
+    height: 170,
     borderRadius: 10,
     backgroundColor: '#f0e7da',
     marginHorizontal: 10,
@@ -16,7 +16,6 @@ export default StyleSheet.create({
   },
   inside: {
     alignSelf: 'center',
-    marginTop: 15,
     width: 100,
     height: 85,
     borderRadius: 10,
@@ -41,6 +40,27 @@ export default StyleSheet.create({
     width: 30,
     height: 30,
     alignSelf: 'flex-end',
-    marginRight: 7,
+    marginRight: 5,
+    marginLeft: 12,
+  },
+  delete: {
+    color: colors.failure,
+  },
+  back: {
+    marginHorizontal: 5,
+  },
+  menu: {
+    marginRight: 'auto',
+    //flexDirection: 'row',
+    padding: 3,
+    marginTop: 5,
+  },
+  insideRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingVertical: 5,
+    paddingRight: 18,
+    marginTop: 3,
   },
 });

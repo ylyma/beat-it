@@ -6,7 +6,7 @@ import Config from 'react-native-config';
 import {AuthContext} from '../../../context/providers/authProvider';
 import PlaylistDisplayItem from '../PlaylistDisplayItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {AUDIO} from '../../../constants/routeNames';
+import {AUDIO, PLAYLISTEDIT} from '../../../constants/routeNames';
 import colors from '../../../assets/themes/colors';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
@@ -84,8 +84,6 @@ const TracksDisplayComponent = () => {
     getQueue();
   }, [audioContext.currentTrack, audioContext.playing]);
 
-  const editPlaylist = () => {};
-
   const deletePlaylist = async title => {
     await fetch(
       `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
@@ -120,7 +118,12 @@ const TracksDisplayComponent = () => {
                   />
                 </TouchableOpacity>
               }>
-              <Menu.Item onPress={() => {}} title="Edit" />
+              <Menu.Item
+                onPress={() => {
+                  navigate(PLAYLISTEDIT, {playlistTitle: data.title});
+                }}
+                title="Edit"
+              />
               <Menu.Item
                 titleStyle={styles.delete}
                 onPress={() => {

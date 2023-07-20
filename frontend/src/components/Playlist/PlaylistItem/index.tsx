@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import colors from '../../../assets/themes/colors';
 import {useNavigation} from '@react-navigation/core';
-import {PLAYLISTTRACKS} from '../../../constants/routeNames';
+import {PLAYLISTEDIT, PLAYLISTTRACKS} from '../../../constants/routeNames';
 import Config from 'react-native-config';
 import {AuthContext} from '../../../context/providers/authProvider';
 import TrackPlayer from 'react-native-track-player';
@@ -17,6 +17,11 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
   const {navigate} = useNavigation();
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
+  const [visible, setVisible] = React.useState(false);
+
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
 
   const loadPlaylist = async () => {
     await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
@@ -49,8 +54,34 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
       .catch(error => console.log(error));
   };
 
+  const deletePlaylist = async title => {
+    await fetch(
+      `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
+
   return (
     <View style={styles.item}>
+      <View style={styles.insideRow}>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => {
+            navigate(PLAYLISTEDIT, {playlistTitle: title});
+          }}>
+          <Ionicons name={'create'} size={15} color={colors.accent} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => {
+            deletePlaylist(title);
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.inside}>
         <Ionicons
           style={styles.icon}

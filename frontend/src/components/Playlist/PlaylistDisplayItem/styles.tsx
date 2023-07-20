@@ -21,6 +21,7 @@ export default StyleSheet.create({
   text: {
     alignSelf: 'center',
     padding: 10,
+    color: colors.black,
   },
   play: {
     alignSelf: 'center',

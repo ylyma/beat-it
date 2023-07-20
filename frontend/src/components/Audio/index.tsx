@@ -132,11 +132,6 @@ const AudioComponent: () => ReactElement = () => {
       </View>
 
       <Modal isVisible={isModalVisible}>
-        <View style={{flex: 1}}>
-          <Text>Hello!</Text>
-        </View>
-      </Modal>
-      <Modal isVisible={isModalVisible}>
         <Modal.Container>
           <Modal.Header title="Create New Playlist" />
           <Modal.Body>

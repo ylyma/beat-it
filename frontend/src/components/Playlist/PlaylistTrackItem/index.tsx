@@ -4,9 +4,10 @@ import {ListItem} from '@rneui/themed';
 type PlaylistItemProps = {
   title: string;
   update: (track: string, add: boolean) => void;
+  exists: boolean;
 };
-const PlaylistTrackItem = ({title, update}: PlaylistItemProps) => {
-  const [checked, setChecked] = React.useState(false);
+const PlaylistTrackItem = ({title, update, exists}: PlaylistItemProps) => {
+  const [checked, setChecked] = React.useState(exists);
 
   useEffect(() => {
     update(title, checked);
