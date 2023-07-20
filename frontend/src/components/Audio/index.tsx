@@ -122,7 +122,7 @@ const AudioComponent: () => ReactElement = () => {
                     onPress={() => {
                         navigate(PLAYLIST);
                     }}>
-                    <Text style={[styles.addButton, { backgroundColor: colors.secondary }]}>New Playlist</Text>
+                    <Text style={[styles.addButton, { backgroundColor: colors.secondary, color: colors.alwayswhite }]}>New Playlist</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scroll} horizontal>
@@ -156,7 +156,7 @@ const AudioComponent: () => ReactElement = () => {
                     onPress={() => {
                         handleDocumentSelection();
                     }}>
-                    <Text style={[styles.addButton, { backgroundColor: colors.secondary }]}>Import Tracks</Text>
+                    <Text style={[styles.addButton, { backgroundColor: colors.secondary, color: colors.alwayswhite }]}>Import Tracks</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.trackContainer}>

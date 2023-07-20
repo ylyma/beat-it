@@ -27,10 +27,10 @@ const MiniPlayer = () => {
     }
     return (
         <Animated.View style={styles.wrapper}>
-            <TouchableWithoutFeedback onPress={() => null}>
+            {/* <TouchableWithoutFeedback onPress={() => null}>
 
                 <Ionicons name="heart" color="white" size={24} />
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
             <TouchableWithoutFeedback onPress={() => navigation.navigate("AudioPlayBackStack")}>
                 <Text style={styles.text}>
                     {audioContext.currentTrack}

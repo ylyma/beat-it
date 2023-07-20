@@ -51,29 +51,35 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
             setUrl(response);
         } catch (error) {
             console.log(error);
+            downloadVideo();
         }
     };
 
     const downloadVideo = async (): Promise<any> => {
-        try {
-            const options: DownloadFileOptions = {
-                fromUrl: url,
-                toFile: filePath,
-            };
-            const response = await downloadFile(options);
-            return response.promise
-                .then(async res => {
-                    if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-                        console.log('ok!');
-                    } else {
-                        console.log('booo');
-                        console.log(res.statusCode);
-                    }
-                })
-                .catch(error => console.log(error));
-        } catch (error) {
-            console.log(error);
-        }
+
+        const options: DownloadFileOptions = {
+            fromUrl: url,
+            toFile: filePath,
+        };
+        const response = await downloadFile(options);
+        return response.promise.then(async res => {
+            if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+                console.log('ok!');
+                const video = {
+                    uri: videoPath,
+                    name: videoName,
+                };
+                videoContext.dispatch({ type: 'SET_VIDEO', payload: video });
+
+            } else {
+                console.log('booo');
+                console.log(res.statusCode);
+            }
+        })
+            .catch(error => {
+                console.log(error)
+                // downloadVideo()
+            });
     };
 
     const listFiles = async () => {
@@ -96,7 +102,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
                 makeDir();
             }
             console.log('folder exists');
-        }).then(() => RNFS.exists(filePath).then((exists) => {
+        }).then(() => RNFS.exists(filePath).then(async (exists) => {
             if (exists) {
                 RNFS.stat(filePath).then(file => console.log(file.mtime));
                 const current = new Date();
@@ -105,9 +111,9 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
                 listFiles();
             } else {
                 console.log('file doesnt exist');
-                getFile().then(
-                    () => downloadVideo()).then(
-                        () => listFiles());
+                getFile()
+                downloadVideo()
+                listFiles()
 
             }
         }));
@@ -131,8 +137,8 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     return (
         <View style={[styles.buttonContainer,]}>
             <TouchableOpacity onPress={() => playVideo()}>
-                <View style={[styles.buttonIcon, { backgroundColor: colors.lightgrey }]}>
-                    <Ionicons name={'play'} size={20} />
+                <View style={[styles.buttonIcon, { backgroundColor: colors.fourth }]}>
+                    <Ionicons name={'play'} size={20} color={colors.alwaysdark} />
                 </View>
             </TouchableOpacity>
             <Text style={[styles.videoTitle, { color: colors.secondaryText }]}>{videoName}</Text>

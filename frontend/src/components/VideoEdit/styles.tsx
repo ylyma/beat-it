@@ -78,9 +78,10 @@ export default StyleSheet.create({
         padding: 10,
     },
     progressBar: {
-        width: "90%",
+        width: "95%",
         height: 50,
         flexDirection: 'row',
+        alignSelf: 'center',
     },
     editText: {
         fontWeight: 'bold',

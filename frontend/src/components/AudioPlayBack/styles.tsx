@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     bookmark: {
-        fontSize: 30,
+        fontSize: 40,
         alignSelf: 'center',
         marginLeft: 10,
     },

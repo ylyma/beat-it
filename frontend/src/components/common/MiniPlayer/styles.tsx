@@ -15,6 +15,8 @@ export default StyleSheet.create({
     text: {
         color: "white",
         fontSize: 16,
+        flexGrow: 1,
+        fontWeight: "bold",
 
     }
 });

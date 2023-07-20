@@ -23,7 +23,7 @@ const VideoPlaybackComponent = () => {
     });
     const [framesLineOffset, setFramesLineOffset] = useState({ x: 0, y: 0 });
     const scrolling = useRef(new Animated.Value(0)).current;
-    const translation = useRef(new Animated.Value(-100)).current;
+    const translation = useRef(videoContext.currentTime / videoContext.totalDuration * 80).current;
     const colors = useTheme().colors;
 
     const playPause = () => {
@@ -115,37 +115,36 @@ const VideoPlaybackComponent = () => {
                 ref={(ref) => { videoContext.videoPlayer = ref }}
                 style={styles.videoPlayer}
                 onProgress={updateTime}
-                onLoad={handleOnLoad} />
+            // onLoad={handleOnLoad} 
+            />
             <Slider
                 style={styles.progressBar}
                 value={videoContext.currentTime}
                 minimumValue={0}
                 maximumValue={videoContext.totalDuration}
-                thumbTintColor="#FFD369"
-                minimumTrackTintColor="#FFD369"
-                maximumTrackTintColor="#fff"
+                thumbTintColor={colors.secondary}
+                minimumTrackTintColor={colors.fourth}
+                maximumTrackTintColor={colors.grey}
                 onSlidingComplete={(value) => {
                     console.log('value: ', value)
                     console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
                     videoContext.videoPlayer!.seek(value);
                 }} />
             <TouchableOpacity onPress={playPause}>
-                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} color={colors.black} />
+                <Ionicons name={videoContext.playIcon} style={[globalStyles.icon, { color: colors.black }]} />
             </TouchableOpacity>
-            <View style={styles.popLineContainer}>
+            {/* <View style={styles.popLineContainer}>
                 <View style={styles.popLine} />
-            </View>
-            <View>
-                <Animated.ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={Animated.event(
-                    [{
-                        nativeEvent: {
-                            contentOffset: {
-                                x: scrolling,
-                            },
-                        },
-                    }],
-                    { useNativeDriver: true }
-                )} contentOffset={framesLineOffset}>
+            </View> */}
+            {/* <View>
+                <Animated.ScrollView horizontal showsHorizontalScrollIndicator={false}
+                    onScroll={(event) => {
+                        scrolling.setValue(event.nativeEvent.contentOffset.x)
+                        console.log("scolling", scrolling)
+                        console.log("translation", translation)
+                    }} contentOffset={framesLineOffset}
+                    style={{ transform: [{ translateX: translation }] }}
+                >
                     <View style={styles.prependFrame}>
                     </View>
                     <FlatList data={frames} horizontal showsHorizontalScrollIndicator={false} renderItem={renderFrame} />
@@ -153,7 +152,7 @@ const VideoPlaybackComponent = () => {
                     </View>
                 </Animated.ScrollView>
 
-            </View>
+            </View> */}
 
         </View>
     )

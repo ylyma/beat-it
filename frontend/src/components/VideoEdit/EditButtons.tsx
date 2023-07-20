@@ -22,19 +22,19 @@ const EditButtons = () => {
                     <Text style={{ color: colors.text }}>Delay(s): </Text>
                     <TextInput placeholder={'Enter time delay in s'} onChangeText={(val) => setDelay(val)} inputMode='decimal' value={delay} placeholderTextColor={colors.text} style={{ color: colors.text }} />
                     <TouchableOpacity style={[styles.functionButton, { backgroundColor: colors.secondary }]} onPress={() => FFmpegWrapper.changeAudio(videoContext, delay, userId)}>
-                        <Text style={styles.functionText}>Align Audio</Text>
+                        <Text style={[styles.functionText, { color: colors.white }]}>Align Audio</Text>
                     </TouchableOpacity>
                 </View>
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text style={styles.editText}>Overlay Audio</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Overlay Audio</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
-                            <Text style={styles.editText}>Annotate</Text>
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
+                            <Text style={[styles.editText, { color: colors.white }]}>Annotate</Text>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Mirror')}>
-                            <Text style={styles.editText}>Mirror</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -46,13 +46,13 @@ const EditButtons = () => {
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text style={styles.editText}>Overlay Audio</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Overlay Audio</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
-                            <Text style={styles.editText}>Annotate</Text>
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
+                            <Text style={[styles.editText, { color: colors.white }]}>Annotate</Text>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Mirror')}>
-                            <Text style={styles.editText}>Mirror</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -64,19 +64,19 @@ const EditButtons = () => {
             <View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.functionButton, { backgroundColor: colors.secondary }]} onPress={() => FFmpegWrapper.mirrorVideo(videoContext, userId)}>
-                        <Text style={styles.functionText}>Mirror Video</Text>
+                        <Text style={[styles.functionText, { color: colors.white }]}>Mirror Video</Text>
                     </TouchableOpacity>
                 </View>
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text style={styles.editText}>Overlay Audio</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Overlay Audio</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
-                            <Text style={styles.editText}>Annotate</Text>
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
+                            <Text style={[styles.editText, { color: colors.white }]}>Annotate</Text>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Mirror')}>
-                            <Text style={styles.editText}>Mirror</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -89,13 +89,13 @@ const EditButtons = () => {
                 <ScrollView horizontal={true}>
                     <View style={styles.editMode}>
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Overlay Audio')}>
-                            <Text style={styles.editText}>Overlay Audio</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Overlay Audio</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
-                            <Text style={styles.editText}>Annotate</Text>
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Annotate')}>
+                            <Text style={[styles.editText, { color: colors.white }]}>Annotate</Text>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={[styles.editButton, { backgroundColor: colors.primary }]} onPress={() => setEditMode('Mirror')}>
-                            <Text style={styles.editText}>Mirror</Text>
+                            <Text style={[styles.editText, { color: colors.white }]}>Mirror</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

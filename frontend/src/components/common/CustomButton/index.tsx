@@ -43,8 +43,9 @@ const CustomButton = ({
                 {title && (
                     <Text
                         style={{
-                            color: colors.text,
+                            color: colors.alwayswhite,
                             paddingLeft: loading ? 5 : 0,
+                            fontWeight: 'bold',
                         }}>
                         {title}
                     </Text>

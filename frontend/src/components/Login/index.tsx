@@ -155,7 +155,7 @@ const LoginComponent: () => ReactElement = () => {
                         onPress={() => {
                             navigate(REGISTER);
                         }}>
-                        <Text style={[styles.textButton, { color: colors.secondary }]}>
+                        <Text style={[styles.textButton, { color: colors.secondaryText }]}>
                             sign up
                         </Text>
                     </TouchableOpacity>

@@ -11,8 +11,6 @@ import SearchBar from '../common/SearchBar';
 import { useTheme } from '@react-navigation/native';
 
 const VideoComponent = () => {
-    // const [video, setVideo] = React.useState<any>(null);
-    //const [allVideos, setAllVideos] = useState<any>([]);
     const videoContext = useContext(VideoContext);
     const authContext = useContext(AuthContext);
     const userId: string = authContext.user.uid;
@@ -85,12 +83,12 @@ const VideoComponent = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDocumentSelection()}>
                     <Text style={[styles.addButton,
-                    { backgroundColor: colors.secondary }
+                    { backgroundColor: colors.secondary, color: colors.alwayswhite }
                     ]}>Import Videos</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.videoContainer}>
-                <VideosContainer userId={userId} refresh={false} search={search} />
+                <VideosContainer userId={userId} refresh={upload} search={search} />
 
             </View>
         </View>

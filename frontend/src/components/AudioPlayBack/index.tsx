@@ -17,6 +17,7 @@ import Config from 'react-native-config';
 import { AuthContext } from '../../context/providers/authProvider';
 import 'react-native-get-random-values';
 import { useTheme } from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
@@ -91,7 +92,7 @@ const AudioPlayBackComponent = () => {
             <View>
                 <Text style={[styles.titleText, { color: colors.text }]}>{audioContext.currentTrack}</Text>
             </View>
-            <View style={styles.bookmarkContainer}>
+            <View style={[styles.bookmarkContainer,]}>
                 <Text style={[styles.subtitle, { color: colors.text }]}>Bookmarks</Text>
                 <BookmarkContainerGen bookmarks={bookmarkList} />
             </View>
@@ -102,8 +103,8 @@ const AudioPlayBackComponent = () => {
                     minimumValue={0}
                     maximumValue={duration}
                     thumbTintColor={colors.secondary}
-                    minimumTrackTintColor="#FFD369"
-                    maximumTrackTintColor="#ecfcff"
+                    minimumTrackTintColor={colors.fourth}
+                    maximumTrackTintColor={colors.othergrey}
                     onSlidingComplete={async value => {
                         await TrackPlayer.seekTo(value);
                     }}
@@ -116,7 +117,7 @@ const AudioPlayBackComponent = () => {
                         audioContext.format(duration)}
                 </Text>
                 <TouchableOpacity onPress={addBookmark}>
-                    <Ionicons name="bookmarks" style={styles.bookmark} color={colors.black} />
+                    <MaterialCommunityIcons name="bookmark-plus" size={20} style={styles.bookmark} color={colors.black} />
                 </TouchableOpacity>
             </View>
             <View style={styles.bottomBar}>

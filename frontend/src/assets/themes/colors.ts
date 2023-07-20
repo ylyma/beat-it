@@ -1,15 +1,13 @@
+import constant from "./constant";
+
 export default {
     dark: false,
     colors:{ 
-        primary: '#17858a',
-        secondary: '#f0bc30',
-        accent: '#085f63',
-        failure: '#c13131',
-        success: '#a7cd78',
+        ...constant,
         grey: '#adb5bd',
         black: '#000000',
         white: '#ffffff',
-        light: '#a5e1da',
+        light: '#aeb5be',
         dark: '#2d3232',
         lightgrey: '#d5d9de',
         background: '#ffffff',
@@ -17,6 +15,6 @@ export default {
         text: '#000000',
         border: '#ffffff',
         notification: '#ffffff',
-        secondaryText: '#43404d',
+        secondaryText: '#62616f',
     }
 };

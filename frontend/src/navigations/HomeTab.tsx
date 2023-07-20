@@ -17,6 +17,7 @@ import Playlist from '../screens/Playlist';
 import { type } from 'os';
 import { useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export type HomeTabParamList = {
     Home: undefined;
@@ -40,8 +41,8 @@ const HomeTab: () => ReactElement = () => {
             <Stack.Screen name="HomeTabBottom" options={{ headerShown: false }}>
                 {() => (
                     <Tab.Navigator
-                        activeColor={colors.accent}
-                        inactiveColor={colors.grey}
+                        activeColor={colors.primary}
+                        inactiveColor={colors.light}
                         initialRouteName={VIDEO}
                         screenOptions={({ route }) => ({
                             tabBarIcon: ({ focused }) => {
@@ -60,7 +61,7 @@ const HomeTab: () => ReactElement = () => {
                                 }
 
                                 return (
-                                    <Ionicons name={iconName} size={20} color={colors.accent} />
+                                    <Ionicons name={iconName} size={20} color={colors.primary} />
                                 );
                             },
                             tabBarLabelStyle: {
@@ -110,10 +111,16 @@ const HomeTab: () => ReactElement = () => {
                 component={VideoPlayback}
                 options={{
                     headerRight: () => (
-                        <Button
+                        <TouchableOpacity
                             onPress={() => Navigation.navigate(VIDEOEDIT)}
-                            title="edit"
-                        />
+                        >
+                            <Ionicons
+                                name="create-outline"
+                                size={30}
+                                color={colors.primary}
+                                style={{ paddingRight: 10 }}
+                            />
+                        </TouchableOpacity>
                     ),
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                     transitionSpec: {

@@ -10,11 +10,13 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import FFmpegWrapper from '../../services/ffMpeg';
 import Slider from '@react-native-community/slider';
 import EditButtons from './EditButtons';
+import { useTheme } from '@react-navigation/native';
 
 const VideoEditComponent = () => {
     const videoContext = useContext(VideoContext);
     const [editMode, setEditMode] = useState<String>("")
     const [delay, setDelay] = useState("0")
+    const colors = useTheme().colors;
 
 
     const playPause = () => {
@@ -44,16 +46,16 @@ const VideoEditComponent = () => {
                 value={videoContext.currentTime}
                 minimumValue={0}
                 maximumValue={videoContext.totalDuration}
-                thumbTintColor="#FFD369"
-                minimumTrackTintColor="#FFD369"
-                maximumTrackTintColor="#fff"
+                thumbTintColor={colors.secondary}
+                minimumTrackTintColor={colors.fourth}
+                maximumTrackTintColor={colors.grey}
                 onSlidingComplete={(value) => {
                     console.log('value: ', value)
                     console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
                     videoContext.videoPlayer!.seek(value);
                 }} />
             <TouchableOpacity onPress={playPause}>
-                <Ionicons name={videoContext.playIcon} style={globalStyles.icon} />
+                <Ionicons name={videoContext.playIcon} style={[globalStyles.icon, { color: colors.black }]} />
             </TouchableOpacity>
             <EditButtons />
         </View>

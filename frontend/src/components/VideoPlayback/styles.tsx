@@ -45,9 +45,10 @@ export default StyleSheet.create({
         // justifyContent: 'center',
     },
     progressBar: {
-        width: "90%",
+        width: "95%",
         height: 50,
         flexDirection: 'row',
+        alignSelf: 'center',
     },
     framesLine: {
         width: "100%",

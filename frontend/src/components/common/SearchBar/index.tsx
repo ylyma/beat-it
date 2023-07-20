@@ -26,15 +26,15 @@ const SearchBar = ({
 
     const getFillColor = () => {
         if (focused) {
-            return colors.grey;
+            return colors.otherlight;
         } else {
-            return colors.lightgrey;
+            return colors.otherdark;
         }
     };
 
     return (
         <View style={styles.inputContainer}>
-            {label && <Text style={styles.label}>{label}</Text>}
+            {label && <Text style={[styles.label,]}>{label}</Text>}
 
             <View
                 style={[
@@ -49,7 +49,7 @@ const SearchBar = ({
                 <View style={styles.icon}>{icon && icon}</View>
 
                 <TextInput
-                    style={[styles.textInput, style]}
+                    style={[styles.textInput, style, { color: colors.alwaysblack }]}
                     onChangeText={onChangeText}
                     value={text}
                     onFocus={() => {

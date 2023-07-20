@@ -1,16 +1,14 @@
+import constant from "./constant";
+
 export default {
     dark: true,
     colors: {
-        primary: '#17858a',
-        secondary: '#f0bc30',
-        accent: '#085f63',
-        failure: '#c13131',
-        success: '#a7cd78',
+        ...constant,
         lightgrey: '#adb5bd',
         black: '#ffffff',
         white: '#000000',
-        light: '#2d3232',
-        dark: '#a5e1da',
+        light: '#444749',
+        dark: '#989ea3',
         grey: '#d5d9de',
         background: '#000000',
         card: '#000000',
