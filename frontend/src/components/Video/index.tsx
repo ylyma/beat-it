@@ -97,7 +97,11 @@ const VideoComponent = () => {
             <Ionicons name={'refresh'} size={20} color={colors.grey} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDocumentSelection()}>
+        <TouchableOpacity
+          onPress={() => {
+            handleDocumentSelection();
+            setTimeout(reload, 500);
+          }}>
           <Text
             style={[
               styles.addButton,

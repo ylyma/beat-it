@@ -36,12 +36,13 @@ export class BookmarkController {
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete('/:userId/:trackTitle/:name')
+  @Delete('/:userId/:trackTitle/:name/:time')
   deleteBookmarkByName(
     @Param('userId') userId: string,
     @Param('name') name: string,
     @Param('trackTitle') title: string,
+    @Param('time') time: string,
   ) {
-    return this.bookmarkService.deleteBookmarkByName(userId, name, title);
+    return this.bookmarkService.deleteBookmarkByName(userId, name, title, time);
   }
 }

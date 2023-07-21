@@ -197,13 +197,32 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     ).catch(error => console.log(error));
   };
 
+  const pauseTrack = async () => {
+    await TrackPlayer.pause();
+  };
+
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={() => playTrack()} onLongPress={addToQueue}>
-        <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-          <Ionicons name={'play'} size={20} color={colors.lightfourth} />
-        </View>
-      </TouchableOpacity>
+      {audioContext.playing && audioContext.currentTrack === trackName ? (
+        <TouchableOpacity
+          onPress={() => {
+            pauseTrack();
+          }}>
+          <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
+            <Ionicons name={'pause'} size={20} color={colors.lightfourth} />
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            playTrack();
+          }}
+          onLongPress={addToQueue}>
+          <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
+            <Ionicons name={'play'} size={20} color={colors.lightfourth} />
+          </View>
+        </TouchableOpacity>
+      )}
       <Text style={styles.songTitle}>{trackName}</Text>
       <View style={styles.delete}>
         <TouchableOpacity

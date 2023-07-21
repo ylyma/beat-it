@@ -84,11 +84,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
           onPress={() => {
             createTwoButtonAlert();
           }}>
-          <Ionicons
-            name={'trash-bin'}
-            size={15}
-            color={colors.colors.failure}
-          />
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
         </TouchableOpacity>
       </View>
 
@@ -97,7 +93,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
           style={styles.icon}
           name={'musical-notes'}
           size={40}
-          color={colors.colors.white}
+          color={colors.white}
         />
         <TouchableOpacity
           style={styles.play}

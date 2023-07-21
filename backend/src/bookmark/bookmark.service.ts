@@ -63,14 +63,15 @@ export class BookmarkService {
   //   });
   // }
   async createBookmark(userId: string, body: CreateBookmarkDto, title: string) {
-    const name = body.title;
-    const content = body.timestamp.toString();
+    console.log('created bookmark');
+    const name = body.name;
+    const content = body.timestamp;
     console.log(title + ' ' + content);
     await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#bookmark_' + userId + '_' + title + '_' + name,
-        Body: content,
+        Key: '#bookmark_' + userId + '_' + title + '_' + name + '_' + content,
+        Body: '',
       }),
     );
   }
@@ -130,11 +131,17 @@ export class BookmarkService {
   //   });
   // }
 
-  async deleteBookmarkByName(userId: string, name: string, title: string) {
+  async deleteBookmarkByName(
+    userId: string,
+    name: string,
+    title: string,
+    time: string,
+  ) {
+    console.log('#bookmark_' + userId + '_' + title + '_' + name + '_' + time);
     await this.s3Client.send(
       new DeleteObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET_NAME'),
-        Key: '#bookmark_' + userId + '_' + title + '_' + name,
+        Key: '#bookmark_' + userId + '_' + title + '_' + name + '_' + time,
       }),
     );
   }

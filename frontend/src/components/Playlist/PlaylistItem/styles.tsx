@@ -6,7 +6,6 @@ export default StyleSheet.create({
     width: 135,
     height: 170,
     borderRadius: 10,
-    backgroundColor: '#f0e7da',
     marginHorizontal: 10,
   },
   icon: {
@@ -19,7 +18,6 @@ export default StyleSheet.create({
     width: 100,
     height: 85,
     borderRadius: 10,
-    backgroundColor: '#f2d177',
   },
   text: {
     alignSelf: 'center',
