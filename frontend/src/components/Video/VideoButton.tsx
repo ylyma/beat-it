@@ -29,8 +29,8 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   //cache directory path: /data/user/0/com.beatit/cache
   const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
   const filePath = folderPath + name + '.' + fileType;
-  const videoPath =
-    RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
+  // const videoPath =
+  //   RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
   const colors = useTheme().colors;
 
   const makeDir = () => {
@@ -38,7 +38,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     console.log('folder created');
   };
 
-  const [url, setUrl] = useState<string>('');
+  //const [url, setUrl] = useState<string>('');
   const getFile = async () => {
     try {
       const response = await fetch(
@@ -47,30 +47,33 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
           method: 'GET',
         },
       ).then(res => res.text());
+
       console.log(response);
-      setUrl(response);
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const downloadVideo = async (): Promise<any> => {
+  const downloadVideo = async (response): Promise<any> => {
     try {
       const options: DownloadFileOptions = {
-        fromUrl: url,
+        fromUrl: response,
         toFile: filePath,
       };
-      const response = await downloadFile(options);
-      return response.promise
-        .then(async res => {
-          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-            console.log('ok!');
-          } else {
-            console.log('booo');
-            console.log(res.statusCode);
-          }
-        })
-        .catch(error => console.log(error));
+      //   const response = await downloadFile(options);
+      //   return response.promise
+      //     .then(async res => {
+      //       if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+      //         console.log('ok!');
+      //       } else {
+      //         console.log('booo');
+      //         console.log(res.statusCode);
+      //       }
+      //     })
+      //     .catch(error => console.log(error));
+      console.log(filePath);
+      await downloadFile(options);
     } catch (error) {
       console.log(error);
     }
@@ -89,39 +92,51 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
       console.log(error);
     }
   };
-  const loadFile = async () => {
-    RNFS.exists(folderPath).then(exists => {
+  const loadFile = () => {
+    const videoPath =
+      RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
+
+    RNFS.exists(folderPath).then(async exists => {
       if (!exists) {
         console.log('making folder');
         makeDir();
       }
       console.log('folder exists');
+      return videoPath;
     });
-    RNFS.exists(filePath).then(exists => {
+    RNFS.exists(filePath).then(async exists => {
       if (exists) {
         RNFS.stat(filePath).then(file => console.log(file.mtime));
         const current = new Date();
         RNFS.touch(filePath, current);
-        RNFS.stat(filePath).then(file => console.log(file.mtime));
+        //RNFS.stat(filePath).then(file => console.log(file.mtime));
         listFiles();
+        return videoPath;
       } else {
         console.log('file doesnt exist');
-        getFile();
-        downloadVideo();
+        const url = await getFile();
+        console.log('1' + url);
+        await downloadVideo(url);
+        console.log('2');
         listFiles();
+        console.log('im donee');
+        return videoPath;
       }
     });
+    return videoPath;
   };
 
-  const playVideo = async () => {
-    await loadFile();
-    // const videoObject = await ScopedStorage.listFiles(videoPath);
+  const playVideo = () => {
+    const vidPath = loadFile();
     const video = {
-      uri: videoPath,
+      uri: vidPath,
       name: videoName,
     };
     videoContext.dispatch({type: 'SET_VIDEO', payload: video});
-    navigation.navigate(VIDEOPLAYBACK);
+    console.log('loaded');
+    console.log(vidPath);
+
+    // const videoObject = await ScopedStorage.listFiles(videoPath);
   };
 
   const createTwoButtonAlert = () =>
@@ -149,9 +164,14 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     ).catch(error => console.log(error));
   };
 
+  const wait = () => navigation.navigate(VIDEOPLAYBACK);
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={() => playVideo()}>
+      <TouchableOpacity
+        onPress={() => {
+          playVideo();
+          setTimeout(wait, 1500);
+        }}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
           <Ionicons name={'play'} size={20} color={colors.lightfourth} />
         </View>

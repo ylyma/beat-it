@@ -23,7 +23,7 @@ const AudioPlayBackComponent = () => {
   // build a playback page
   const audioContext = useContext(AudioContext);
   const {position, duration} = useProgress();
-  const [bookmarkList, setBookmarkList] = React.useState([]);
+  const [bookmarkList, setBookmarkList] = React.useState(['', 0]);
   const navigation = useNavigation();
   const authContext = useContext(AuthContext);
   const colors = useTheme().colors;

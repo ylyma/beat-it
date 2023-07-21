@@ -27,7 +27,7 @@ const BookmarkContainerGen = (props: BookmarkContainerGenProps) => {
     //   keyExtractor={item => item.time.toString()}
     // />
     <View style={styles.bookmarkDisplay}>
-      {props.bookmarks[0] !== undefined ? (
+      {props.bookmarks[0].name !== '' ? (
         props.bookmarks.map(bookmark => (
           <View key={bookmark.time}>
             <BookmarkButton

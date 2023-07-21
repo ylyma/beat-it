@@ -47,7 +47,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     console.log('folder created');
   };
 
-  const [url, setUrl] = useState<string>('');
+  //const [url, setUrl] = useState<string>('');
   const getFile = async () => {
     try {
       const response = await fetch(
@@ -57,30 +57,33 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         },
       ).then(res => res.text());
       console.log('getting file');
-      setUrl(response);
+      //setUrl(response);
+      console.log(response);
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const downloadAudio = async (): Promise<any> => {
+  const downloadAudio = async (url): Promise<any> => {
     try {
       const options: DownloadFileOptions = {
         fromUrl: url,
         toFile: filePath,
       };
       console.log('downloading');
-      const response = await downloadFile(options);
-      return response.promise
-        .then(async res => {
-          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-            console.log('ok!');
-          } else {
-            console.log('booo');
-            console.log(res.statusCode);
-          }
-        })
-        .catch(error => console.log(error));
+      console.log(url);
+      await downloadFile(options);
+      // return response.promise
+      //   .then(async res => {
+      //     if (res && res.statusCode === 200 && res.bytesWritten > 0) {
+      //       console.log('ok!');
+      //     } else {
+      //       console.log('booo');
+      //       console.log(res.statusCode);
+      //     }
+      //   })
+      //   .catch(error => console.log(error));
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +102,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
       console.log(error);
     }
   };
-  const loadFile = async () => {
+  const loadFile = () => {
     RNFS.exists(folderPath).then(exists => {
       if (!exists) {
         console.log('making folder');
@@ -107,7 +110,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
       }
       console.log('folder exists');
     });
-    RNFS.exists(filePath).then(exists => {
+    RNFS.exists(filePath).then(async exists => {
       if (exists) {
         RNFS.stat(filePath).then(file => console.log(file.mtime));
         const current = new Date();
@@ -116,9 +119,9 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         listFiles();
       } else {
         console.log('file doesnt exist');
-        getFile()
-          .then(() => downloadAudio())
-          .then(() => listFiles());
+        const url = await getFile();
+        await downloadAudio(url);
+        listFiles();
       }
     });
   };
@@ -135,13 +138,12 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
   };
 
   // make this play immediately
-  const playTrack = async () => {
-    await loadFile();
-    await TrackPlayer.getCurrentTrack()
+  const playTrack = () => {
+    TrackPlayer.getCurrentTrack()
       .then(async (trackId: any) => {
         console.log('t' + trackId);
         let queueLength;
-        await TrackPlayer.getQueue().then(queue => {
+        TrackPlayer.getQueue().then(queue => {
           queueLength = queue.length;
           console.log('q' + queueLength);
         });
@@ -215,6 +217,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
       ) : (
         <TouchableOpacity
           onPress={() => {
+            loadFile();
             playTrack();
           }}
           onLongPress={addToQueue}>

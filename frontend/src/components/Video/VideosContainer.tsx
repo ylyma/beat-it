@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 import RNFS from 'react-native-fs';
 import VideoButton from './VideoButton';
 import {VideoContext} from '../../context/providers/videoProvider';
+import shorthash from 'shorthash';
 
 type Props = {userId: string; refresh: boolean; reload: () => void};
 
@@ -15,6 +16,7 @@ const VideosContainer: (props: Props) => ReactElement = ({
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
   const [videos, setVideos] = useState<string[]>(['']);
+
   const deleteFile = async (f: string) => {
     try {
       await RNFS.unlink(f);
@@ -43,13 +45,12 @@ const VideosContainer: (props: Props) => ReactElement = ({
     if (reader !== undefined) {
       for (let i = 0; i < reader.length; i++) {
         const item = reader[i];
-
         console.log('files:' + i + '_' + item.name);
       }
-      if (reader.length > 20) {
-        const oldestFilePath = folderPath + reader[0];
+      if (reader.length > 10) {
+        const oldestFilePath = folderPath + reader[0].name;
         deleteFile(oldestFilePath);
-        console.log(reader[0]);
+        console.log(reader[0].name);
       }
     }
   };
@@ -74,11 +75,10 @@ const VideosContainer: (props: Props) => ReactElement = ({
         });
     };
     getAllVideo();
+    lruCacheEviction().then(() => console.log('cache eviction'));
   }, [refresh, userId]);
 
   console.log(videos[0]);
-
-  lruCacheEviction().then(() => console.log('cache eviction'));
 
   return (
     <View>
