@@ -1,15 +1,16 @@
 export default {
   // primary: '#17858a', original
   // secondary: '#f0bc30', original
-  primary: '#8277F7',
-  secondary: '#fad046',
+  primary: '#6f8df5',
+  secondary: '#f4d054',
   third: '#5EF7A5',
-  fourth: '#F7DE52',
-  fifth: '#54FFA3',
-  lightfourth: '#ffffff',
+  fourth: '#f2ca3f',
+  fifth: '#FFD166',
+  lightfourth: '#fefeff',
+  lightsecondary: '#fbf1cf',
   accent: '#e07a97',
-  failure: '#c13131',
-  success: '#43752f',
+  failure: '#f48054',
+  success: '#8ebf0c',
   alwayswhite: '#ffffff',
   otherdark: '#ced4d9',
   otherlight: '#f2f2f2',

@@ -10,6 +10,7 @@ import {AuthContext} from '../../../context/providers/authProvider';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
+import {useTheme} from '@react-navigation/native';
 
 type PlaylistItemProps = {title: string};
 
@@ -17,6 +18,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
   const {navigate} = useNavigation();
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
+  const colors = useTheme().colors;
 
   const loadPlaylist = async () => {
     await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
@@ -68,14 +70,14 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
   };
 
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, {backgroundColor: colors.lightsecondary}]}>
       <View style={styles.insideRow}>
         <TouchableOpacity
           style={styles.back}
           onPress={() => {
             navigate(PLAYLISTEDIT, {playlistTitle: title});
           }}>
-          <Ionicons name={'create'} size={15} color={colors.colors.success} />
+          <Ionicons name={'create'} size={15} color={colors.success} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.back}
@@ -90,7 +92,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.inside}>
+      <View style={[styles.inside, {backgroundColor: colors.secondary}]}>
         <Ionicons
           style={styles.icon}
           name={'musical-notes'}
@@ -103,7 +105,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
             loadPlaylist();
             navigate(PLAYLISTTRACKS, {title: title});
           }}>
-          <Ionicons name={'play'} size={20} color="#f2b307" />
+          <Ionicons name={'play'} size={20} color={colors.fourth} />
         </TouchableOpacity>
       </View>
       <Text style={styles.text}>{title}</Text>
