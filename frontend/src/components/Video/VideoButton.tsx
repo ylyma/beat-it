@@ -153,7 +153,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playVideo()}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-          <Ionicons name={'play'} size={20} color={colors.alwaysdark} />
+          <Ionicons name={'play'} size={20} color={colors.lightfourth} />
         </View>
       </TouchableOpacity>
       <Text style={styles.videoTitle}>{videoName}</Text>

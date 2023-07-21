@@ -7,12 +7,12 @@ import {AuthContext} from '../../../context/providers/authProvider';
 import PlaylistDisplayItem from '../PlaylistDisplayItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {AUDIO, PLAYLISTEDIT} from '../../../constants/routeNames';
-import colors from '../../../assets/themes/colors';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
 import {Menu, PaperProvider} from 'react-native-paper';
 import {AudioContext} from '../../../context/providers/audioProvider';
+import {useTheme} from '@react-navigation/native';
 
 const TracksDisplayComponent = () => {
   const data = useRoute().params;
@@ -23,6 +23,7 @@ const TracksDisplayComponent = () => {
   const [visible, setVisible] = React.useState(false);
   const [queue, setQueue] = useState([]);
   const audioContext = useContext(AudioContext);
+  const colors = useTheme().colors;
 
   const openMenu = () => setVisible(true);
 
