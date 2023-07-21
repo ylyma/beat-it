@@ -1,15 +1,16 @@
 import React, { Dispatch, createContext, useReducer } from 'react';
 import authReducer from '../reducers/authReducer';
+import { User } from 'firebase/auth';
 
 interface authInterface {
     isLoggedIn: boolean,
-    user: any,
+    user: User,
     dispatch: Dispatch<any>,
 };
 
 export const authInit = {
     isLoggedIn: false,
-    user: null,
+    user: {} as User,
     dispatch: () => { },
 };
 

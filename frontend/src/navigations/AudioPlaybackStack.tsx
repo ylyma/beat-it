@@ -7,7 +7,12 @@ import { AUDIOPLAYBACK, BOOKMARKCREATION } from '../constants/routeNames';
 
 export type AudioStackParamList = {
     AudioPlayBack: undefined;
-    BookmarkCreation: undefined;
+    BookmarkCreation: {
+        bookmarks: any[],
+        id: string,
+        timestamp: number,
+        title: string,
+    };
 };
 
 const AudioPlaybackStack = () => {

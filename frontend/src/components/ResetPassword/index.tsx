@@ -11,14 +11,23 @@ import colors from '../../assets/themes/colors';
 import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContainer from '../common/AuthContainer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '../../navigations/AuthStack';
 
-const ResetPasswordComponent: () => ReactElement = ({
+type Props = {
+    onSubmit: any,
+    onChange: any,
+    form: any,
+    errors: any,
+};
+
+const ResetPasswordComponent: (props: Props) => ReactElement = ({
     onSubmit,
     onChange,
     form,
     errors,
 }) => {
-    const { navigate } = useNavigation();
+    const { navigate } = useNavigation<StackNavigationProp<AuthStackParamList>>();
     const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
     const toggleSecureEntry = () => {
         setSecureTextEntry(!secureTextEntry);

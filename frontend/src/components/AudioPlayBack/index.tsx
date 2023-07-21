@@ -18,6 +18,9 @@ import { AuthContext } from '../../context/providers/authProvider';
 import 'react-native-get-random-values';
 import { useTheme } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomSlider from '../common/CustomSlider/CustomSlider';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AudioStackParamList } from '../../navigations/AudioPlaybackStack';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
@@ -26,7 +29,7 @@ const AudioPlayBackComponent = () => {
     const audioContext = useContext(AudioContext);
     const { position, duration } = useProgress();
     const [bookmarkList, setBookmarkList] = React.useState([]);
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<AudioStackParamList>>();
     const authContext = useContext(AuthContext);
     const colors = useTheme().colors;
 
@@ -97,15 +100,11 @@ const AudioPlayBackComponent = () => {
                 <BookmarkContainerGen bookmarks={bookmarkList} />
             </View>
             <View style={styles.bottomBar}>
-                <Slider
-                    style={styles.progressBar}
+                <CustomSlider
                     value={position}
                     minimumValue={0}
                     maximumValue={duration}
-                    thumbTintColor={colors.secondary}
-                    minimumTrackTintColor={colors.fourth}
-                    maximumTrackTintColor={colors.othergrey}
-                    onSlidingComplete={async value => {
+                    onSlidingComplete={async (value: number) => {
                         await TrackPlayer.seekTo(value);
                     }}
                 />

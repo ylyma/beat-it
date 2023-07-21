@@ -24,9 +24,12 @@ module.exports = {
     moduleNameMapper: {
         /* This is key to preventing the webpack error. */
         '^firebase(.*)$': '<rootDir>/__mocks__/firebaseMock.js',
-        '^firebase/analytics(.*)$': '<rootDir>/__mocks__/firebaseAnalyticsMock.js',
+        // '^firebase/analytics(.*)$': '<rootDir>/__mocks__/firebaseAnalyticsMock.js',
         '^react-native-track-player(.*)$': '<rootDir>/__mocks__/react-native-track-player-Mock.js',
-        '^@react-native-google-signin(.*)$': '<rootDir>/__mocks__/react-native-google-signin-Mock.js',
+        // '^@react-native-google-signin(.*)$': '<rootDir>/__mocks__/react-native-google-signin-Mock.js',
         '^shorthash(.*)$': '<rootDir>/__mocks__/shorthashMock.js',
+        '^react-native-fs(.*)$': '<rootDir>/__mocks__/react-native-fsMock.js',
+        '^react-native-document-picker(.*)$': '<rootDir>/__mocks__/RNDocumentPickerMock.js',
+        '^@react-native-google-signin': '<rootDir>/__mocks__/react-native-google-signinMock.js',
       },
   };

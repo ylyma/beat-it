@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../assets/themes/colors';
+// import colors from '../../assets/themes/colors';
 export default StyleSheet.create({
     wrapper: {
         justifyContent: 'flex-start',
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     },
     topContainer: {
         // verticalAlign: 'top',
-        backgroundColor: colors.accent,
+        // backgroundColor: colors.accent,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         // paddingTop: '5%',
@@ -35,14 +35,14 @@ export default StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        color: colors.white,
+        // color: colors.white,
         fontSize: 25,
         paddingVertical: 5,
         alignSelf: 'center',
     },
     subtitle: {
         fontWeight: 'bold',
-        color: colors.black,
+        // color: colors.black,
         fontSize: 20,
         paddingLeft: 40,
         paddingTop: 20,

@@ -2,13 +2,14 @@
   "extends": "@tsconfig/react-native/tsconfig.json"
 
   // add node_modules/@types
-    ,"include": ["node_modules/@types"],
+    ,"include": ["node_modules/@types", "src"],
     "transform": {
         "^.+\\.jsx?$": "babel-jest", // Adding this line solved the issue
         "^.+\\.tsx?$": "ts-jest"
       },
     "compilerOptions": {
         "jsx": "react-jsx",
+        "declaration": true,
         },
     
 }
