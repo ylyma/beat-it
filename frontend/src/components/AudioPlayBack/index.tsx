@@ -18,6 +18,9 @@ import {AuthContext} from '../../context/providers/authProvider';
 import 'react-native-get-random-values';
 import {useTheme} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomSlider from '../common/CustomSlider/CustomSlider';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AudioStackParamList } from '../../navigations/AudioPlaybackStack';
 
 const AudioPlayBackComponent = () => {
   // build a playback page
@@ -94,10 +97,11 @@ const AudioPlayBackComponent = () => {
   const skipToPrevious = () => {
     TrackPlayer.skipToPrevious();
   };
-
+  
   const skipToNext = () => {
     TrackPlayer.skipToNext();
   };
+
 
   return (
     // the player should be a full screen page with play/pause button, next track, previous track,

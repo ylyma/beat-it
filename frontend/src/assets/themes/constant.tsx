@@ -13,6 +13,7 @@ export default {
   failure: '#f48054',
   altfailure: '#fbced8',
   altsuccess: '#d8fbce',
+
   success: '#8ebf0c',
   alwayswhite: '#ffffff',
   otherdark: '#ced4d9',

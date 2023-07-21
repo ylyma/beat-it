@@ -1,73 +1,71 @@
-import React, {useContext, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import colors from '../../../assets/themes/colors';
-import {useNavigation} from '@react-navigation/core';
-import {PLAYLISTEDIT, PLAYLISTTRACKS} from '../../../constants/routeNames';
+import { useNavigation } from '@react-navigation/core';
+import { PLAYLISTEDIT, PLAYLISTTRACKS } from '../../../constants/routeNames';
 import Config from 'react-native-config';
-import {AuthContext} from '../../../context/providers/authProvider';
+import { AuthContext } from '../../../context/providers/authProvider';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
 import {useTheme} from '@react-navigation/native';
-
-type PlaylistItemProps = {title: string};
+type PlaylistItemProps = { title: string };
 
 const PlaylistItem = ({title}: PlaylistItemProps) => {
   const {navigate} = useNavigation();
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
   const colors = useTheme().colors;
+  
+    const loadPlaylist = async () => {
+        await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
+            method: 'GET',
+        })
+            .then(res => res.text())
+            .then(r => {
+                const items = r.split(',');
+                console.log(items);
+                TrackPlayer.reset();
+                let queue = new Array();
+                for (let i = 0; i < items.length; i++) {
+                    const name = shorthash.unique(items[i].split('.')[0]);
+                    const fileType = items[i].split('.')[1];
+                    const extension = 'file:/';
+                    const trackPath =
+                        RNFS.CachesDirectoryPath + '/audio/' + name + '.' + fileType;
+                    RNFS.touch(extension + trackPath, new Date());
+                    const track = {
+                        title: items[i],
+                        url: trackPath,
+                        artist: '',
+                    };
+                    queue.push(track);
+                }
+                console.log(queue);
+                TrackPlayer.add(queue);
+            })
+            .then(() => TrackPlayer.play())
+            .catch(error => console.log(error));
+    };
 
-  const loadPlaylist = async () => {
-    await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
-      method: 'GET',
-    })
-      .then(res => res.text())
-      .then(r => {
-        const items = r.split(',');
-        console.log(items);
-        TrackPlayer.reset();
-        let queue = new Array();
-        for (let i = 0; i < items.length; i++) {
-          const name = shorthash.unique(items[i].split('.')[0]);
-          const fileType = items[i].split('.')[1];
-          const extension = 'file:/';
-          const trackPath =
-            RNFS.CachesDirectoryPath + '/audio/' + name + '.' + fileType;
-          RNFS.touch(extension + trackPath, new Date());
-          const track = {
-            title: items[i],
-            url: trackPath,
-            artist: '',
-          };
-          queue.push(track);
-        }
-        console.log(queue);
-        TrackPlayer.add(queue);
-      })
-      .then(() => TrackPlayer.play())
-      .catch(error => console.log(error));
-  };
-
-  const createTwoButtonAlert = () =>
-    Alert.alert('Deleting playlist', `Proceed to delete playlist: ${title}?`, [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => deletePlaylist(title)},
-    ]);
-  const deletePlaylist = async title => {
-    await fetch(
-      `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
-      {
-        method: 'DELETE',
-      },
-    ).catch(error => console.log(error));
-  };
+    const createTwoButtonAlert = () =>
+        Alert.alert('Deleting playlist', `Proceed to delete playlist: ${title}?`, [
+            {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            { text: 'OK', onPress: () => deletePlaylist(title) },
+        ]);
+    const deletePlaylist = async title => {
+        await fetch(
+            `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
+            {
+                method: 'DELETE',
+            },
+        ).catch(error => console.log(error));
+    };
 
   return (
     <View style={[styles.item, {backgroundColor: colors.lightsecondary}]}>
@@ -107,6 +105,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
       <Text style={styles.text}>{title}</Text>
     </View>
   );
+
 };
 
 export default PlaylistItem;

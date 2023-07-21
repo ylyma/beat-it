@@ -4,4 +4,5 @@ module.exports = {
     useTrackPlayerEvents: jest.fn(),
     Event: jest.fn(),
     State: jest.fn(),
+    useProgress: jest.fn(() => ({})),
 }
