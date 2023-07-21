@@ -82,44 +82,39 @@ const VideoComponent = () => {
         setUpload(!upload);
     };
 
-    return (
-        <View>
-            <SearchBar
-                icon={<Ionicons name="search" />}
-                iconPosition="left"
-                placeholder="Search"
-                value={search}
-                onChangeText={(value: string) => {
-                    console.log(value);
-                    setSearch(value.toLowerCase());
-                }}
-            />
-            <View style={styles.titleAndButton}>
-                <Text style={[styles.subtitle, { color: colors.text }]}>Video</Text>
-                <TouchableOpacity
-                    style={styles.refresh}
-                    onPress={() => {
-                        setUpload(!upload);
-                    }}>
-                    <View>
-                        <Ionicons name={'refresh'} size={20} color={colors.grey} />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDocumentSelection()}>
-                    <Text
-                        style={[
-                            styles.addButton,
-                            { backgroundColor: colors.secondary, color: colors.alwayswhite },
-                        ]}>
-                        Import Videos
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.trackContainer}>
-                <VideosContainer userId={userId} refresh={upload} search={search} />
-            </View>
-        </View>
-    );
+  return (
+    <View>
+      <View style={styles.titleAndButton}>
+        <Text style={[styles.subtitle, {color: colors.text}]}>Video</Text>
+        <TouchableOpacity
+          style={styles.refresh}
+          onPress={() => {
+            setUpload(!upload);
+          }}>
+          <View>
+            <Ionicons name={'refresh'} size={20} color={colors.grey} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleDocumentSelection();
+            setTimeout(reload, 500);
+          }}>
+          <Text
+            style={[
+              styles.addButton,
+              {backgroundColor: colors.secondary, color: colors.alwayswhite},
+            ]}>
+            Import Videos
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.trackContainer}>
+        <VideosContainer userId={userId} refresh={upload} reload={reload} />
+      </View>
+    </View>
+  );
+
 };
 
 export default VideoComponent;

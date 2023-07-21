@@ -49,7 +49,7 @@ const SearchBar = ({
         <View style={styles.icon}>{icon && icon}</View>
 
         <TextInput
-          style={[styles.textInput, style, {color: colors.background}]}
+          style={[styles.textInput, style, {color: colors.alwaysdark}]}
           onChangeText={onChangeText}
           value={text}
           onFocus={() => {

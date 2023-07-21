@@ -3,7 +3,10 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import Config from 'react-native-config';
 import RNFS from 'react-native-fs';
 import VideoButton from './VideoButton';
-import { VideoContext } from '../../context/providers/videoProvider';
+
+import {VideoContext} from '../../context/providers/videoProvider';
+import shorthash from 'shorthash';
+
 
 type Props = { userId: string; refresh: boolean; search: string };
 
@@ -12,37 +15,49 @@ const VideosContainer: (props: Props) => ReactElement = ({
     refresh,
     search,
 }: Props) => {
-    const extension = 'file:/';
-    const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
-    const [videos, setVideos] = useState<string[]>(['']);
-    const deleteFile = async (f: string) => {
-        try {
-            await RNFS.unlink(f);
-            console.log('file deleted');
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
-    const sortFiles = async () => {
-        try {
-            const reader = await RNFS.readDir(folderPath);
-            return reader
-                .map(fileName => ({
-                    name: fileName,
-                    time: fileName.mtime === undefined ? new Date(0) : fileName.mtime,
-                }))
-                .sort((a, b) => a.time.getTime() - b.time.getTime())
-                .map(file => file.name);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    const lruCacheEviction = async () => {
-        const reader = await sortFiles();
-        if (reader !== undefined) {
-            for (let i = 0; i < reader.length; i++) {
-                const item = reader[i];
+  const extension = 'file:/';
+  const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
+  const [videos, setVideos] = useState<string[]>(['']);
+
+  const deleteFile = async (f: string) => {
+    try {
+      await RNFS.unlink(f);
+      console.log('file deleted');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sortFiles = async () => {
+    try {
+      const reader = await RNFS.readDir(folderPath);
+      return reader
+        .map(fileName => ({
+          name: fileName,
+          time: fileName.mtime === undefined ? new Date(0) : fileName.mtime,
+        }))
+        .sort((a, b) => a.time.getTime() - b.time.getTime())
+        .map(file => file.name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const lruCacheEviction = async () => {
+    const reader = await sortFiles();
+    if (reader !== undefined) {
+      for (let i = 0; i < reader.length; i++) {
+        const item = reader[i];
+        console.log('files:' + i + '_' + item.name);
+      }
+      if (reader.length > 10) {
+        const oldestFilePath = folderPath + reader[0].name;
+        deleteFile(oldestFilePath);
+        console.log(reader[0].name);
+      }
+    }
+  };
+
 
                 console.log('files:' + i + '_' + item.name);
             }
@@ -53,6 +68,11 @@ const VideosContainer: (props: Props) => ReactElement = ({
             }
         }
     };
+
+    getAllVideo();
+    lruCacheEviction().then(() => console.log('cache eviction'));
+  }, [refresh, userId]);
+
 
     useEffect(() => {
         const getAllVideo = async () => {
@@ -78,21 +98,20 @@ const VideosContainer: (props: Props) => ReactElement = ({
 
     console.log(videos[0]);
 
-    lruCacheEviction().then(() => console.log('cache eviction'));
+  return (
+    <View>
+      {videos[0] !== '' ? (
+        videos.map(video => (
+          <View key={video}>
+            <VideoButton videoName={video} userId={userId} reload={reload} />
+          </View>
+        ))
+      ) : (
+        <View />
+      )}
+    </View>
+  );
 
-    return (
-        <View>
-            {videos[0] !== '' ? (
-                videos.map(video => (
-                    <View key={video}>
-                        <VideoButton videoName={video} userId={userId} reload={() => { }} />
-                    </View>
-                ))
-            ) : (
-                <View />
-            )}
-        </View>
-    );
 };
 
 export default VideosContainer;

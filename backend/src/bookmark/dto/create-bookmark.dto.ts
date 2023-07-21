@@ -9,7 +9,7 @@ import {
 export class CreateBookmarkDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  name: string;
 
   @IsNumber()
   @Min(0)

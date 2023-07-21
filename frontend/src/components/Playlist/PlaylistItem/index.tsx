@@ -9,16 +9,15 @@ import { AuthContext } from '../../../context/providers/authProvider';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
-import { useTheme } from '@react-navigation/native';
-
+import {useTheme} from '@react-navigation/native';
 type PlaylistItemProps = { title: string };
 
-const PlaylistItem = ({ title }: PlaylistItemProps) => {
-    const { navigate } = useNavigation();
-    const authContext = useContext(AuthContext);
-    const userId: string = authContext.user.uid;
-    const colors = useTheme().colors;
-
+const PlaylistItem = ({title}: PlaylistItemProps) => {
+  const {navigate} = useNavigation();
+  const authContext = useContext(AuthContext);
+  const userId: string = authContext.user.uid;
+  const colors = useTheme().colors;
+  
     const loadPlaylist = async () => {
         await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
             method: 'GET',
@@ -68,48 +67,45 @@ const PlaylistItem = ({ title }: PlaylistItemProps) => {
         ).catch(error => console.log(error));
     };
 
-    return (
-        <View style={[styles.item, { backgroundColor: colors.lightsecondary }]}>
-            <View style={styles.insideRow}>
-                <TouchableOpacity
-                    style={styles.back}
-                    onPress={() => {
-                        navigate(PLAYLISTEDIT, { playlistTitle: title });
-                    }}>
-                    <Ionicons name={'create'} size={15} color={colors.success} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.back}
-                    onPress={() => {
-                        createTwoButtonAlert();
-                    }}>
-                    <Ionicons
-                        name={'trash-bin'}
-                        size={15}
-                        color={colors.failure}
-                    />
-                </TouchableOpacity>
-            </View>
+  return (
+    <View style={[styles.item, {backgroundColor: colors.lightsecondary}]}>
+      <View style={styles.insideRow}>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => {
+            navigate(PLAYLISTEDIT, {playlistTitle: title});
+          }}>
+          <Ionicons name={'create'} size={15} color={colors.success} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
 
-            <View style={[styles.inside, { backgroundColor: colors.secondary }]}>
-                <Ionicons
-                    style={styles.icon}
-                    name={'musical-notes'}
-                    size={40}
-                    color={colors.alwayswhite}
-                />
-                <TouchableOpacity
-                    style={[styles.play, { backgroundColor: colors.alwayswhite }]}
-                    onPress={() => {
-                        loadPlaylist();
-                        navigate(PLAYLISTTRACKS, { title: title });
-                    }}>
-                    <Ionicons name={'play'} size={20} color={colors.fourth} />
-                </TouchableOpacity>
-            </View>
-            <Text style={[styles.text, { color: colors.alwaysblack }]}>{title}</Text>
-        </View>
-    );
+      <View style={[styles.inside, {backgroundColor: colors.secondary}]}>
+        <Ionicons
+          style={styles.icon}
+          name={'musical-notes'}
+          size={40}
+          color={colors.white}
+        />
+        <TouchableOpacity
+          style={styles.play}
+          onPress={() => {
+            loadPlaylist();
+            navigate(PLAYLISTTRACKS, {title: title});
+          }}>
+          <Ionicons name={'play'} size={20} color={colors.fourth} />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.text}>{title}</Text>
+    </View>
+  );
+
 };
 
 export default PlaylistItem;

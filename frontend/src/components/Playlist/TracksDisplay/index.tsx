@@ -7,6 +7,7 @@ import {AuthContext} from '../../../context/providers/authProvider';
 import PlaylistDisplayItem from '../PlaylistDisplayItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {AUDIO, PLAYLISTEDIT} from '../../../constants/routeNames';
+import colors from '../../../assets/themes/colors';
 import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';

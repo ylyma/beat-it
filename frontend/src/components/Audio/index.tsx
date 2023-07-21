@@ -140,6 +140,7 @@ const AudioComponent: () => ReactElement = () => {
         <TouchableOpacity
           onPress={() => {
             handleDocumentSelection();
+            setTimeout(reload, 500);
           }}>
           <Text
             style={[

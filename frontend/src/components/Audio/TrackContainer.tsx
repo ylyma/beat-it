@@ -17,6 +17,7 @@ const TrackContainer: (props: Props) => ReactElement = ({
   reload,
   search,
 }: Props) => {
+  console.log(refresh);
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
   const [tracks, setTracks] = useState<string[]>(['']);
@@ -52,7 +53,7 @@ const TrackContainer: (props: Props) => ReactElement = ({
         console.log('files:' + i + '_' + item.name);
       }
       if (reader.length > 20) {
-        const oldestFilePath = folderPath + reader[0];
+        const oldestFilePath = folderPath + reader[0].name;
         deleteFile(oldestFilePath);
         console.log(reader[0]);
       }

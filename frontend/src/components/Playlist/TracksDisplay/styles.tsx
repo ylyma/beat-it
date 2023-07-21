@@ -8,7 +8,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
-    color: colors.black,
+    color: colors.colors.black,
   },
   back: {
     paddingTop: 20,
@@ -34,14 +34,14 @@ export default StyleSheet.create({
     paddingRight: 5,
   },
   delete: {
-    color: colors.failure,
+    color: colors.colors.failure,
   },
   queueText: {
     alignSelf: 'center',
     fontWeight: 'bold',
     padding: 10,
     fontSize: 15,
-    color: colors.white,
+    color: colors.colors.white,
   },
   bottom: {
     backgroundColor: '#f2ece4',
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     paddingBottom: 15,
   },
   bottomContainer: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.colors.secondary,
     borderRadius: 20,
     margin: 20,
     width: 150,
