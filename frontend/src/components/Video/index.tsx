@@ -78,6 +78,10 @@ const VideoComponent = () => {
   //   navigation.navigate(VIDEOPLAYBACK);
   // };
 
+  const reload = async () => {
+    setUpload(!upload);
+  };
+
   return (
     <View>
       <View style={styles.titleAndButton}>
@@ -96,7 +100,7 @@ const VideoComponent = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.trackContainer}>
-        <VideosContainer userId={userId} refresh={false} />
+        <VideosContainer userId={userId} refresh={upload} reload={reload} />
       </View>
     </View>
   );

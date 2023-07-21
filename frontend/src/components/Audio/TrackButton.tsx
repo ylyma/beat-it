@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,24 +11,26 @@ import {AudioContext} from '../../context/providers/audioProvider';
 import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import shorthash from 'shorthash';
 import Config from 'react-native-config';
+import colors from '../../assets/themes/colors';
 
 type TrackButtonProps = {
   trackName: string;
   // size: number
   artist: string;
   userId: string;
+  reload: () => void;
 };
 
 const TrackButton: (props: TrackButtonProps) => ReactElement = ({
   trackName,
   artist,
   userId,
+  reload,
 }: TrackButtonProps) => {
   // const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
   // const [playing, setPlaying] = React.useState(true);
   // const [playIcon, setPlayIcon] = React.useState("play");
   const audioContext = React.useContext(AudioContext);
-
   const name = shorthash.unique(trackName.split('.')[0]);
   const extension = 'file:/';
   const fileType = trackName.split('.')[1];
@@ -112,9 +114,9 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         listFiles();
       } else {
         console.log('file doesnt exist');
-        getFile();
-        downloadAudio();
-        listFiles();
+        getFile()
+          .then(() => downloadAudio())
+          .then(() => listFiles());
       }
     });
   };
@@ -132,7 +134,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
 
   // make this play immediately
   const playTrack = async () => {
-    loadFile();
+    await loadFile();
     await TrackPlayer.getCurrentTrack()
       .then(async trackId => {
         console.log('t' + trackId);
@@ -168,6 +170,31 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     });
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting track', `Proceed to delete track: ${trackName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          deleteTrack();
+          reload();
+        },
+      },
+    ]);
+
+  const deleteTrack = async () => {
+    await fetch(
+      `${Config.API_URL}/uploads/${userId}/deleteaudio/${trackName}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playTrack()} onLongPress={addToQueue}>
@@ -176,6 +203,14 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         </View>
       </TouchableOpacity>
       <Text style={styles.songTitle}>{trackName}</Text>
+      <View style={styles.delete}>
+        <TouchableOpacity
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

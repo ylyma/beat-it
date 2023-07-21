@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import colors from '../../../assets/themes/colors';
@@ -17,11 +17,6 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
   const {navigate} = useNavigation();
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
-  const [visible, setVisible] = React.useState(false);
-
-  const openMenu = () => setVisible(true);
-
-  const closeMenu = () => setVisible(false);
 
   const loadPlaylist = async () => {
     await fetch(`${Config.API_URL}/playlists/${userId}/getplaylist/${title}`, {
@@ -54,6 +49,15 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
       .catch(error => console.log(error));
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting playlist', `Proceed to delete playlist: ${title}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => deletePlaylist(title)},
+    ]);
   const deletePlaylist = async title => {
     await fetch(
       `${Config.API_URL}/playlists/${userId}/deleteplaylist/${title}`,
@@ -76,7 +80,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
         <TouchableOpacity
           style={styles.back}
           onPress={() => {
-            deletePlaylist(title);
+            createTwoButtonAlert();
           }}>
           <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
         </TouchableOpacity>

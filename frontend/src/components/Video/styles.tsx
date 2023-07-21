@@ -56,4 +56,9 @@ export default StyleSheet.create({
   trackContainer: {
     paddingLeft: 15,
   },
+  delete: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 15,
+    marginLeft: 'auto',
+  },
 });

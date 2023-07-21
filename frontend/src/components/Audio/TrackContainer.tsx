@@ -4,11 +4,12 @@ import TrackButton from './TrackButton';
 import Config from 'react-native-config';
 import RNFS from 'react-native-fs';
 
-type Props = {userId: string; refresh: boolean};
+type Props = {userId: string; refresh: boolean; reload: () => void};
 
 const TrackContainer: (props: Props) => ReactElement = ({
   userId,
   refresh,
+  reload,
 }: Props) => {
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
@@ -82,7 +83,12 @@ const TrackContainer: (props: Props) => ReactElement = ({
       {tracks[0] !== '' ? (
         tracks.map(track => (
           <View key={track}>
-            <TrackButton trackName={track} artist={''} userId={userId} />
+            <TrackButton
+              trackName={track}
+              artist={''}
+              userId={userId}
+              reload={reload}
+            />
           </View>
         ))
       ) : (

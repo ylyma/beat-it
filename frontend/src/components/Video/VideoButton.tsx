@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React, {Dispatch, ReactElement, useContext, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,14 +9,17 @@ import {VideoContext} from '../../context/providers/videoProvider';
 import * as ScopedStorage from 'react-native-scoped-storage';
 import {VIDEOPLAYBACK} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/core';
+import colors from '../../assets/themes/colors';
 
 type VideoButtonProps = {
   videoName: string;
   userId: string;
+  reload: () => void;
 };
 const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   videoName,
   userId,
+  reload,
 }: VideoButtonProps) => {
   const videoContext = useContext(VideoContext);
   const navigation = useNavigation();
@@ -120,6 +123,31 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     navigation.navigate(VIDEOPLAYBACK);
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting video', `Proceed to delete video: ${videoName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          deleteVideo();
+          reload();
+        },
+      },
+    ]);
+
+  const deleteVideo = async () => {
+    await fetch(
+      `${Config.API_URL}/uploads/${userId}/deletevideo/${videoName}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playVideo()}>
@@ -128,6 +156,14 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
         </View>
       </TouchableOpacity>
       <Text style={styles.videoTitle}>{videoName}</Text>
+      <View style={styles.delete}>
+        <TouchableOpacity
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
