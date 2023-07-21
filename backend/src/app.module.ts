@@ -4,6 +4,8 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { ConfigModule } from '@nestjs/config';
 import { UploadModule } from './upload/upload.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { PlaylistService } from './playlist/playlist.service';
+import { PlaylistModule } from './playlist/playlist.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
@@ -20,6 +22,8 @@ import * as redisStore from 'cache-manager-redis-store';
     PrismaModule,
     BookmarkModule,
     UploadModule,
+    PlaylistModule,
   ],
+  providers: [PlaylistService],
 })
 export class AppModule {}

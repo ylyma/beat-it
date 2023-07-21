@@ -11,14 +11,6 @@ export class CreateBookmarkDto {
   @IsNotEmpty()
   title: string;
 
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @IsString()
-  @IsOptional()
-  artist?: string;
-
   @IsNumber()
   @Min(0)
   @IsNotEmpty()
