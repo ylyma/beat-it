@@ -201,7 +201,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playTrack()} onLongPress={addToQueue}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-          <Ionicons name={'play'} size={20} color={colors.alwaysdark} />
+          <Ionicons name={'play'} size={20} color={colors.lightfourth} />
         </View>
       </TouchableOpacity>
       <Text style={styles.songTitle}>{trackName}</Text>

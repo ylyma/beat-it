@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   text: {
     alignSelf: 'center',
-    color: colors.black,
+    color: colors.colors.black,
     paddingTop: 18,
   },
   row: {
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
   },
   play: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.colors.white,
     borderRadius: 7,
     padding: 5,
     width: 30,
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     marginLeft: 12,
   },
   delete: {
-    color: colors.failure,
+    color: colors.colors.failure,
   },
   back: {
     marginHorizontal: 5,

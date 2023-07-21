@@ -75,14 +75,18 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
           onPress={() => {
             navigate(PLAYLISTEDIT, {playlistTitle: title});
           }}>
-          <Ionicons name={'create'} size={15} color={colors.accent} />
+          <Ionicons name={'create'} size={15} color={colors.colors.success} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.back}
           onPress={() => {
             createTwoButtonAlert();
           }}>
-          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+          <Ionicons
+            name={'trash-bin'}
+            size={15}
+            color={colors.colors.failure}
+          />
         </TouchableOpacity>
       </View>
 
@@ -91,7 +95,7 @@ const PlaylistItem = ({title}: PlaylistItemProps) => {
           style={styles.icon}
           name={'musical-notes'}
           size={40}
-          color={colors.white}
+          color={colors.colors.white}
         />
         <TouchableOpacity
           style={styles.play}

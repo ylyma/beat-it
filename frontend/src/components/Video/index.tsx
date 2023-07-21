@@ -7,6 +7,7 @@ import {AuthContext} from '../../context/providers/authProvider';
 import Config from 'react-native-config';
 import VideosContainer from './VideosContainer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTheme} from '@react-navigation/native';
 
 const VideoComponent = () => {
   // const [video, setVideo] = React.useState<any>(null);
@@ -15,6 +16,7 @@ const VideoComponent = () => {
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
   const [upload, setUpload] = useState<boolean>(true);
+  const colors = useTheme().colors;
   console.log(userId);
 
   // const importVideos = async () => {
@@ -85,18 +87,24 @@ const VideoComponent = () => {
   return (
     <View>
       <View style={styles.titleAndButton}>
-        <Text style={styles.subtitle}>Video</Text>
+        <Text style={[styles.subtitle, {color: colors.text}]}>Video</Text>
         <TouchableOpacity
           style={styles.refresh}
           onPress={() => {
             setUpload(!upload);
           }}>
           <View>
-            <Ionicons name={'refresh'} size={20} />
+            <Ionicons name={'refresh'} size={20} color={colors.grey} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleDocumentSelection()}>
-          <Text style={styles.addButton}>Import Videos</Text>
+          <Text
+            style={[
+              styles.addButton,
+              {backgroundColor: colors.secondary, color: colors.alwayswhite},
+            ]}>
+            Import Videos
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.trackContainer}>
