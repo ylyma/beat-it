@@ -15,10 +15,12 @@ import constant from '../../assets/themes/constant';
 type VideoButtonProps = {
   videoName: string;
   userId: string;
+  reload: () => void;
 };
 const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   videoName,
   userId,
+  reload,
 }: VideoButtonProps) => {
   const videoContext = useContext(VideoContext);
   const navigation = useNavigation();
@@ -133,6 +135,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
         text: 'OK',
         onPress: () => {
           deleteVideo();
+          reload();
         },
       },
     ]);
@@ -155,6 +158,14 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
         </View>
       </TouchableOpacity>
       <Text style={styles.videoTitle}>{videoName}</Text>
+      <View style={styles.delete}>
+        <TouchableOpacity
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

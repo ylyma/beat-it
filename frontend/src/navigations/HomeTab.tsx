@@ -1,5 +1,4 @@
 import React, {ReactElement} from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {
   CardStyleInterpolators,
   StackNavigationProp,
@@ -8,19 +7,16 @@ import {
 } from '@react-navigation/stack';
 import {
   AUDIO,
-  AUDIOPLAYBACK,
   AUDIOPLAYBACKSTACK,
   HOME,
   PLAYLIST,
   PLAYLISTEDIT,
-  PLAYLISTSTACK,
   PLAYLISTTRACKS,
   SETTINGS,
   VIDEO,
   VIDEOEDIT,
   VIDEOPLAYBACK,
 } from '../constants/routeNames';
-import Home from '../screens/Home';
 import Audio from '../screens/Audio';
 import Video from '../screens/Video';
 import Settings from '../screens/Settings';
@@ -28,19 +24,10 @@ import AudioPlaybackStack from './AudioPlaybackStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import VideoEdit from '../screens/VideoEdit';
 import VideoPlayback from '../screens/VideoPlayback';
-import {Button} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
-import PlaylistStack from './PlaylistStack';
-import Playlist from '../screens/PlaylistCreation';
 import PlaylistTracks from '../screens/PlaylistTracksDisplay';
 import PlaylistEdit from '../screens/PlaylistEdit';
-import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-import PlaylistStack from './PlaylistStack';
-import Playlist from '../screens/Playlist';
-import {type} from 'os';
 import {useTheme} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export type HomeTabParamList = {

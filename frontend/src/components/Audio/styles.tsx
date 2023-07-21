@@ -101,4 +101,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     paddingTop: 20,
   },
+  delete: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 25,
+    marginLeft: 'auto',
+  },
 });

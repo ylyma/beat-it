@@ -5,11 +5,12 @@ import RNFS from 'react-native-fs';
 import VideoButton from './VideoButton';
 import {VideoContext} from '../../context/providers/videoProvider';
 
-type Props = {userId: string; refresh};
+type Props = {userId: string; refresh: boolean; reload: () => void};
 
 const VideosContainer: (props: Props) => ReactElement = ({
   userId,
   refresh,
+  reload,
 }: Props) => {
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
@@ -84,7 +85,7 @@ const VideosContainer: (props: Props) => ReactElement = ({
       {videos[0] !== '' ? (
         videos.map(video => (
           <View key={video}>
-            <VideoButton videoName={video} userId={userId} />
+            <VideoButton videoName={video} userId={userId} reload={reload} />
           </View>
         ))
       ) : (

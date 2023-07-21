@@ -78,7 +78,9 @@ const AudioComponent: () => ReactElement = () => {
       .catch(e => console.log(e));
   };
 
-  //TODO: getallplaylists & display
+  const reload = async () => {
+    setUpload(!upload);
+  };
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
@@ -128,7 +130,7 @@ const AudioComponent: () => ReactElement = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.trackContainer}>
-        <TrackContainer userId={userId} refresh={upload} />
+        <TrackContainer userId={userId} refresh={upload} reload={reload} />
       </View>
 
       <Modal isVisible={isModalVisible}>

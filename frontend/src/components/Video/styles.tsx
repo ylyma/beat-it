@@ -50,4 +50,9 @@ export default StyleSheet.create({
   videoContainer: {
     paddingLeft: 15,
   },
+  delete: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 15,
+    marginLeft: 'auto',
+  },
 });

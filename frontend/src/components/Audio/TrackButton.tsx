@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,12 +18,14 @@ type TrackButtonProps = {
   // size: number
   artist: string;
   userId: string;
+  reload: () => void;
 };
 
 const TrackButton: (props: TrackButtonProps) => ReactElement = ({
   trackName,
   artist,
   userId,
+  reload,
 }: TrackButtonProps) => {
   // const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
   // const [playing, setPlaying] = React.useState(true);
@@ -115,12 +117,8 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
       } else {
         console.log('file doesnt exist');
         getFile()
-          .then(() => {
-            downloadAudio();
-          })
-          .then(() => {
-            listFiles();
-          });
+          .then(() => downloadAudio())
+          .then(() => listFiles());
       }
     });
   };
@@ -138,7 +136,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
 
   // make this play immediately
   const playTrack = async () => {
-    loadFile();
+    await loadFile();
     await TrackPlayer.getCurrentTrack()
       .then(async (trackId: any) => {
         console.log('t' + trackId);
@@ -174,6 +172,31 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     });
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting track', `Proceed to delete track: ${trackName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          deleteTrack();
+          reload();
+        },
+      },
+    ]);
+
+  const deleteTrack = async () => {
+    await fetch(
+      `${Config.API_URL}/uploads/${userId}/deleteaudio/${trackName}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playTrack()} onLongPress={addToQueue}>
@@ -181,9 +204,15 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
           <Ionicons name={'play'} size={20} color={colors.alwaysdark} />
         </View>
       </TouchableOpacity>
-      <Text style={[styles.songTitle, {color: colors.secondaryText}]}>
-        {trackName}
-      </Text>
+      <Text style={styles.songTitle}>{trackName}</Text>
+      <View style={styles.delete}>
+        <TouchableOpacity
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
