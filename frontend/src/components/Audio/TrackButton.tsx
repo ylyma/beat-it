@@ -204,7 +204,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
           <Ionicons name={'play'} size={20} color={colors.lightfourth} />
         </View>
       </TouchableOpacity>
-      <Text style={styles.songTitle}>{trackName}</Text>
+      <Text style={[styles.songTitle, {color: colors.text}]}>{trackName}</Text>
       <View style={styles.delete}>
         <TouchableOpacity
           onPress={() => {

@@ -16,7 +16,7 @@ const CustomButton = ({
     style,
     ...props
 }: any) => {
-    const { colors } = useTheme();
+    const { dark, colors } = useTheme();
     const getBackgroundColor = () => {
         if (icon) {
             return colors.white;

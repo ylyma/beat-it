@@ -15,14 +15,14 @@ export default StyleSheet.create({
     paddingHorizontal: '5%',
   },
   label: {
-    color: colors.colors.black,
+    // color: colors.black,
     paddingBottom: 5,
   },
   icon: {
     paddingHorizontal: 10,
   },
   error: {
-    color: colors.colors.failure,
+    // color: colors.failure,
     paddingTop: 4,
     fontSize: 12,
   },

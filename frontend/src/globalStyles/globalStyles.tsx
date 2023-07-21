@@ -22,7 +22,7 @@ export default StyleSheet.create({
     },
     icon: {
         fontSize: 50,
-        color: colors.white,
+        // color: colors.white,
         alignSelf: 'center',
         padding: 20,
     },

@@ -7,8 +7,8 @@ import React from 'react';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
-import Home from '../src/screens/Login';
+import CustomSlider from './CustomSlider'
 
 it('renders correctly', () => {
-    renderer.create(<Home />);
+    renderer.create(<CustomSlider value={1} minimumValue={0} maximumValue={100} onSlidingComplete={() => { }} />);
 });

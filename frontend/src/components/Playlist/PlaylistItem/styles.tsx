@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import colors from '../../../assets/themes/colors';
 
 export default StyleSheet.create({
   item: {
@@ -23,7 +22,6 @@ export default StyleSheet.create({
   },
   text: {
     alignSelf: 'center',
-    color: colors.colors.black,
     paddingTop: 18,
   },
   row: {
@@ -34,7 +32,6 @@ export default StyleSheet.create({
     paddingVertical: 10,
   },
   play: {
-    backgroundColor: colors.colors.white,
     borderRadius: 7,
     padding: 5,
     width: 30,
@@ -43,9 +40,7 @@ export default StyleSheet.create({
     marginRight: 5,
     marginLeft: 12,
   },
-  delete: {
-    color: colors.colors.failure,
-  },
+  delete: {},
   back: {
     marginHorizontal: 5,
   },
