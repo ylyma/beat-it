@@ -10,7 +10,7 @@ export default {
   failure: '#c13131',
   success: '#a7cd78',
   alwayswhite: '#ffffff',
-  otherdark: '#9caab4',
+  otherdark: '#ced4d9',
   otherlight: '#f2f2f2',
   alwaysblack: '#000000',
 };

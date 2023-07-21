@@ -6,7 +6,6 @@ import styles from './styles';
 import SearchBar from '../common/SearchBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Container from '../common/Container';
-import HorizView from '../common/HorizView/HorizView';
 import Config from 'react-native-config';
 import TrackContainer from './TrackContainer';
 import DocumentPicker, {types} from 'react-native-document-picker';
@@ -17,6 +16,9 @@ import Modal from '../common/Modal';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import PlaylistContainer from '../Playlist/PlaylistContainer';
+import {useTheme} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {HomeTabParamList} from '../../navigations/HomeTab';
 
 const AudioComponent: () => ReactElement = () => {
   // wrap this in a useEffect to make sure it only runs once and async
@@ -28,8 +30,10 @@ const AudioComponent: () => ReactElement = () => {
   const [upload, setUpload] = useState<boolean>(true);
   const [uploadTop, setUploadTop] = useState<boolean>(true);
   const [playlistTitle, setPlaylistTitle] = useState<string>('');
-  const {navigate} = useNavigation();
   // const [titles, setTitles] = useState();
+  const [search, setSearch] = useState<string>('');
+  const {navigate} = useNavigation<StackNavigationProp<HomeTabParamList>>();
+  const colors = useTheme().colors;
 
   useEffect(() => {
     async function setup() {
@@ -91,9 +95,14 @@ const AudioComponent: () => ReactElement = () => {
         icon={<Ionicons name="search" />}
         iconPosition="left"
         placeholder="Search"
+        value={search}
+        onChangeText={(value: string) => {
+          console.log(value);
+          setSearch(value.toLowerCase());
+        }}
       />
       <View style={styles.titleAndButton}>
-        <Text style={styles.subtitle}>Playlists</Text>
+        <Text style={[styles.subtitle, {color: colors.text}]}>Playlists</Text>
         <TouchableOpacity
           style={styles.playlistRefresh}
           onPress={() => {
@@ -107,30 +116,47 @@ const AudioComponent: () => ReactElement = () => {
           onPress={() => {
             handleModal();
           }}>
-          <Text style={styles.addButton}>New Playlist</Text>
+          <Text
+            style={[
+              styles.addButton,
+              {backgroundColor: colors.secondary, color: colors.alwayswhite},
+            ]}>
+            New Playlist
+          </Text>
         </TouchableOpacity>
       </View>
-      <PlaylistContainer refresh={uploadTop}></PlaylistContainer>
+      <PlaylistContainer refresh={uploadTop} />
       <View style={styles.titleAndButton}>
-        <Text style={styles.subtitle}>Tracks</Text>
+        <Text style={[styles.subtitle, {color: colors.text}]}>Tracks</Text>
         <TouchableOpacity
           style={styles.refresh}
           onPress={() => {
             setUpload(!upload);
           }}>
           <View>
-            <Ionicons name={'refresh'} size={20} />
+            <Ionicons name={'refresh'} size={20} color={colors.grey} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             handleDocumentSelection();
           }}>
-          <Text style={styles.addButton}>Import Tracks</Text>
+          <Text
+            style={[
+              styles.addButton,
+              {backgroundColor: colors.secondary, color: colors.alwayswhite},
+            ]}>
+            Import Tracks
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.trackContainer}>
-        <TrackContainer userId={userId} refresh={upload} reload={reload} />
+        <TrackContainer
+          userId={userId}
+          refresh={upload}
+          reload={reload}
+          search={search}
+        />
       </View>
 
       <Modal isVisible={isModalVisible}>

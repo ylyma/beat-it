@@ -52,7 +52,10 @@ export default StyleSheet.create({
   },
   delete: {
     justifyContent: 'flex-end',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     marginLeft: 'auto',
+  },
+  trackContainer: {
+    marginHorizontal: 5,
   },
 });

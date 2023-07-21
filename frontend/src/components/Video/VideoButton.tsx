@@ -9,8 +9,7 @@ import {VideoContext} from '../../context/providers/videoProvider';
 import * as ScopedStorage from 'react-native-scoped-storage';
 import {VIDEOPLAYBACK} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/core';
-import colors from '../../assets/themes/colors';
-import constant from '../../assets/themes/constant';
+import {useTheme} from '@react-navigation/native';
 
 type VideoButtonProps = {
   videoName: string;
@@ -32,6 +31,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   const filePath = folderPath + name + '.' + fileType;
   const videoPath =
     RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
+  const colors = useTheme().colors;
 
   const makeDir = () => {
     RNFS.mkdir(folderPath);
@@ -152,9 +152,8 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => playVideo()}>
-        <View
-          style={[styles.buttonIcon, {backgroundColor: colors.colors.fourth}]}>
-          <Ionicons name={'play'} size={20} color={constant.alwaysblack} />
+        <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
+          <Ionicons name={'play'} size={20} color={colors.alwaysdark} />
         </View>
       </TouchableOpacity>
       <Text style={styles.videoTitle}>{videoName}</Text>

@@ -1,4 +1,5 @@
 import React, {ReactElement} from 'react';
+
 import {
   CardStyleInterpolators,
   StackNavigationProp,
@@ -28,7 +29,9 @@ import PlaylistTracks from '../screens/PlaylistTracksDisplay';
 import PlaylistEdit from '../screens/PlaylistEdit';
 import {useNavigation} from '@react-navigation/core';
 import {useTheme} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Playlist from '../screens/PlaylistCreation';
 
 export type HomeTabParamList = {
   Home: undefined;
