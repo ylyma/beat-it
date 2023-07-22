@@ -139,41 +139,58 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
 
   // make this play immediately
   const playTrack = () => {
-    TrackPlayer.getCurrentTrack()
-      .then(async (trackId: any) => {
-        console.log('t' + trackId);
-        let queueLength;
-        TrackPlayer.getQueue().then(queue => {
-          queueLength = queue.length;
-          console.log('q' + queueLength);
-        });
-        if (queueLength === 0) {
-          console.log('adding first track');
-          TrackPlayer.add({
-            title: trackName,
-            url: trackPath,
-            artist: artist,
-          }).then(() => TrackPlayer.play());
-        } else {
-          trackId = trackId + 1;
-          TrackPlayer.add(
-            {
-              title: trackName,
-              url: trackPath,
-              artist: artist,
-            },
-            trackId,
-          ).then(() => TrackPlayer.skipToNext().then(() => TrackPlayer.play()));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    TrackPlayer.add({
+      title: trackName,
+      url: trackPath,
+      artist: artist,
+    }).then(() => TrackPlayer.play());
+
+    // TrackPlayer.getCurrentTrack()
+    //   .then(async (trackId: any) => {
+    //     console.log('t' + trackId);
+    //     let queueLength;
+    //     TrackPlayer.getQueue().then(queue => {
+    //       queueLength = queue.length;
+    //       console.log('q' + queueLength);
+    //     });
+    //     if (queueLength === 0) {
+    //       console.log('adding first track');
+    //       TrackPlayer.add({
+    //         title: trackName,
+    //         url: trackPath,
+    //         artist: artist,
+    //       }).then(() => TrackPlayer.play());
+    //     } else {
+    //       trackId = trackId + 1;
+    //       TrackPlayer.add(
+    //         {
+    //           title: trackName,
+    //           url: trackPath,
+    //           artist: artist,
+    //         },
+    //         trackId,
+    //       ).then(() => TrackPlayer.skipToNext().then(() => TrackPlayer.play()));
+    //     }
+    //   })
     TrackPlayer.getQueue().then(queue => {
       console.log(queue);
     });
   };
 
+  const alertToQueue = () =>
+    Alert.alert('Adding to Queue', `Add to queue: ${trackName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          addToQueue();
+        },
+      },
+    ]);
   const createTwoButtonAlert = () =>
     Alert.alert('Deleting track', `Proceed to delete track: ${trackName}?`, [
       {
@@ -220,7 +237,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
             loadFile();
             playTrack();
           }}
-          onLongPress={addToQueue}>
+          onLongPress={() => alertToQueue()}>
           <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
             <Ionicons name={'play'} size={20} color={colors.lightfourth} />
           </View>
