@@ -89,30 +89,6 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     }
   };
 
-
-  const downloadAudio = async (): Promise<any> => {
-    try {
-      const options: DownloadFileOptions = {
-        fromUrl: url,
-        toFile: filePath,
-      };
-      console.log('downloading');
-      const response = await downloadFile(options);
-      return response.promise
-        .then(async res => {
-          if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-            console.log('ok!');
-          } else {
-            console.log('booo');
-            console.log(res.statusCode);
-          }
-        })
-        .catch(error => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const listFiles = async () => {
     try {
       const reader = await RNFS.readDir(folderPath);
@@ -161,12 +137,13 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     );
   };
 
-  const playTrack = async () => {
-    await TrackPlayer.getCurrentTrack()
+  // make this play immediately
+  const playTrack = () => {
+    TrackPlayer.getCurrentTrack()
       .then(async (trackId: any) => {
         console.log('t' + trackId);
         let queueLength;
-        await TrackPlayer.getQueue().then(queue => {
+        TrackPlayer.getQueue().then(queue => {
           queueLength = queue.length;
           console.log('q' + queueLength);
         });
@@ -220,7 +197,8 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         method: 'DELETE',
       },
     ).catch(error => console.log(error));
-    
+  };
+
   const pauseTrack = async () => {
     await TrackPlayer.pause();
   };
