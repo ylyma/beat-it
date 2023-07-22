@@ -1,32 +1,47 @@
-import { View, Text, FlatList, SafeAreaView, ScrollView } from 'react-native'
-import React from 'react'
-import styles from './styles'
-import BookmarkButton from './BookmarkButton'
-import { AudioContext } from '../../context/providers/audioProvider'
+import {View, Text, FlatList, SafeAreaView, ScrollView} from 'react-native';
+import React from 'react';
+import styles from './styles';
+import BookmarkButton from './BookmarkButton';
 
-// to be used when we have a backend to store bookmarks
 type Bookmark = {
-    id: string,
-    description: string,
-    timestamp: number,
-    title: string,
-    artist: string,
-    userId: string
-}
+  name: string;
+  time: number;
+};
 
 type BookmarkContainerGenProps = {
-    bookmarks: Bookmark[]
-}
+  bookmarks: Bookmark[];
+  reload: () => void;
+  title: string;
+};
 
 const BookmarkContainerGen = (props: BookmarkContainerGenProps) => {
-    const audioContext = React.useContext(AudioContext)
-    return (
-        <FlatList
-            data={props.bookmarks.filter((bookmark) => bookmark.title === audioContext.currentTrack)}
-            renderItem={({ item }) => BookmarkButton({ description: item.description, timestamp: item.timestamp })}
-            keyExtractor={(item) => item.id}
-        />
-    )
-}
+  return (
+    // <FlatList
+    //   data={props.bookmarks}
+    //   renderItem={({item}) =>
+    //     BookmarkButton({
+    //       description: item.name,
+    //       timestamp: item.time,
+    //     })
+    //   }
+    //   keyExtractor={item => item.time.toString()}
+    // />
+    <View style={styles.bookmarkDisplay}>
+      {props.bookmarks[0].name !== '' ? (
+        props.bookmarks.map(bookmark => (
+          <View key={bookmark.time}>
+            <BookmarkButton
+              title={props.title}
+              name={bookmark.name}
+              time={bookmark.time}
+              reload={props.reload}></BookmarkButton>
+          </View>
+        ))
+      ) : (
+        <View />
+      )}
+    </View>
+  );
+};
 
-export default BookmarkContainerGen
+export default BookmarkContainerGen;

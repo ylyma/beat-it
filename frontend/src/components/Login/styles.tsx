@@ -21,7 +21,7 @@ export default StyleSheet.create({
   textButton: {
     textDecorationLine: 'underline',
     alignSelf: 'center',
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   footer: {
     marginBottom: 150,
