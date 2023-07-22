@@ -164,14 +164,19 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     ).catch(error => console.log(error));
   };
 
+  const wait = () => navigation.navigate(VIDEOPLAYBACK);
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={() => playVideo()}>
+      <TouchableOpacity
+        onPress={() => {
+          playVideo();
+          setTimeout(wait, 1500);
+        }}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
           <Ionicons name={'play'} size={20} color={colors.lightfourth} />
         </View>
       </TouchableOpacity>
-      <Text style={[styles.videoTitle, {color: colors.text}]}>{videoName}</Text>
+      <Text style={styles.videoTitle}>{videoName}</Text>
       <View style={styles.delete}>
         <TouchableOpacity
           onPress={() => {
