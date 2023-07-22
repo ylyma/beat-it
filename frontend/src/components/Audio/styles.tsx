@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import colors from '../../assets/themes/colors';
 // import colors from '../../assets/themes/colors';
 
 export default StyleSheet.create({
@@ -80,5 +81,9 @@ export default StyleSheet.create({
   },
   trackContainer: {
     paddingLeft: 15,
+  },
+  playlistRefresh: {
+    alignSelf: 'center',
+    paddingLeft: 105,
   },
 });

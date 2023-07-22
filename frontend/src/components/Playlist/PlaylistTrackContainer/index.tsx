@@ -5,6 +5,7 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import {Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import styles from './styles';
 
 type PlaylistContainerProps = {
   tracks: Set<string>;

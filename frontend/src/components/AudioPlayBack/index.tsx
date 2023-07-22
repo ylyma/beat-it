@@ -18,19 +18,15 @@ import {AuthContext} from '../../context/providers/authProvider';
 import 'react-native-get-random-values';
 import {useTheme} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomSlider from '../common/CustomSlider/CustomSlider';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AudioStackParamList } from '../../navigations/AudioPlaybackStack';
 
 const AudioPlayBackComponent = () => {
   // build a playback page
   const audioContext = useContext(AudioContext);
   const {position, duration} = useProgress();
-  const [bookmarkList, setBookmarkList] = React.useState(['', 0]);
-  const navigation = useNavigation();
+  const [bookmarkList, setBookmarkList] = React.useState([]);
+  const navigation = useNavigation<StackNavigationProp<AudioStackParamList>>();
   const authContext = useContext(AuthContext);
   const colors = useTheme().colors;
-  const [upload, setUpload] = useState<boolean>(false);
 
   useEffect(() => {
     const getBookmarks = async () => {
@@ -97,11 +93,10 @@ const AudioPlayBackComponent = () => {
   const skipToPrevious = () => {
     TrackPlayer.skipToPrevious();
   };
-  
+
   const skipToNext = () => {
     TrackPlayer.skipToNext();
   };
-
 
   return (
     // the player should be a full screen page with play/pause button, next track, previous track,

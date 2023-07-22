@@ -109,7 +109,7 @@ const AudioComponent: () => ReactElement = () => {
             setUploadTop(!uploadTop);
           }}>
           <View>
-            <Ionicons name={'refresh'} size={20} />
+            <Ionicons name={'refresh'} size={20} color={colors.grey} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
