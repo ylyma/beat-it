@@ -18,6 +18,7 @@ const HomeComponent: () => ReactElement = () => {
                         <SearchBar
                             style={styles.searchBar}
                             icon={<Ionicons name="search" />}
+                            placeholderTextColor={colors.alwaysblack}
                             iconPosition="left"
                             placeholder="Search"
                         />

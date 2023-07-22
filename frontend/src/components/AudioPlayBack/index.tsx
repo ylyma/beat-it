@@ -1,5 +1,5 @@
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
@@ -9,30 +9,32 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {AudioContext} from '../../context/providers/audioProvider';
+import { AudioContext } from '../../context/providers/audioProvider';
 import Slider from '@react-native-community/slider';
 import BookmarkContainerGen from './BookmarkContainerGen';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import Config from 'react-native-config';
-import {AuthContext} from '../../context/providers/authProvider';
+import { AuthContext } from '../../context/providers/authProvider';
 import 'react-native-get-random-values';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AudioStackParamList } from '../../navigations/AudioPlaybackStack';
 
 const AudioPlayBackComponent = () => {
   // build a playback page
   const audioContext = useContext(AudioContext);
-  const {position, duration} = useProgress();
-  const [bookmarkList, setBookmarkList] = React.useState([]);
+  const { position, duration } = useProgress();
+  const [bookmarkList, setBookmarkList] = React.useState<any[]>([]);
   const navigation = useNavigation<StackNavigationProp<AudioStackParamList>>();
   const authContext = useContext(AuthContext);
   const colors = useTheme().colors;
+  const [upload, setUpload] = useState(false);
 
   useEffect(() => {
     const getBookmarks = async () => {
       await fetch(
-        `${Config.API_URL}/bookmarks/${authContext.user.uid}/${
-          audioContext.currentTrack.split('.')[0]
+        `${Config.API_URL}/bookmarks/${authContext.user.uid}/${audioContext.currentTrack.split('.')[0]
         }`,
         {
           method: 'GET',
@@ -45,8 +47,7 @@ const AudioPlayBackComponent = () => {
           console.log(items);
           for (let i = 0; i < items.length; i++) {
             items[i] = items[i].replace(
-              `#bookmark_${authContext.user.uid}_${
-                audioContext.currentTrack.split('.')[0]
+              `#bookmark_${authContext.user.uid}_${audioContext.currentTrack.split('.')[0]
               }_`,
               '',
             );
@@ -55,7 +56,7 @@ const AudioPlayBackComponent = () => {
             console.log(name);
             const time = Number(items[i].split('_')[1]);
             console.log(time);
-            bkm.push({name, time});
+            bkm.push({ name, time });
           }
           console.log(bkm);
           setBookmarkList(bkm);
@@ -104,25 +105,25 @@ const AudioPlayBackComponent = () => {
     // the player should be able to be minimized to a mini player
     // the mini player should be able to be maximized to the full screen player
 
-    <View style={[styles.container, {backgroundColor: colors.lightsecondary}]}>
+    <View style={[styles.container, { backgroundColor: colors.audiobackground }]}>
       <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
         <Ionicons name={'arrow-back'} size={25} color={colors.black} />
       </TouchableOpacity>
       <View>
-        <Text style={[styles.titleText, {color: colors.text}]}>
+        <Text style={[styles.titleText, { color: colors.text }]}>
           {audioContext.currentTrack}
         </Text>
       </View>
       <View style={[styles.bookmarkContainer]}>
         <View style={styles.bookmarksRow}>
-          <Text style={[styles.subtitle, {color: colors.text}]}>Bookmarks</Text>
+          <Text style={[styles.subtitle, { color: colors.text }]}>Bookmarks</Text>
           <TouchableOpacity
             style={styles.refresh}
             onPress={() => {
               reload();
             }}>
             <View>
-              <Ionicons name={'refresh'} size={20} />
+              <Ionicons name={'refresh'} size={20} color={colors.text} />
             </View>
           </TouchableOpacity>
         </View>
@@ -148,7 +149,7 @@ const AudioPlayBackComponent = () => {
         />
       </View>
       <View style={styles.timeAndBookmarkContainer}>
-        <Text style={[styles.time, {color: colors.text}]}>
+        <Text style={[styles.time, { color: colors.text }]}>
           {audioContext.format(position) +
             ' / ' +
             audioContext.format(duration)}

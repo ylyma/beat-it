@@ -1,45 +1,64 @@
-import React, {ReactElement, ReactNode} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import React, { ReactElement, ReactNode } from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import RNModal from 'react-native-modal';
 import styles from './styles';
+import { useTheme } from '@react-navigation/native';
 
-type ModalProps = {isVisible: boolean; children: ReactNode; [x: string]: any};
+type ModalProps = { isVisible: boolean; children: ReactNode;[x: string]: any };
+
 
 const Modal: (props: ModalProps) => ReactElement = ({
-  isVisible = false,
-  children,
-  ...props
+    isVisible = false,
+    children,
+    ...props
 }: ModalProps) => {
-  return (
-    <RNModal
-      isVisible={isVisible}
-      animationInTiming={200}
-      animationOutTiming={200}
-      backdropTransitionInTiming={200}
-      backdropTransitionOutTiming={200}
-      {...props}>
-      {children}
-    </RNModal>
-  );
+
+    return (
+        <RNModal
+            isVisible={isVisible}
+            animationInTiming={200}
+            animationOutTiming={200}
+            backdropTransitionInTiming={200}
+            backdropTransitionOutTiming={200}
+            {...props}>
+            {children}
+        </RNModal>
+    );
 };
 
-const ModalContainer = ({children}: {children: React.ReactNode}) => (
-  <View style={styles.container}>{children}</View>
-);
+const ModalContainer = ({ children }: { children: React.ReactNode }) => {
+    const colors = useTheme().colors;
 
-const ModalHeader = ({title}: {title: string}) => (
-  <View style={styles.header}>
-    <Text style={styles.text}>{title}</Text>
-  </View>
-);
+    return (
+        <View style={[styles.container, { backgroundColor: colors.audiobackground }]}>{children}</View>
+    );
+}
 
-const ModalBody = ({children}: {children?: React.ReactNode}) => (
-  <View style={styles.body}>{children}</View>
-);
+const ModalHeader = ({ title }: { title: string }) => {
+    const colors = useTheme().colors;
 
-const ModalFooter = ({children}: {children?: React.ReactNode}) => (
-  <View style={styles.footer}>{children}</View>
-);
+    return (
+        <View style={styles.header}>
+            <Text style={[styles.text, { color: colors.text }]}>{title}</Text>
+        </View>
+    );
+}
+
+const ModalBody = ({ children }: { children?: React.ReactNode }) => {
+    const colors = useTheme().colors;
+
+    return (
+        <View style={styles.body}>{children}</View>
+    );
+}
+
+const ModalFooter = ({ children }: { children?: React.ReactNode }) => {
+    const colors = useTheme().colors;
+
+    return (
+        <View style={styles.footer}>{children}</View>
+    );
+}
 
 Modal.Header = ModalHeader;
 Modal.Container = ModalContainer;

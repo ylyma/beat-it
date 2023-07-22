@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContainer from '../common/AuthContainer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../navigations/AuthStack';
+import { useTheme } from '@react-navigation/native';
 
 type Props = {
     onSubmit: any,
@@ -29,6 +30,7 @@ const ResetPasswordComponent: (props: Props) => ReactElement = ({
 }) => {
     const { navigate } = useNavigation<StackNavigationProp<AuthStackParamList>>();
     const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+    const colors = useTheme().colors;
     const toggleSecureEntry = () => {
         setSecureTextEntry(!secureTextEntry);
     };
@@ -42,6 +44,7 @@ const ResetPasswordComponent: (props: Props) => ReactElement = ({
                     label="Password"
                     placeholder="Password"
                     icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
+                    placeholderTextColor={colors.text}
                     iconPosition="right"
                     secureTextEntry={secureTextEntry}
                     onChangeText={(value: any) => {
@@ -53,6 +56,7 @@ const ResetPasswordComponent: (props: Props) => ReactElement = ({
                     label="Confirm password"
                     placeholder="Confirm password"
                     icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
+                    placeholderTextColor={colors.text}
                     iconPosition="right"
                     secureTextEntry={secureTextEntry}
                     onChangeText={(value: any) => {

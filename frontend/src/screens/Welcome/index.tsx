@@ -8,10 +8,12 @@ import styles from './styles';
 import AuthContainer from '../../components/common/AuthContainer';
 import globalStyles from '../../globalStyles/globalStyles';
 import { useTheme } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '../../navigations/AuthStack';
 
 
 const Welcome: () => ReactElement = () => {
-    const { navigate } = useNavigation();
+    const { navigate } = useNavigation<StackNavigationProp<AuthStackParamList>>();
     const colors = useTheme().colors;
 
     return (
