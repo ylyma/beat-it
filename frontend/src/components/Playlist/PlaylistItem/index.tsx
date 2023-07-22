@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+import colors from '../../../assets/themes/colors';
 import {useNavigation} from '@react-navigation/core';
 import {PLAYLISTEDIT, PLAYLISTTRACKS} from '../../../constants/routeNames';
 import Config from 'react-native-config';
@@ -10,6 +11,7 @@ import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
 import {useTheme} from '@react-navigation/native';
+
 type PlaylistItemProps = {title: string};
 
 const PlaylistItem = ({title}: PlaylistItemProps) => {
