@@ -4,34 +4,35 @@ import {View, Text, Image} from 'react-native';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
 import styles from './styles';
-import { LOGIN } from '../../constants/routeNames';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import {LOGIN} from '../../constants/routeNames';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import {auth} from '../../../firebase';
 import AuthContainer from '../common/AuthContainer';
 import globalStyles from '../../globalStyles/globalStyles';
-import { useTheme } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthStackParamList } from '../../navigations/AuthStack';
+import {useTheme} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthStackParamList} from '../../navigations/AuthStack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type Props = {
-    onSubmit: any,
-    onChange: any,
-    form: any,
-    errors: any,
+  onSubmit: any;
+  onChange: any;
+  form: any;
+  errors: any;
 };
 
 const RegisterComponent: (props: Props) => ReactElement = ({
-    onSubmit,
-    onChange,
-    form,
-    errors,
+  onSubmit,
+  onChange,
+  form,
+  errors,
 }) => {
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const { navigate } = useNavigation<StackNavigationProp<AuthStackParamList>>();
-    const colors = useTheme().colors;
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const {navigate} = useNavigation<StackNavigationProp<AuthStackParamList>>();
+  const colors = useTheme().colors;
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -54,6 +55,11 @@ const RegisterComponent: (props: Props) => ReactElement = ({
         }
         console.error(error);
       });
+  };
+
+  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
   };
   return (
     <View>
@@ -87,7 +93,7 @@ const RegisterComponent: (props: Props) => ReactElement = ({
           <Input
             label="Password"
             placeholder="Password"
-            icon={<Text>SHOW</Text>}
+            icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
             iconPosition="right"
             secureTextEntry={true}
             onChangeText={(value: any) => {
@@ -100,7 +106,7 @@ const RegisterComponent: (props: Props) => ReactElement = ({
           <Input
             label="Confirm password"
             placeholder="Confirm password"
-            icon={<Text>SHOW</Text>}
+            icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
             iconPosition="right"
             secureTextEntry={true}
             onChangeText={(value: any) => {

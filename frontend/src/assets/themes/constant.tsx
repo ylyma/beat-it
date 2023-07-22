@@ -11,12 +11,6 @@ export default {
   lightprimary: '#cfd9fb',
   accent: '#e07a97',
   failure: '#f48054',
-<<<<<<< HEAD
-  altfailure: '#fbced8',
-  altsuccess: '#d8fbce',
-
-=======
->>>>>>> aa1f6a7893cfd925cdabfb1d1a0dfe0324b27edb
   success: '#8ebf0c',
   alwayswhite: '#ffffff',
   otherdark: '#ced4d9',
