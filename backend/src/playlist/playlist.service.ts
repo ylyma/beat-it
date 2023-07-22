@@ -12,10 +12,10 @@ import { CreatePlaylistDto } from './dto/create-playlist.dto';
 @Injectable()
 export class PlaylistService {
   private readonly s3Client = new S3Client({
-    region: this.configService.getOrThrow('AWS_S3_REGION'),
+    region: 'ap-southeast-1',
     credentials: {
-      accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: 'AKIA5RYVYZSLFM6J22MG',
+      secretAccessKey: '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',
     },
   });
   constructor(private readonly configService: ConfigService) {}
@@ -23,7 +23,7 @@ export class PlaylistService {
   // async uploadPlaylist(fileName: string, userId: string, file: Buffer) {
   //   await this.s3Client.send(
   //     new PutObjectCommand({
-  //       Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //       Bucket: "beatit",
   //       Key: '#playlist_' + userId + '_' + fileName,
   //       Body: file,
   //     }),
@@ -36,7 +36,7 @@ export class PlaylistService {
     console.log(title + ' ' + content);
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#playlist_' + userId + '_' + title,
         Body: content,
       }),
@@ -44,7 +44,7 @@ export class PlaylistService {
   }
   async getPlaylistTitles(userId: string) {
     const command = new ListObjectsV2Command({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Prefix: '#playlist_' + userId + '_',
     });
     try {
@@ -70,7 +70,7 @@ export class PlaylistService {
 
   async getPlaylistByTitle(title: string, userId: string) {
     const command = new GetObjectCommand({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Key: '#playlist_' + userId + '_' + title,
     });
     const data = await this.s3Client.send(command);
@@ -82,7 +82,7 @@ export class PlaylistService {
   async deletePlaylist(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#playlist_' + userId + '_' + title,
       }),
     );

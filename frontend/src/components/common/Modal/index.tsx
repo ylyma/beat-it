@@ -1,11 +1,15 @@
-import React, {ReactNode} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 import RNModal from 'react-native-modal';
 import styles from './styles';
 
 type ModalProps = {isVisible: boolean; children: ReactNode; [x: string]: any};
 
-const Modal = ({isVisible = false, children, ...props}: ModalProps) => {
+const Modal: (props: ModalProps) => ReactElement = ({
+  isVisible = false,
+  children,
+  ...props
+}: ModalProps) => {
   return (
     <RNModal
       isVisible={isVisible}

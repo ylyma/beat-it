@@ -8,7 +8,7 @@ import Config from 'react-native-config';
 import {AuthContext} from '../../../context/providers/authProvider';
 import {NestableScrollContainer} from 'react-native-draggable-flatlist';
 import PlaylistTrackContainer from '../PlaylistTrackContainer';
-import PlaylistTrackItem from '../PlaylistTrackItem';
+//import PlaylistTrackItem from '../PlaylistTrackItem';
 import {useTheme} from '@react-navigation/native';
 
 const PlaylistComponent: () => ReactElement = () => {

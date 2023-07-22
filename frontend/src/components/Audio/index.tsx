@@ -1,5 +1,6 @@
-import React, {ReactElement, useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Button} from 'react-native';
+import {ReactElement, useContext, useState} from 'react';
+import * as React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {useEffect} from 'react';
 import styles from './styles';

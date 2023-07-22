@@ -13,10 +13,10 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UploadService {
   private readonly s3Client = new S3Client({
-    region: this.configService.getOrThrow('AWS_S3_REGION'),
+    region: 'ap-southeast-1',
     credentials: {
-      accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: 'AKIA5RYVYZSLFM6J22MG',
+      secretAccessKey: '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',
     },
   });
   constructor(
@@ -26,7 +26,7 @@ export class UploadService {
   async uploadAudio(fileName: string, userId: string, file: Buffer) {
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#audio_' + userId + '_' + fileName,
         Body: file,
       }),
@@ -36,7 +36,7 @@ export class UploadService {
   async uploadVideo(fileName: string, userId: string, file: Buffer) {
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#video_' + userId + '_' + fileName,
         Body: file,
       }),
@@ -46,12 +46,12 @@ export class UploadService {
   async getAudioTitles(userId: string) {
     // await this.s3Client.send(
     //   new ListObjectsCommand({
-    //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+    //     Bucket: "beatit",
     //     Prefix: '#audio_' + userId + '_',
     //   }),
     // );
     const command = new ListObjectsV2Command({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Prefix: '#audio_' + userId + '_',
     });
     try {
@@ -78,12 +78,12 @@ export class UploadService {
   async getVideoTitles(userId: string) {
     // await this.s3Client.send(
     //   new ListObjectsCommand({
-    //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+    //     Bucket: "beatit",
     //     Prefix: '#video_' + userId + '_',
     //   }),
     // );
     const command = new ListObjectsV2Command({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Prefix: '#video_' + userId + '_',
     });
     try {
@@ -109,7 +109,7 @@ export class UploadService {
 
   async getVideoByTitle(title: string, userId: string) {
     const command = new GetObjectCommand({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Key: '#video_' + userId + '_' + title,
     });
     const url = await getSignedUrl(this.s3Client, command);
@@ -119,7 +119,7 @@ export class UploadService {
 
   async getAudioByTitle(title: string, userId: string) {
     const command = new GetObjectCommand({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Key: '#audio_' + userId + '_' + title,
     });
     const url = await getSignedUrl(this.s3Client, command);
@@ -130,7 +130,7 @@ export class UploadService {
   // async getAudioByTitle(title: string, userId: string) {
   //   // const response = await await this.s3Client.send(
   //   //   new GetObjectCommand({
-  //   //     Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //   //     Bucket: "beatit",
   //   //     Key: '#audio_' + userId + '_' + title,
   //   //   }),
   //   // );
@@ -143,7 +143,7 @@ export class UploadService {
   //   // });
   //   await new Promise(async (resolve, reject) => {
   //     const getObjectCommand = new GetObjectCommand({
-  //       Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //       Bucket: "beatit",
   //       Key: '#audio_' + userId + '_' + title,
   //     });
   //     try {
@@ -172,7 +172,7 @@ export class UploadService {
   // async getVideoByTitle(title: string, userId: string, res: Response) {
   //   await new Promise(async (resolve, reject) => {
   //     const getObjectCommand = new GetObjectCommand({
-  //       Bucket: this.configService.get('AWS_BUCKET_NAME'),
+  //       Bucket: "beatit",
   //       Key: '#video_' + userId + '_' + title,
   //     });
   //     try {
@@ -195,7 +195,7 @@ export class UploadService {
   async deleteAudio(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#audio_' + userId + '_' + title,
       }),
     );
@@ -204,7 +204,7 @@ export class UploadService {
   async deleteVideo(title: string, userId: string) {
     await this.s3Client.send(
       new DeleteObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#video_' + userId + '_' + title,
       }),
     );
