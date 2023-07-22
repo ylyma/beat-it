@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../assets/themes/colors';
-// import colors from '../../assets/themes/colors';
 
 export default StyleSheet.create({
   row: {
@@ -13,7 +12,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     height: 40,
     width: 120,
-    // backgroundColor: colors.lightgrey,
+    backgroundColor: colors.lightgrey,
   },
   playlist: {
     alignContent: 'flex-start',
@@ -32,7 +31,7 @@ export default StyleSheet.create({
   },
   subtitle: {
     fontWeight: 'bold',
-    // color: colors.black,
+    color: colors.black,
     fontSize: 20,
     paddingLeft: 10,
   },
@@ -40,7 +39,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    // backgroundColor: colors.lightgrey,
+    backgroundColor: colors.lightgrey,
     borderRadius: 15,
     margin: 5,
   },
@@ -51,16 +50,18 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   addButton: {
     borderRadius: 10,
     height: 30,
     width: 120,
-    // backgroundColor: colors.secondary,
+    backgroundColor: colors.secondary,
     textAlign: 'center',
     textAlignVertical: 'center',
-    // color: colors.black,
+    color: colors.black,
     fontWeight: 'bold',
     alignSelf: 'center',
   },
@@ -69,6 +70,7 @@ export default StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     // justifyContent: 'center',
+    paddingLeft: 5,
   },
   songTitle: {
     textAlign: 'center',
@@ -78,12 +80,30 @@ export default StyleSheet.create({
   refresh: {
     alignSelf: 'center',
     paddingLeft: 120,
+    paddingRight: 10,
+  },
+  playlistRefresh: {
+    alignSelf: 'center',
+    paddingLeft: 107,
+    paddingRight: 10,
   },
   trackContainer: {
     paddingLeft: 15,
   },
-  playlistRefresh: {
+  modalButton: {
+    margin: 15,
+    borderRadius: 15,
+    width: 80,
+    height: 35,
+  },
+  modalText: {
+    justifyContent: 'center',
     alignSelf: 'center',
-    paddingLeft: 105,
+    paddingTop: 20,
+  },
+  delete: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 25,
+    marginLeft: 'auto',
   },
 });
