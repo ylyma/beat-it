@@ -10,7 +10,8 @@ import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import FFmpegWrapper from '../../services/ffMpeg';
 import Slider from '@react-native-community/slider';
 import EditButtons from './EditButtons';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
+import CustomSlider from '../common/CustomSlider/CustomSlider';
 
 const VideoEditComponent = () => {
   const videoContext = useContext(VideoContext);
@@ -34,38 +35,27 @@ const VideoEditComponent = () => {
   }, []);
 
   return (
-    <View>
-      <Video
-        source={videoContext.video}
-        paused={videoContext.paused}
-        ref={videoContext.videoPlayer}
-        style={styles.videoPlayer}
-        onProgress={updateTime}
-      />
-      <Slider
-        style={styles.progressBar}
-        value={videoContext.currentTime}
-        minimumValue={0}
-        maximumValue={videoContext.totalDuration}
-        thumbTintColor={colors.secondary}
-        minimumTrackTintColor={colors.fourth}
-        maximumTrackTintColor={colors.grey}
-        onSlidingComplete={value => {
-          console.log('value: ', value);
-          console.log('videoContext.videoPlayer: ', videoContext.videoPlayer);
-          videoContext.videoPlayer!.seek(value);
-        }}
-      />
-      <TouchableOpacity onPress={playPause}>
-        <Ionicons
-          name={videoContext.playIcon}
-          style={[globalStyles.icon, {color: colors.black}]}
-        />
-      </TouchableOpacity>
-      <EditButtons />
-    </View>
-  );
-  // }
+        <View>
+            <Video source={videoContext.video}
+                paused={videoContext.paused}
+                ref={videoContext.videoPlayer}
+                style={styles.videoPlayer}
+                onProgress={updateTime} />
+            <CustomSlider
+                value={videoContext.currentTime}
+                minimumValue={0}
+                maximumValue={videoContext.totalDuration}
+                onSlidingComplete={(value: number) => {
+                    console.log('value: ', value)
+                    console.log('videoContext.videoPlayer: ', videoContext.videoPlayer)
+                    videoContext.videoPlayer!.seek(value);
+                }} />
+            <TouchableOpacity onPress={playPause}>
+                <Ionicons name={videoContext.playIcon} style={[globalStyles.icon, { color: colors.black }]} />
+            </TouchableOpacity>
+            <EditButtons />
+        </View>
+    )
 };
 
 export default VideoEditComponent;

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../assets/themes/colors';
+// import colors from '../../assets/themes/colors';
 
 export default StyleSheet.create({
     logo: {
@@ -29,7 +29,7 @@ export default StyleSheet.create({
     title: {
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: colors.black,
+        // color: colors.black,
         fontSize: 20,
     },
     container: {

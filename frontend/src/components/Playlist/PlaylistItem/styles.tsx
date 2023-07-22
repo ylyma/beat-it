@@ -1,7 +1,7 @@
-import {StyleSheet} from 'react-native';
-import colors from '../../../assets/themes/colors';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+
   item: {
     width: 135,
     height: 170,
@@ -61,4 +61,5 @@ export default StyleSheet.create({
     paddingRight: 18,
     marginTop: 3,
   },
+
 });
