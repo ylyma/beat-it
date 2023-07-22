@@ -165,6 +165,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   };
 
   const wait = () => navigation.navigate(VIDEOPLAYBACK);
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity

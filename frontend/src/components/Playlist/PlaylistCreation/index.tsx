@@ -111,14 +111,14 @@ const PlaylistComponent: () => ReactElement = () => {
         primary
         onPress={() => {
           postPlaylist();
-          navigate(AUDIO);
+          navigate(SETTINGS);
         }}
       />
       <CustomButton
         style={styles.button}
         title="Cancel"
         failure
-        onPress={() => navigate(AUDIO)}
+        onPress={() => navigate(SETTINGS)}
       />
     </View>
   );
