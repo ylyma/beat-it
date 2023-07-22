@@ -1,51 +1,51 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import React, { ReactElement, useEffect, useState } from 'react';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import React, {ReactElement, useEffect, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TrackPlayer, {
-    useTrackPlayerEvents,
-    Event,
-    State,
+  useTrackPlayerEvents,
+  Event,
+  State,
 } from 'react-native-track-player';
-import { AudioContext } from '../../context/providers/audioProvider';
-import RNFS, { DownloadFileOptions, downloadFile } from 'react-native-fs';
+import {AudioContext} from '../../context/providers/audioProvider';
+import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import shorthash from 'shorthash';
 import Config from 'react-native-config';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 
 type TrackButtonProps = {
-    trackName: string;
-    // size: number
-    artist: string;
-    userId: string;
-    reload: () => void;
+  trackName: string;
+  // size: number
+  artist: string;
+  userId: string;
+  reload: () => void;
 };
 
 const TrackButton: (props: TrackButtonProps) => ReactElement = ({
-    trackName,
-    artist,
-    userId,
-    reload,
+  trackName,
+  artist,
+  userId,
+  reload,
 }: TrackButtonProps) => {
-    // const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
-    // const [playing, setPlaying] = React.useState(true);
-    // const [playIcon, setPlayIcon] = React.useState("play");
-    const audioContext = React.useContext(AudioContext);
-    const colors = useTheme().colors;
+  // const [currentTrack, setCurrentTrack] = React.useState("No Track Playing");
+  // const [playing, setPlaying] = React.useState(true);
+  // const [playIcon, setPlayIcon] = React.useState("play");
+  const audioContext = React.useContext(AudioContext);
+  const colors = useTheme().colors;
 
-    const name = shorthash.unique(trackName.split('.')[0]);
-    const extension = 'file:/';
-    const fileType = trackName.split('.')[1];
-    //cache directory path: /data/user/0/com.beatit/cache
-    const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
-    const filePath = folderPath + name + '.' + fileType;
-    const trackPath =
-        RNFS.CachesDirectoryPath + '/audio/' + name + '.' + fileType;
+  const name = shorthash.unique(trackName.split('.')[0]);
+  const extension = 'file:/';
+  const fileType = trackName.split('.')[1];
+  //cache directory path: /data/user/0/com.beatit/cache
+  const folderPath = extension + RNFS.CachesDirectoryPath + '/audio/';
+  const filePath = folderPath + name + '.' + fileType;
+  const trackPath =
+    RNFS.CachesDirectoryPath + '/audio/' + name + '.' + fileType;
 
-    const makeDir = () => {
-        RNFS.mkdir(folderPath);
-        console.log('folder created');
-    };
+  const makeDir = () => {
+    RNFS.mkdir(folderPath);
+    console.log('folder created');
+  };
 
   //const [url, setUrl] = useState<string>('');
   const getFile = async () => {
@@ -89,29 +89,12 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     }
   };
 
-
-    const downloadAudio = async (): Promise<any> => {
-        try {
-            const options: DownloadFileOptions = {
-                fromUrl: url,
-                toFile: filePath,
-            };
-            console.log('downloading');
-            const response = await downloadFile(options);
-            return response.promise
-                .then(async res => {
-                    if (res && res.statusCode === 200 && res.bytesWritten > 0) {
-                        console.log('ok!');
-                    } else {
-                        console.log('booo');
-                        console.log(res.statusCode);
-                    }
-                })
-                .catch(error => console.log(error));
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const listFiles = async () => {
+    try {
+      const reader = await RNFS.readDir(folderPath);
+      console.log('folder: ' + folderPath);
+      for (let i = 0; i < reader.length; i++) {
+        const item = reader[i];
 
         console.log('files:' + i + '_' + item.name);
       }
@@ -156,90 +139,82 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
 
   // make this play immediately
   const playTrack = () => {
-    TrackPlayer.getCurrentTrack()
-      .then(async (trackId: any) => {
-        console.log('t' + trackId);
-        let queueLength;
-        TrackPlayer.getQueue().then(queue => {
-          queueLength = queue.length;
-          console.log('q' + queueLength);
+    TrackPlayer.add({
+      title: trackName,
+      url: trackPath,
+      artist: artist,
+    }).then(() => TrackPlayer.play());
 
-        });
-    };
-    const addToQueue = () => {
-        console.log(audioContext.noTrack);
-        console.log('hi');
-        TrackPlayer.add({
-            title: trackName,
-            url: trackPath,
-            artist: artist,
-        }).then(() =>
-            audioContext.playing ? TrackPlayer.play() : TrackPlayer.pause(),
-        );
-    };
+    // TrackPlayer.getCurrentTrack()
+    //   .then(async (trackId: any) => {
+    //     console.log('t' + trackId);
+    //     let queueLength;
+    //     TrackPlayer.getQueue().then(queue => {
+    //       queueLength = queue.length;
+    //       console.log('q' + queueLength);
+    //     });
+    //     if (queueLength === 0) {
+    //       console.log('adding first track');
+    //       TrackPlayer.add({
+    //         title: trackName,
+    //         url: trackPath,
+    //         artist: artist,
+    //       }).then(() => TrackPlayer.play());
+    //     } else {
+    //       trackId = trackId + 1;
+    //       TrackPlayer.add(
+    //         {
+    //           title: trackName,
+    //           url: trackPath,
+    //           artist: artist,
+    //         },
+    //         trackId,
+    //       ).then(() => TrackPlayer.skipToNext().then(() => TrackPlayer.play()));
+    //     }
+    //   })
+    TrackPlayer.getQueue().then(queue => {
+      console.log(queue);
+    });
+  };
 
-    // make this play immediately
-    const playTrack = async () => {
-        await loadFile();
-        await TrackPlayer.getCurrentTrack()
-            .then(async (trackId: any) => {
-                console.log('t' + trackId);
-                let queueLength;
-                await TrackPlayer.getQueue().then(queue => {
-                    queueLength = queue.length;
-                    console.log('q' + queueLength);
-                });
-                if (queueLength === 0) {
-                    console.log('adding first track');
-                    TrackPlayer.add({
-                        title: trackName,
-                        url: trackPath,
-                        artist: artist,
-                    }).then(() => TrackPlayer.play());
-                } else {
-                    trackId = trackId + 1;
-                    TrackPlayer.add(
-                        {
-                            title: trackName,
-                            url: trackPath,
-                            artist: artist,
-                        },
-                        trackId,
-                    ).then(() => TrackPlayer.skipToNext().then(() => TrackPlayer.play()));
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        TrackPlayer.getQueue().then(queue => {
-            console.log(queue);
-        });
-    };
+  const alertToQueue = () =>
+    Alert.alert('Adding to Queue', `Add to queue: ${trackName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          addToQueue();
+        },
+      },
+    ]);
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting track', `Proceed to delete track: ${trackName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          deleteTrack();
+          reload();
+        },
+      },
+    ]);
 
-    const createTwoButtonAlert = () =>
-        Alert.alert('Deleting track', `Proceed to delete track: ${trackName}?`, [
-            {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {
-                text: 'OK',
-                onPress: () => {
-                    deleteTrack();
-                    reload();
-                },
-            },
-        ]);
-
-    const deleteTrack = async () => {
-        await fetch(
-            `${Config.API_URL}/uploads/${userId}/deleteaudio/${trackName}`,
-            {
-                method: 'DELETE',
-            },
-        ).catch(error => console.log(error));
-    };
+  const deleteTrack = async () => {
+    await fetch(
+      `${Config.API_URL}/uploads/${userId}/deleteaudio/${trackName}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
 
   const pauseTrack = async () => {
     await TrackPlayer.pause();
@@ -262,7 +237,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
             loadFile();
             playTrack();
           }}
-          onLongPress={addToQueue}>
+          onLongPress={() => alertToQueue()}>
           <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
             <Ionicons name={'play'} size={20} color={colors.lightfourth} />
           </View>
@@ -279,7 +254,6 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
       </View>
     </View>
   );
-
 };
 
 export default TrackButton;

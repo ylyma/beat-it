@@ -5,8 +5,8 @@ export default StyleSheet.create({
   playlistTitle: {
     fontSize: 30,
     alignSelf: 'center',
-    padding: 20,
-    color: colors.black,
+    padding: 5,
+    color: colors.colors.white,
   },
   button: {
     width: 100,
@@ -21,11 +21,18 @@ export default StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: colors.grey,
+    color: colors.colors.secondary,
     alignSelf: 'center',
     paddingTop: 15,
   },
   list: {
     paddingBottom: 15,
+  },
+  titleContainer: {
+    borderRadius: 20,
+    backgroundColor: colors.colors.secondary,
+    alignSelf: 'center',
+    margin: 20,
+    paddingHorizontal: 10,
   },
 });

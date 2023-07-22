@@ -1,27 +1,26 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import React, { Dispatch, ReactElement, useContext, useState } from 'react';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import React, {Dispatch, ReactElement, useContext, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import RNFS, { DownloadFileOptions, downloadFile } from 'react-native-fs';
+import RNFS, {DownloadFileOptions, downloadFile} from 'react-native-fs';
 import shorthash from 'shorthash';
 import Config from 'react-native-config';
-import { VideoContext } from '../../context/providers/videoProvider';
+import {VideoContext} from '../../context/providers/videoProvider';
 import * as ScopedStorage from 'react-native-scoped-storage';
-import { VIDEOPLAYBACK } from '../../constants/routeNames';
-import { useNavigation } from '@react-navigation/core';
-import { useTheme } from '@react-navigation/native';
+import {VIDEOPLAYBACK} from '../../constants/routeNames';
+import {useNavigation} from '@react-navigation/core';
+import {useTheme} from '@react-navigation/native';
 
 type VideoButtonProps = {
-    videoName: string;
-    userId: string;
-    reload: () => void;
+  videoName: string;
+  userId: string;
+  reload: () => void;
 };
 const VideoButton: (props: VideoButtonProps) => ReactElement = ({
-    videoName,
-    userId,
-    reload,
+  videoName,
+  userId,
+  reload,
 }: VideoButtonProps) => {
-
   const videoContext = useContext(VideoContext);
   const navigation = useNavigation();
   const name = shorthash.unique(videoName.split('.')[0]);
@@ -34,12 +33,10 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   //   RNFS.CachesDirectoryPath + '/video/' + name + '.' + fileType;
   const colors = useTheme().colors;
 
-
-    const makeDir = () => {
-        RNFS.mkdir(folderPath);
-        console.log('folder created');
-    };
-
+  const makeDir = () => {
+    RNFS.mkdir(folderPath);
+    console.log('folder created');
+  };
 
   //const [url, setUrl] = useState<string>('');
   const getFile = async () => {
@@ -82,14 +79,12 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     }
   };
 
-
-    const listFiles = async () => {
-        try {
-            const reader = await RNFS.readDir(folderPath);
-            console.log('folder: ' + folderPath);
-            for (let i = 0; i < reader.length; i++) {
-                const item = reader[i];
-
+  const listFiles = async () => {
+    try {
+      const reader = await RNFS.readDir(folderPath);
+      console.log('folder: ' + folderPath);
+      for (let i = 0; i < reader.length; i++) {
+        const item = reader[i];
 
         console.log('files:' + i + '_' + item.name);
       }
@@ -144,30 +139,30 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     // const videoObject = await ScopedStorage.listFiles(videoPath);
   };
 
-    const createTwoButtonAlert = () =>
-        Alert.alert('Deleting video', `Proceed to delete video: ${videoName}?`, [
-            {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {
-                text: 'OK',
-                onPress: () => {
-                    deleteVideo();
-                    reload();
-                },
-            },
-        ]);
+  const createTwoButtonAlert = () =>
+    Alert.alert('Deleting video', `Proceed to delete video: ${videoName}?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          deleteVideo();
+          reload();
+        },
+      },
+    ]);
 
-    const deleteVideo = async () => {
-        await fetch(
-            `${Config.API_URL}/uploads/${userId}/deletevideo/${videoName}`,
-            {
-                method: 'DELETE',
-            },
-        ).catch(error => console.log(error));
-    };
+  const deleteVideo = async () => {
+    await fetch(
+      `${Config.API_URL}/uploads/${userId}/deletevideo/${videoName}`,
+      {
+        method: 'DELETE',
+      },
+    ).catch(error => console.log(error));
+  };
 
   const wait = () => navigation.navigate(VIDEOPLAYBACK);
   return (
@@ -179,9 +174,19 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
         }}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
           <Ionicons name={'play'} size={20} color={colors.lightfourth} />
-
         </View>
-    );
+      </TouchableOpacity>
+      <Text style={styles.videoTitle}>{videoName}</Text>
+      <View style={styles.delete}>
+        <TouchableOpacity
+          onPress={() => {
+            createTwoButtonAlert();
+          }}>
+          <Ionicons name={'trash-bin'} size={15} color={colors.failure} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default VideoButton;

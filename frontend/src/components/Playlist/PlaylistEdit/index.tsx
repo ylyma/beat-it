@@ -12,6 +12,7 @@ import TrackPlayer from 'react-native-track-player';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
 import styles from './styles';
+import {useTheme} from '@react-navigation/native';
 
 const PlaylistEditComponent: () => ReactElement = () => {
   const data = useRoute().params;
@@ -23,7 +24,7 @@ const PlaylistEditComponent: () => ReactElement = () => {
   const [update, setUpdate] = useState<boolean>(true);
   const [checkedTracks, setCheckedTracks] = useState<string[]>([]);
   const [uncheckedTracks, setUncheckedTracks] = useState<string[]>([]);
-
+  const colors = useTheme().colors;
   useEffect(() => {
     const getAllAudio = async () => {
       const response = await fetch(
@@ -109,9 +110,14 @@ const PlaylistEditComponent: () => ReactElement = () => {
 
   console.log(allTracks);
   return (
-    <View>
+    <View style={{backgroundColor: colors.lightsecondary}}>
       <Text style={styles.title}>Add Songs</Text>
-      <Text style={styles.playlistTitle}>{data.playlistTitle.toString()}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.playlistTitle}>
+          {data.playlistTitle.toString()}
+        </Text>
+      </View>
+
       <View style={styles.topList}>
         <NestableScrollContainer>
           <PlaylistTrackContainer tracks={allTracks} refresh={update} />

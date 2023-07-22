@@ -1,21 +1,18 @@
-import { View } from 'react-native';
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import {View} from 'react-native';
+import React, {ReactElement, useContext, useEffect, useState} from 'react';
 import Config from 'react-native-config';
 import RNFS from 'react-native-fs';
 import VideoButton from './VideoButton';
-
 import {VideoContext} from '../../context/providers/videoProvider';
 import shorthash from 'shorthash';
 
-
-type Props = { userId: string; refresh: boolean; search: string };
+type Props = {userId: string; refresh: boolean; reload: () => void};
 
 const VideosContainer: (props: Props) => ReactElement = ({
-    userId,
-    refresh,
-    search,
+  userId,
+  refresh,
+  reload,
 }: Props) => {
-
   const extension = 'file:/';
   const folderPath = extension + RNFS.CachesDirectoryPath + '/video/';
   const [videos, setVideos] = useState<string[]>(['']);
@@ -58,45 +55,30 @@ const VideosContainer: (props: Props) => ReactElement = ({
     }
   };
 
-
-                console.log('files:' + i + '_' + item.name);
-            }
-            if (reader.length > 20) {
-                const oldestFilePath = folderPath + reader[0];
-                deleteFile(oldestFilePath);
-                console.log(reader[0]);
-            }
-        }
+  useEffect(() => {
+    const getAllVideo = async () => {
+      const response = await fetch(
+        `${Config.API_URL}/uploads/${userId}/getvideo`,
+        {
+          method: 'GET',
+        },
+      )
+        .then(res => res.text())
+        .then(r => {
+          console.log(r);
+          let titles = r.split('/');
+          for (let i = 0; i < titles.length; i++) {
+            titles[i] = titles[i].replace(`#video_${userId}_`, '');
+          }
+          console.log('hi ' + titles);
+          setVideos(titles);
+        });
     };
-
     getAllVideo();
     lruCacheEviction().then(() => console.log('cache eviction'));
   }, [refresh, userId]);
 
-
-    useEffect(() => {
-        const getAllVideo = async () => {
-            const response = await fetch(
-                `${Config.API_URL}/uploads/${userId}/getvideo`,
-                {
-                    method: 'GET',
-                },
-            )
-                .then(res => res.text())
-                .then(r => {
-                    console.log(r);
-                    let titles = r.split('/');
-                    for (let i = 0; i < titles.length; i++) {
-                        titles[i] = titles[i].replace(`#video_${userId}_`, '');
-                    }
-                    console.log('hi ' + titles);
-                    setVideos(titles);
-                });
-        };
-        getAllVideo();
-    }, [refresh, userId]);
-
-    console.log(videos[0]);
+  console.log(videos[0]);
 
   return (
     <View>
@@ -111,7 +93,6 @@ const VideosContainer: (props: Props) => ReactElement = ({
       )}
     </View>
   );
-
 };
 
 export default VideosContainer;

@@ -9,6 +9,7 @@ import {AuthContext} from '../../../context/providers/authProvider';
 import {NestableScrollContainer} from 'react-native-draggable-flatlist';
 import PlaylistTrackContainer from '../PlaylistTrackContainer';
 import PlaylistTrackItem from '../PlaylistTrackItem';
+import {useTheme} from '@react-navigation/native';
 
 const PlaylistComponent: () => ReactElement = () => {
   const data = useRoute().params;
@@ -18,6 +19,7 @@ const PlaylistComponent: () => ReactElement = () => {
   const [tracks, setTracks] = useState<string[]>([]);
   const [allTracks, setAllTracks] = useState<Set<string>>(new Set());
   const [update, setUpdate] = useState<boolean>(true);
+  const colors = useTheme().colors;
 
   useEffect(() => {
     const getAllAudio = async () => {
@@ -76,9 +78,13 @@ const PlaylistComponent: () => ReactElement = () => {
 
   console.log(allTracks);
   return (
-    <View>
+    <View style={{backgroundColor: colors.lightsecondary}}>
       <Text style={styles.title}>Add Songs</Text>
-      <Text style={styles.playlistTitle}>{data.playlistTitle.toString()}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.playlistTitle}>
+          {data.playlistTitle.toString()}
+        </Text>
+      </View>
       <View style={styles.topList}>
         <NestableScrollContainer>
           <PlaylistTrackContainer tracks={allTracks} refresh={update} />
