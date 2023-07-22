@@ -17,7 +17,7 @@ export default StyleSheet.create({
     paddingTop: 10,
     textAlign: 'center',
     fontSize: 24,
-    color: colors.black,
+    color: colors.colors.black,
     fontWeight: 'bold',
   },
   body: {

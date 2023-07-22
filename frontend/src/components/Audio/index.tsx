@@ -1,5 +1,6 @@
-import React, {ReactElement, useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Button} from 'react-native';
+import {ReactElement, useContext, useState} from 'react';
+import * as React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {useEffect} from 'react';
 import styles from './styles';
@@ -109,7 +110,7 @@ const AudioComponent: () => ReactElement = () => {
             setUploadTop(!uploadTop);
           }}>
           <View>
-            <Ionicons name={'refresh'} size={20} />
+            <Ionicons name={'refresh'} size={20} color={colors.grey} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity

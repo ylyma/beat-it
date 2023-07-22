@@ -14,11 +14,7 @@ import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto';
 describe('App e2e', () => {
 describe('App e2e', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
-  let prisma: PrismaService;
 
-  beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -38,17 +34,12 @@ describe('App e2e', () => {
     );
     await app.init();
     await app.listen(3333);
-
-    prisma = app.get(PrismaService);
-    await prisma.cleanDb();
   });
 
   afterAll(() => {
     app.close();
     await app.listen(3333);
 
-    prisma = app.get(PrismaService);
-    await prisma.cleanDb();
   });
 
   afterAll(() => {
@@ -68,8 +59,7 @@ describe('App e2e', () => {
     });
     describe('Create bookmark', () => {
       const dto: CreateBookmarkDto = {
-        title: 'test',
-        description: 'test',
+        name: 'test',
         timestamp: 500,
       };
       it('should create bookmarks'),

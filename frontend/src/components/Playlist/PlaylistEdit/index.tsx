@@ -7,10 +7,7 @@ import Config from 'react-native-config';
 import {AuthContext} from '../../../context/providers/authProvider';
 import {NestableScrollContainer} from 'react-native-draggable-flatlist';
 import PlaylistTrackContainer from '../PlaylistTrackContainer';
-import PlaylistTrackItem from '../PlaylistTrackItem';
-import TrackPlayer from 'react-native-track-player';
-import RNFS from 'react-native-fs';
-import shorthash from 'shorthash';
+//import PlaylistTrackItem from '../PlaylistTrackItem';
 import styles from './styles';
 import {useTheme} from '@react-navigation/native';
 

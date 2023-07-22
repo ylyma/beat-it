@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { EditBookmarkDto } from './dto/edit-bookmark.dto';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import {
@@ -13,10 +12,10 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class BookmarkService {
   private readonly s3Client = new S3Client({
-    region: this.configService.getOrThrow('AWS_S3_REGION'),
+    region: 'ap-southeast-1',
     credentials: {
-      accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: 'AKIA5RYVYZSLFM6J22MG',
+      secretAccessKey: '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',
     },
   });
   constructor(private configService: ConfigService) {}
@@ -30,7 +29,7 @@ export class BookmarkService {
   // }
   async getBookmarksByTrack(userId: string, title: string) {
     const command = new ListObjectsV2Command({
-      Bucket: this.configService.get('AWS_BUCKET_NAME'),
+      Bucket: 'beatit',
       Prefix: '#bookmark_' + userId + '_' + title,
     });
     try {
@@ -69,7 +68,7 @@ export class BookmarkService {
     console.log(title + ' ' + content);
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#bookmark_' + userId + '_' + title + '_' + name + '_' + content,
         Body: '',
       }),
@@ -140,7 +139,7 @@ export class BookmarkService {
     console.log('#bookmark_' + userId + '_' + title + '_' + name + '_' + time);
     await this.s3Client.send(
       new DeleteObjectCommand({
-        Bucket: this.configService.get('AWS_BUCKET_NAME'),
+        Bucket: 'beatit',
         Key: '#bookmark_' + userId + '_' + title + '_' + name + '_' + time,
       }),
     );
