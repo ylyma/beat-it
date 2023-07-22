@@ -30,3 +30,5 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
 });
+
+export default styles;
