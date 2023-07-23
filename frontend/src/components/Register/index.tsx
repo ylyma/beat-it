@@ -111,92 +111,91 @@ const RegisterComponent: (props: Props) => ReactElement = ({
             );
     };
     return (
-        <View>
-            <AuthContainer>
-                <Image
-                    style={globalStyles.logo}
-                    source={require('../../assets/images/BeatIt_Logo.png')}
+
+        <AuthContainer>
+            <Image
+                style={globalStyles.logo}
+                source={require('../../assets/images/BeatIt_Logo.png')}
+            />
+            <View>
+                <Text style={styles.title}>Create Account</Text>
+                <Input
+                    label="Username"
+                    placeholder="Username"
+                    placeholderTextColor={colors.text}
+
+                    onChangeText={(value: string) => {
+                        onChange({ name: 'username', value });
+                        setUsername(value);
+                    }}
+                    error={errors.username}
+                    value={username}
                 />
-                <View>
-                    <Text style={styles.title}>Create Account</Text>
-                    <Input
-                        label="Username"
-                        placeholder="Username"
-                        placeholderTextColor={colors.text}
+                <Input
+                    label="Email"
+                    placeholder="Email"
+                    placeholderTextColor={colors.text}
 
-                        onChangeText={(value: string) => {
-                            onChange({ name: 'username', value });
-                            setUsername(value);
-                        }}
-                        error={errors.username}
-                        value={username}
-                    />
-                    <Input
-                        label="Email"
-                        placeholder="Email"
-                        placeholderTextColor={colors.text}
+                    onChangeText={(value: string) => {
+                        onChange({ name: 'email', value });
+                        setEmail(value);
+                    }}
+                    error={errors.email}
+                    value={email}
+                />
+                <Input
+                    label="Password"
+                    placeholder="Password"
+                    icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
+                    placeholderTextColor={colors.text}
+                    iconPosition="right"
+                    secureTextEntry={secureTextEntry}
+                    onChangeText={(value: any) => {
+                        onChange({ name: 'password', value });
+                        setPassword(value);
+                    }}
+                    error={errors.password}
+                    value={password}
+                />
+                <Input
+                    label="Confirm password"
+                    placeholder="Confirm password"
+                    icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
+                    placeholderTextColor={colors.text}
+                    iconPosition="right"
+                    secureTextEntry={secureTextEntry}
+                    onChangeText={(value: any) => {
+                        onChange({ name: 'confirmPassword', value });
+                        setConfirmPassword(value);
+                    }}
+                    error={errors.confirmPassword}
+                    value={confirmPassword}
+                />
+            </View>
 
-                        onChangeText={(value: string) => {
-                            onChange({ name: 'email', value });
-                            setEmail(value);
-                        }}
-                        error={errors.email}
-                        value={email}
-                    />
-                    <Input
-                        label="Password"
-                        placeholder="Password"
-                        icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
-                        placeholderTextColor={colors.text}
-                        iconPosition="right"
-                        secureTextEntry={secureTextEntry}
-                        onChangeText={(value: any) => {
-                            onChange({ name: 'password', value });
-                            setPassword(value);
-                        }}
-                        error={errors.password}
-                        value={password}
-                    />
-                    <Input
-                        label="Confirm password"
-                        placeholder="Confirm password"
-                        icon={<Ionicons name="eye" size={20} onPress={toggleSecureEntry} />}
-                        placeholderTextColor={colors.text}
-                        iconPosition="right"
-                        secureTextEntry={secureTextEntry}
-                        onChangeText={(value: any) => {
-                            onChange({ name: 'confirmPassword', value });
-                            setConfirmPassword(value);
-                        }}
-                        error={errors.confirmPassword}
-                        value={confirmPassword}
-                    />
-                </View>
+            <View style={{ paddingTop: 10 }}>
+                <CustomButton
+                    secondary
+                    title="Sign Up"
+                    onPress={() => {
+                        onSubmit();
+                        handleSignUp();
+                    }}
+                />
+            </View>
 
-                <View style={{ paddingTop: 10 }}>
-                    <CustomButton
-                        secondary
-                        title="Sign Up"
-                        onPress={() => {
-                            onSubmit();
-                            handleSignUp();
-                        }}
-                    />
-                </View>
-
-                <View style={styles.horizontal}>
-                    <Text style={[styles.text, { color: colors.secondaryText }]}>already have an account?</Text>
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigate(LOGIN);
-                        }}>
-                        <Text style={[styles.textButton, { color: colors.primary }]}>
-                            login
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </AuthContainer>
-        </View>
+            <View style={styles.horizontal}>
+                <Text style={[styles.text, { color: colors.secondaryText }]}>already have an account?</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigate(LOGIN);
+                    }}>
+                    <Text style={[styles.textButton, { color: colors.primary }]}>
+                        login
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </AuthContainer>
     );
 };
 

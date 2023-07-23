@@ -50,6 +50,8 @@ const BookmarkCreationComponent = () => {
             .catch(error => {
                 console.log(error);
             });
+        data.setRefresh(true)
+        data.setRefresh(false)
         //navigate(AUDIOPLAYBACK);
     };
 
@@ -79,8 +81,8 @@ const BookmarkCreationComponent = () => {
             </View>
 
             <TouchableOpacity
-                onPress={() => {
-                    createBookmark();
+                onPress={async () => {
+                    await createBookmark();
                     navigate(AUDIOPLAYBACK);
                 }}>
                 <Text style={[styles.button, { backgroundColor: colors.success }]}>

@@ -31,43 +31,44 @@ const AudioPlayBackComponent = () => {
     const authContext = useContext(AuthContext);
     const colors = useTheme().colors;
     const [upload, setUpload] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        const getBookmarks = async () => {
-            await fetch(
-                `${Config.API_URL}/bookmarks/${authContext.user.uid}/${audioContext.currentTrack.split('.')[0]
-                }`,
-                {
-                    method: 'GET',
-                },
-            )
-                .then(res => res.text())
-                .then(r => {
-                    const items = r.split('/');
-                    let bkm = new Array();
-                    console.log(items);
-                    for (let i = 0; i < items.length; i++) {
-                        items[i] = items[i].replace(
-                            `#bookmark_${authContext.user.uid}_${audioContext.currentTrack.split('.')[0]
-                            }_`,
-                            '',
-                        );
-                        console.log(items[i]);
-                        const name = items[i].split('_')[0];
-                        console.log(name);
-                        const time = Number(items[i].split('_')[1]);
-                        console.log(time);
-                        bkm.push({ name, time });
-                    }
-                    console.log(bkm);
-                    setBookmarkList(bkm);
-                });
-            // console.log("getBookmarks: " + test.status);
-            // console.log("bookmarks: " + JSON.stringify(testJson))
-        };
         getBookmarks();
-    }, [audioContext.currentTrack, upload]);
+    }, [audioContext.currentTrack, upload, refresh]);
 
+    const getBookmarks = async () => {
+        await fetch(
+            `${Config.API_URL}/bookmarks/${authContext.user.uid}/${audioContext.currentTrack.split('.')[0]
+            }`,
+            {
+                method: 'GET',
+            },
+        )
+            .then(res => res.text())
+            .then(r => {
+                const items = r.split('/');
+                let bkm = new Array();
+                console.log(items);
+                for (let i = 0; i < items.length; i++) {
+                    items[i] = items[i].replace(
+                        `#bookmark_${authContext.user.uid}_${audioContext.currentTrack.split('.')[0]
+                        }_`,
+                        '',
+                    );
+                    console.log(items[i]);
+                    const name = items[i].split('_')[0];
+                    console.log(name);
+                    const time = Number(items[i].split('_')[1]);
+                    console.log(time);
+                    bkm.push({ name, time });
+                }
+                console.log(bkm);
+                setBookmarkList(bkm);
+            });
+        // console.log("getBookmarks: " + test.status);
+        // console.log("bookmarks: " + JSON.stringify(testJson))
+    };
     const reload = () => {
         setUpload(!upload);
     };
@@ -81,6 +82,7 @@ const AudioPlayBackComponent = () => {
             id: nextId.toString(),
             timestamp: position,
             title: audioContext.currentTrack,
+            setRefresh: setRefresh,
         });
     };
 
