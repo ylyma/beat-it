@@ -14,7 +14,7 @@ const VideoButtonGenerator = (props: VideoButtonGeneratorProps) => {
     for (let i = 0; i < props.video.length; i++) {
         children.push(
             <View key={i}>
-                <VideoButton videoName={props.video[i]} userId={''} />
+                <VideoButton videoName={props.video[i]} userId={''} reload={() => { }} />
             </View>
         )
     }

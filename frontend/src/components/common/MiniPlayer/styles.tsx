@@ -3,14 +3,13 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     wrapper: {
         position: "relative",
-        minHeight: 50,
+        height: '9%',
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#272829",
         flex: 1,
         justifyContent: "space-between",
         paddingHorizontal: 16,
-
     },
     text: {
         color: "white",

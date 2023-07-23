@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, ToastAndroid} from 'react-native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -65,7 +65,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     }
   };
 
-  const downloadAudio = async (url): Promise<any> => {
+  const downloadAudio = async (url: any): Promise<any> => {
     try {
       const options: DownloadFileOptions = {
         fromUrl: url,
@@ -119,6 +119,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         listFiles();
       } else {
         console.log('file doesnt exist');
+        ToastAndroid.show('Downloading audio...', ToastAndroid.SHORT);
         const url = await getFile();
         await downloadAudio(url);
         listFiles();
@@ -135,10 +136,17 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
     }).then(() =>
       audioContext.playing ? TrackPlayer.play() : TrackPlayer.pause(),
     );
+    ToastAndroid.show('Added to queue', ToastAndroid.SHORT);
   };
 
   // make this play immediately
   const playTrack = () => {
+    TrackPlayer.add({
+      title: trackName,
+      url: trackPath,
+      artist: artist,
+    }).then(() => TrackPlayer.play());
+
     TrackPlayer.getCurrentTrack().then(async (trackId: any) => {
       console.log('t' + trackId);
       let queueLength;
@@ -165,6 +173,9 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
         ).then(() => TrackPlayer.skipToNext().then(() => TrackPlayer.play()));
       }
     });
+    // TrackPlayer.getQueue().then(queue => {
+    //   console.log(queue);
+    // });
   };
 
   const alertToQueue = () =>
@@ -218,7 +229,7 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
             pauseTrack();
           }}>
           <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-            <Ionicons name={'pause'} size={20} color={colors.lightfourth} />
+            <Ionicons name={'pause'} size={20} color={colors.alwayswhite} />
           </View>
         </TouchableOpacity>
       ) : (
@@ -229,11 +240,11 @@ const TrackButton: (props: TrackButtonProps) => ReactElement = ({
           }}
           onLongPress={() => alertToQueue()}>
           <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-            <Ionicons name={'play'} size={20} color={colors.lightfourth} />
+            <Ionicons name={'play'} size={20} color={colors.alwayswhite} />
           </View>
         </TouchableOpacity>
       )}
-      <Text style={styles.songTitle}>{trackName}</Text>
+      <Text style={[styles.songTitle, {color: colors.text}]}>{trackName}</Text>
       <View style={styles.delete}>
         <TouchableOpacity
           onPress={() => {

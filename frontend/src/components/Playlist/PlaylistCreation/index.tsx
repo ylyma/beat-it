@@ -1,4 +1,4 @@
-import {useNavigation, useRoute} from '@react-navigation/core';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import React, {ReactElement, useContext, useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import CustomButton from '../../common/CustomButton';
@@ -10,10 +10,12 @@ import {NestableScrollContainer} from 'react-native-draggable-flatlist';
 import PlaylistTrackContainer from '../PlaylistTrackContainer';
 import PlaylistTrackItem from '../PlaylistTrackItem';
 import {useTheme} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {HomeTabParamList} from '../../../navigations/HomeTab';
 
 const PlaylistComponent: () => ReactElement = () => {
-  const data = useRoute().params;
-  const {navigate} = useNavigation();
+  const data = useRoute<RouteProp<HomeTabParamList>>().params;
+  const {navigate} = useNavigation<StackNavigationProp<HomeTabParamList>>();
   const authContext = useContext(AuthContext);
   const userId: string = authContext.user.uid;
   const [tracks, setTracks] = useState<string[]>([]);
@@ -43,7 +45,7 @@ const PlaylistComponent: () => ReactElement = () => {
     getAllAudio();
   }, [userId]);
 
-  const updateTracks = (track, add) => {
+  const updateTracks = (track: any, add: any) => {
     if (add) {
       allTracks.add(track);
       setAllTracks(allTracks);
@@ -60,7 +62,7 @@ const PlaylistComponent: () => ReactElement = () => {
 
   const postPlaylist = () => {
     const playlist = {
-      title: data.playlistTitle,
+      title: data!.playlistTitle,
       body: Array.from(allTracks).join(','),
     };
     fetch(`${Config.API_URL}/playlists/${userId}`, {
@@ -70,7 +72,11 @@ const PlaylistComponent: () => ReactElement = () => {
       },
       method: 'POST',
     })
-      .then(response => response.json())
+      .then(response => {
+        response.json();
+        data!.setRefresh(true);
+        data!.setRefresh(false);
+      })
       .catch(error => {
         console.log(error);
       });
@@ -79,10 +85,11 @@ const PlaylistComponent: () => ReactElement = () => {
   console.log(allTracks);
   return (
     <View style={{backgroundColor: colors.lightsecondary}}>
-      <Text style={styles.title}>Add Songs</Text>
-      <View style={styles.titleContainer}>
-        <Text style={styles.playlistTitle}>
-          {data.playlistTitle.toString()}
+      <Text style={[styles.title, {color: colors.secondary}]}>Add Songs</Text>
+      <View
+        style={[styles.titleContainer, {backgroundColor: colors.secondary}]}>
+        <Text style={[styles.playlistTitle, {color: colors.text}]}>
+          {data!.playlistTitle.toString()}
         </Text>
       </View>
       <View style={styles.topList}>
@@ -111,14 +118,14 @@ const PlaylistComponent: () => ReactElement = () => {
         primary
         onPress={() => {
           postPlaylist();
-          navigate(SETTINGS);
+          navigate(AUDIO);
         }}
       />
       <CustomButton
         style={styles.button}
         title="Cancel"
         failure
-        onPress={() => navigate(SETTINGS)}
+        onPress={() => navigate(AUDIO)}
       />
     </View>
   );

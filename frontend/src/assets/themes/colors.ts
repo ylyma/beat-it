@@ -11,6 +11,7 @@ export default {
     dark: '#2d3232',
     lightgrey: '#d5d9de',
     background: '#ffffff',
+    audiobackground: '#fbf1cf',
     card: '#ffffff',
     text: '#000000',
     border: '#ffffff',

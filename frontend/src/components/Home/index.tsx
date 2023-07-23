@@ -6,9 +6,12 @@ import styles from './styles';
 import SearchBar from '../common/SearchBar';
 import HorizView from '../common/HorizView/HorizView';
 import { AuthContext } from '../../context/providers/authProvider';
+import { useTheme } from '@react-navigation/native';
 
 
 const HomeComponent: () => ReactElement = () => {
+    const { colors } = useTheme();
+
     const authContext = React.useContext(AuthContext);
     return (
         <Container>
@@ -18,6 +21,7 @@ const HomeComponent: () => ReactElement = () => {
                         <SearchBar
                             style={styles.searchBar}
                             icon={<Ionicons name="search" />}
+                            placeholderTextColor={colors.alwaysblack}
                             iconPosition="left"
                             placeholder="Search"
                         />

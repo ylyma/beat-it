@@ -7,9 +7,11 @@ import { useNavigation } from "@react-navigation/core";
 import { AudioContext } from "../../../context/providers/audioProvider";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { HomeTabParamList } from "../../../navigations/HomeTab";
+import { useTheme } from "@react-navigation/native";
 
 const MiniPlayer = () => {
     const audioContext = useContext(AudioContext);
+    const colors = useTheme().colors;
 
     const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
     const playPause = () => {
@@ -27,12 +29,8 @@ const MiniPlayer = () => {
     }
     return (
         <Animated.View style={styles.wrapper}>
-            {/* <TouchableWithoutFeedback onPress={() => null}>
-
-                <Ionicons name="heart" color="white" size={24} />
-            </TouchableWithoutFeedback> */}
             <TouchableWithoutFeedback onPress={() => navigation.navigate("AudioPlayBackStack")}>
-                <Text style={styles.text}>
+                <Text style={[styles.text,]}>
                     {audioContext.currentTrack}
                 </Text>
             </TouchableWithoutFeedback>

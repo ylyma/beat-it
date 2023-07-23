@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, ToastAndroid} from 'react-native';
 import React, {Dispatch, ReactElement, useContext, useState} from 'react';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,8 @@ import * as ScopedStorage from 'react-native-scoped-storage';
 import {VIDEOPLAYBACK} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/core';
 import {useTheme} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {HomeTabParamList} from '../../navigations/HomeTab';
 
 type VideoButtonProps = {
   videoName: string;
@@ -22,7 +24,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   reload,
 }: VideoButtonProps) => {
   const videoContext = useContext(VideoContext);
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
   const name = shorthash.unique(videoName.split('.')[0]);
   const extension = 'file:/';
   const fileType = videoName.split('.')[1];
@@ -55,7 +57,7 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
     }
   };
 
-  const downloadVideo = async (response): Promise<any> => {
+  const downloadVideo = async (response: any): Promise<any> => {
     try {
       const options: DownloadFileOptions = {
         fromUrl: response,
@@ -165,19 +167,19 @@ const VideoButton: (props: VideoButtonProps) => ReactElement = ({
   };
 
   const wait = () => navigation.navigate(VIDEOPLAYBACK);
-
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
         onPress={() => {
           playVideo();
           setTimeout(wait, 1500);
+          ToastAndroid.show('Video is loading', ToastAndroid.SHORT);
         }}>
         <View style={[styles.buttonIcon, {backgroundColor: colors.fourth}]}>
-          <Ionicons name={'play'} size={20} color={colors.lightfourth} />
+          <Ionicons name={'play'} size={20} color={colors.alwayswhite} />
         </View>
       </TouchableOpacity>
-      <Text style={styles.videoTitle}>{videoName}</Text>
+      <Text style={[styles.videoTitle, {color: colors.text}]}>{videoName}</Text>
       <View style={styles.delete}>
         <TouchableOpacity
           onPress={() => {

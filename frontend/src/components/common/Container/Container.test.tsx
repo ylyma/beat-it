@@ -20,10 +20,10 @@ beforeEach(() => {
     }
 });
 
-it('renders correctly', () => {
+it('renders correctly', async () => {
 
 
-    renderer.create(<BaseNavigationContainer>
+    await renderer.create(<BaseNavigationContainer>
         <Container />
     </BaseNavigationContainer>);
 });

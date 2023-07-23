@@ -9,6 +9,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import SearchBar from './index'
 
-it('renders correctly', () => {
-    renderer.create(<SearchBar />);
+it('renders correctly', async () => {
+    await renderer.create(<SearchBar />);
 });

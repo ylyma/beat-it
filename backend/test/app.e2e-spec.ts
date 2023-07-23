@@ -10,6 +10,7 @@ import * as pactum from 'pactum';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto';
+import { CreatePlaylistDto } from 'src/playlist/dto/create-playlist.dto';
 
 describe('App e2e', () => {
 describe('App e2e', () => {
@@ -47,16 +48,6 @@ describe('App e2e', () => {
   });
 
   describe('Bookmarks', () => {
-    describe('Get empty bookmarks', () => {
-      it('should get bookmarks'),
-        () => {
-          return pactum
-            .spec()
-            .get('/bookmarks/6')
-            .expectStatus(200)
-            .expectBody([]);
-        };
-    });
     describe('Create bookmark', () => {
       const dto: CreateBookmarkDto = {
         name: 'test',
@@ -66,34 +57,14 @@ describe('App e2e', () => {
         () => {
           return pactum
             .spec()
-            .post('/bookmarks/6')
+            .post('/bookmarks/6/testy')
             .withBody(dto)
             .expectStatus(201)
-            .stores('bookmarkId', 'id')
             .stores('title', 'title');
         };
     });
-    describe('Get bookmarks', () => {
-      it('should get bookmarks'),
-        () => {
-          return pactum
-            .spec()
-            .get('/bookmarks/6')
-            .expectStatus(200)
-            .expectJsonLength(1);
-        };
-    });
-    describe('Get bookmark by id', () => {
-      it('should get bookmarks by id'),
-        () => {
-          return pactum
-            .spec()
-            .expectStatus(200)
-            .expectBodyContains('$S{bookmarkId}');
-        };
-    });
-    describe('Get bookmark by title', () => {
-      it('should get bookmarks by title'),
+    describe('Get bookmark by track', () => {
+      it('should get bookmarks by track'),
         () => {
           return pactum
             .spec()
@@ -103,63 +74,59 @@ describe('App e2e', () => {
             .expectBodyContains('$S{title}');
         };
     });
-    describe('Edit bookmark by id', () => {
-      const dto: EditBookmarkDto = {
-        title: 'edit test',
-        description: 'edit test',
-      };
-      it('should edit bookmarks by id'),
+    describe('Delete bookmark by name', () => {
+      it('should delete bookmarks by name'),
         () => {
           return pactum
             .spec()
-            .patch('/bookmarks/6/{id}')
-            .withPathParams('id', '$S{bookmarkId}')
-            .withBody(dto)
-            .expectStatus(200)
-            .expectBodyContains(dto.title)
-            .expectBodyContains(dto.description);
-        };
-    });
-    describe('Delete bookmark by id', () => {
-      it('should delete bookmarks by id'),
-        () => {
-          return pactum
-            .spec()
-            .delete('/bookmarks/6/{id}')
+            .delete('/bookmarks/6/{title}/test/500')
             .withPathParams('id', '$S{bookmarkId}')
             .expectStatus(204);
         };
     });
   });
-  describe('Uploads', () => {
-    describe('Get empty audio', () => {
-      it('should get audio'),
+  describe('Playlists', () => {
+    describe('Create playlist', () => {
+      const dto: CreatePlaylistDto = {
+        title: 'test',
+        body: 'test1, test2'
+      };
+      it('should create bookmarks'),
         () => {
           return pactum
             .spec()
-            .get('/uploads/getaudio')
-            .expectStatus(200)
-            .expectBody([]);
+            .post('/playlists/6')
+            .withBody(dto)
+            .expectStatus(201)
         };
     });
-    describe('Get empty video', () => {
-      it('should get video'),
+    describe('Get playlist titles', () => {
+      it('should get playlist titles'),
         () => {
           return pactum
             .spec()
-            .get('/uploads/getvideo')
+            .get('playlists/6/getplaylist')
             .expectStatus(200)
-            .expectBody([]);
+            .expectBodyContains('title')
+      };
+    }) 
+    describe('Get playlist by title', () => {
+      it('should get playlist by title'),
+        () => {
+          return pactum
+            .spec()
+            .get('/playlists/6/title')
+            .expectStatus(200)
+            .expectBodyContains('test1, test2')
         };
     });
-    describe('Get empty audio', () => {
-      it('should get audio'),
+    describe('Delete playlist by title', () => {
+      it('should delete playlists by title'),
         () => {
           return pactum
             .spec()
-            .get('/uploads/getaudio')
-            .expectStatus(200)
-            .expectBody([]);
+            .delete('/playlists/6/deleteplaylist/title')
+            .expectStatus(204);
         };
     });
   });

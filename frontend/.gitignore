@@ -68,3 +68,5 @@ yarn-error.log
 # test data
 test_data/
 .env
+
+coverage

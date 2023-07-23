@@ -24,10 +24,10 @@ beforeEach(() => {
     }
 });
 
-it('renders correctly', () => {
+it('renders correctly', async () => {
 
 
-    renderer.create(<BaseNavigationContainer>
-        <VideoButton videoName='' userId='' />
+    await renderer.create(<BaseNavigationContainer>
+        <VideoButton videoName='' userId='' reload={() => { }} />
     </BaseNavigationContainer>);
 });

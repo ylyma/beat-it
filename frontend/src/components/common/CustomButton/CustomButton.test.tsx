@@ -9,6 +9,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import CustomButton from './index';
 
-it('renders correctly', () => {
-    renderer.create(<CustomButton />);
+it('renders correctly', async () => {
+    await renderer.create(<CustomButton />);
 });

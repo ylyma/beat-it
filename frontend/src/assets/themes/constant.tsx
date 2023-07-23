@@ -16,4 +16,6 @@ export default {
   otherdark: '#ced4d9',
   otherlight: '#f2f2f2',
   alwaysblack: '#000000',
+  yellow: '#f2d177',
+  darkyellow: '#f9c626',
 };

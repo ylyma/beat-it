@@ -14,7 +14,7 @@ import globalStyles from '../../globalStyles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import Slider from '@react-native-community/slider';
-import {FFmpegKit, FFmpegKitConfig, ReturnCode} from 'ffmpeg-kit-react-native';
+import { FFmpegKit, FFmpegKitConfig, ReturnCode } from 'ffmpeg-kit-react-native';
 import FFmpegWrapper from '../../services/ffMpeg';
 import { useTheme } from '@react-navigation/native';
 import CustomSlider from '../common/CustomSlider/CustomSlider';
@@ -37,7 +37,7 @@ const VideoPlaybackComponent = () => {
         videoContext.dispatch({ type: 'TOGGLE_PAUSE', payload: null });
     };
 
-    const updateTime = progress => {
+    const updateTime = (progress: any) => {
         // console.log('progress: ', progress)
         videoContext.dispatch({ type: 'SET_TIME', payload: progress });
         setFramesLineOffset({
@@ -49,7 +49,7 @@ const VideoPlaybackComponent = () => {
         });
     };
 
-    const handleOnLoad = videoAssetLoaded => {
+    const handleOnLoad = (videoAssetLoaded: any) => {
         const numberOfFrames = Math.ceil(videoAssetLoaded.duration / 2);
         setFrames(
             Array(numberOfFrames).fill({
@@ -58,30 +58,30 @@ const VideoPlaybackComponent = () => {
         );
         console.log(videoContext);
 
-  useEffect(() => {
-    FFmpegWrapper.handleVideoLoad(videoContext)
-      .then(() => {
-        // set it to pause
-        videoContext.dispatch({type: 'SET_PAUSE', payload: false});
-        console.log('paused: ', videoContext.paused);
-        console.log('videoContext.video: ', videoContext.video);
-      })
-      .catch(err => {
-        console.log('err: ', err);
-      });
-  }, []);
+        useEffect(() => {
+            FFmpegWrapper.handleVideoLoad(videoContext)
+                .then(() => {
+                    // set it to pause
+                    videoContext.dispatch({ type: 'SET_PAUSE', payload: false });
+                    console.log('paused: ', videoContext.paused);
+                    console.log('videoContext.video: ', videoContext.video);
+                })
+                .catch(err => {
+                    console.log('err: ', err);
+                });
+        }, []);
 
         FFmpegWrapper.getFrames(
             videoContext.video.name,
             videoContext.video.uri,
             numberOfFrames,
-            filePath => {
+            (filePath: any) => {
                 const _frames: string[] = [];
                 for (let i = 0; i < numberOfFrames; i++) {
                     _frames.push(
-                        `${filePath.replace('%4d', String(i + 1).padStart(4, 0))}`,
+                        `${filePath.replace('%4d', String(i + 1).padStart(4, '0'))}`,
                     );
-                    console.log(`${filePath.replace('%4d', String(i + 1).padStart(4, 0))}`)
+                    console.log(`${filePath.replace('%4d', String(i + 1).padStart(4, '0'))}`)
                 }
                 setFrames(_frames);
                 console.log('frames: ', frames)
@@ -92,7 +92,7 @@ const VideoPlaybackComponent = () => {
         );
     };
 
-    const renderFrame = (frame) => {
+    const renderFrame = (frame: any) => {
         // console.log('frame: ', frame)
         // console.log('index: ', index)
         if (frame.status === FRAME_STATUS.LOADING.name.description) {
@@ -113,7 +113,7 @@ const VideoPlaybackComponent = () => {
         }
     };
 
-    const handleOnScroll = ({ nativeEvent }) => {
+    const handleOnScroll = ({ nativeEvent }: any) => {
         console.log("scrolling", framesLineOffset)
         setFramesLineOffset(nativeEvent.contentOffset.x);
     };
@@ -156,7 +156,7 @@ const VideoPlaybackComponent = () => {
             {/* <View style={styles.popLineContainer}>
                 <View style={styles.popLine} />
             </View> */}
-      {/* <View>
+            {/* <View>
                 <Animated.ScrollView horizontal showsHorizontalScrollIndicator={false}
                     onScroll={(event) => {
                         scrolling.setValue(event.nativeEvent.contentOffset.x)
