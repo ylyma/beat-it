@@ -9,6 +9,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Input from './index'
 
-it('renders correctly', () => {
-    renderer.create(<Input />);
+it('renders correctly', async () => {
+    await renderer.create(<Input />);
 });

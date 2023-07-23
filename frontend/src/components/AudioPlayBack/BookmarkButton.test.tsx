@@ -24,10 +24,10 @@ beforeEach(() => {
     }
 });
 
-it('renders correctly', () => {
+it('renders correctly', async () => {
 
 
-    renderer.create(<BaseNavigationContainer>
-        <BookmarkButton description='' timestamp={1} />
+    await renderer.create(<BaseNavigationContainer>
+        <BookmarkButton name='' time={1} reload={() => { }} title='' />
     </BaseNavigationContainer>);
 });

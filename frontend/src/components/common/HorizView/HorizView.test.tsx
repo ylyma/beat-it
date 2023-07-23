@@ -9,6 +9,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import HorizView from './HorizView'
 
-it('renders correctly', () => {
-    renderer.create(<HorizView image_src={require('../../../assets/images/googlelogo.png')} caption='hi' />);
+it('renders correctly', async () => {
+    await renderer.create(<HorizView image_src={require('../../../assets/images/googlelogo.png')} caption='hi' />);
 });

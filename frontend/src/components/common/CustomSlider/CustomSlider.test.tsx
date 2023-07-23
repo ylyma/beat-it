@@ -9,6 +9,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import CustomSlider from './CustomSlider'
 
-it('renders correctly', () => {
-    renderer.create(<CustomSlider value={1} minimumValue={0} maximumValue={100} onSlidingComplete={() => { }} />);
+it('renders correctly', async () => {
+    await renderer.create(<CustomSlider value={1} minimumValue={0} maximumValue={100} onSlidingComplete={() => { }} />);
 });

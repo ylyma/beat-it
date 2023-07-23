@@ -61,7 +61,7 @@ const VideoComponent = () => {
             console.warn(err);
         }
     };
-    const postVideo = async file => {
+    const postVideo = async (file: any) => {
         let body = new FormData();
         body.append('file', file);
 

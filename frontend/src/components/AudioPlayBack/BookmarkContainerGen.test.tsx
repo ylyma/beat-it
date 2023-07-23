@@ -24,10 +24,10 @@ beforeEach(() => {
     }
 });
 
-it('renders correctly', () => {
+it('renders correctly', async () => {
 
 
-    renderer.create(<BaseNavigationContainer>
-        <BookmarkContainerGen bookmarks={[]} />
+    await renderer.create(<BaseNavigationContainer>
+        <BookmarkContainerGen bookmarks={[]} reload={() => { }} title='' />
     </BaseNavigationContainer>);
 });

@@ -7,6 +7,7 @@ declare module '@react-navigation/native' {
             lightsecondary: string,
             yellow: string,
             darkyellow: string,
+            lightprimary: string,
             third: string,
             fourth: string,
             fifth: string,
